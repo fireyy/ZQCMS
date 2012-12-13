@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+<link href="{dede:global.cfg_templets_skin/}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
+{dede:include filename="scripts.htm"/}
+<script language="javascript" type="text/javascript" src="{dede:global.cfg_cmsurl/}/include/dedeajax2.js"></script>
+<script language="javascript" type="text/javascript">
+<!--
+function CheckLogin(){
+    var taget_obj = document.getElementById('_ajax_feedback');
+    myajax = new DedeAjax(taget_obj,false,false,'','','');
+    myajax.SendGet2("{dede:global.cfg_cmsurl/}/member/ajax_feedback.php");
+    DedeXHTTP = null;
+}
+function postBadGood(ftype,fid)
+{
+  var taget_obj = document.getElementById(ftype+fid);
+  var saveid = GetCookie('badgoodid');
+  if(saveid != null)
+  {
+    var saveids = saveid.split(',');
+    var hasid = false;
+    saveid = '';
+    j = 1;
+    for(i=saveids.length-1;i>=0;i--)
+    {
+      if(saveids[i]==fid && hasid) continue;
+      else {
+        if(saveids[i]==fid && !hasid) hasid = true;
+        saveid += (saveid=='' ? saveids[i] : ','+saveids[i]);
+        j++;
+        if(j==10 && hasid) break;
+        if(j==9 && !hasid) break;
+      }
+    }
+    if(hasid) { alert('您刚才已表决过了喔！'); return false;}
+    else saveid += ','+fid;
+    SetCookie('badgoodid',saveid,1);
+  }
+  else
+  {
+    SetCookie('badgoodid',fid,1);
+  }
+  myajax = new DedeAjax(taget_obj,false,false,'','','');
+  myajax.SendGet2("{dede:field name='phpurl'/}/feedback.php?aid="+fid+"&action="+ftype+"&fid="+fid);
+}
+function postDigg(ftype,aid)
+{
+  var taget_obj = document.getElementById('newdigg');
+  var saveid = GetCookie('diggid');
+  if(saveid != null)
+  {
+    var saveids = saveid.split(',');
+    var hasid = false;
+    saveid = '';
+    j = 1;
+    for(i=saveids.length-1;i>=0;i--)
+    {
+      if(saveids[i]==aid && hasid) continue;
+      else {
+        if(saveids[i]==aid && !hasid) hasid = true;
+        saveid += (saveid=='' ? saveids[i] : ','+saveids[i]);
+        j++;
+        if(j==20 && hasid) break;
+        if(j==19 && !hasid) break;
+      }
+    }
+    if(hasid) { alert("您已经顶过该帖，请不要重复顶帖 ！"); return; }
+    else saveid += ','+aid;
+    SetCookie('diggid',saveid,1);
+  }
+  else
+  {
+    SetCookie('diggid',aid,1);
+  }
+  myajax = new DedeAjax(taget_obj,false,false,'','','');
+  var url = "{dede:global.cfg_phpurl/}/digg_ajax.php?action="+ftype+"&id="+aid;
+  myajax.SendGet2(url);
+}
+function getDigg(aid)
+{
+  var taget_obj = document.getElementById('newdigg');
+  myajax = new DedeAjax(taget_obj,false,false,'','','');
+  myajax.SendGet2("{dede:global.cfg_phpurl/}/digg_ajax.php?id="+aid);
+  DedeXHTTP = null;
+}
+-->
+</script>
+</head>
+<body class="articleview">
+{dede:include filename="head.htm"/}
+<div id="main_nav">
+  <div class="secondary_menu boder_base">
+    <script src='/plus/bd_js.php?aid=2&nocache=1' language='javascript'></script>
+  </div>
+</div>
+<div id="content">
+  <div id="pathway"><strong>当前位置:</strong> {dede:field name='position'/}</div>
+  <div class="fl newsinfo_topline boder_base newsinfo_left">
+    {dede:php}
+     if(!empty($refObj->Fields['game_id'])){
+        $game_info = GetGameInfo($refObj->Fields['game_id']);
+        echo '<div class="fl ml picbd "><a href="'.$game_info['arcurl'].'" title="'.$game_info['game_name'].'" target="_blank"><img width="120" height="120" src="'.$game_info['game_avatar'].'"></a></div><div class="fl ml tl news_title"><h6 class=" lh40">'.$refObj->Fields['title'].'</h6><div class="lh24 gray">本文&nbsp;'.date('Y-m-d',$refObj->Fields['pubdate']).'&nbsp;发布&nbsp;来源：'.$refObj->Fields['source'].'&nbsp;&nbsp;&nbsp;<br />浏览人次（<script src="'.$refObj->Fields['phpurl'].'/count.php?view=yes&aid='.$refObj->Fields['id'].'&mid='.$refObj->Fields['mid'].'" type="text/javascript" language="javascript"></script>人）&nbsp;&nbsp;<a class="red" href="#postform">我要评论</a></div>';
+        echo '<div class="news_tags"><strong class="newsinfo_barbg gray">标签:</strong><a class="gray decoration" target="_blank" href="">'.$game_info['game_tag'].'</a>/<span class="gray decoration">'.$game_info['game_theme'].'</span>/<span class="gray decoration">'.$game_info['game_effect'].'</span></div></div>';
+      }else{
+        echo '<h6 class=" lh40">'.$refObj->Fields['title'].'</h6><div class=" lh24 gray">本文&nbsp;'.date('Y-m-d',$refObj->Fields['pubdate']).'&nbsp;发布&nbsp;来源：'.$refObj->Fields['source'].'&nbsp;&nbsp;&nbsp;浏览人次（<script src="'.$refObj->Fields['phpurl'].'/count.php?view=yes&aid='.$refObj->Fields['id'].'&mid='.$refObj->Fields['mid'].'" type="text/javascript" language="javascript"></script>人）&nbsp;&nbsp;<a class="red" href="#postform">我要评论</a></div>';
+      }
+    {/dede:php}        
+                <div class="newsinfo_line"></div>
+    <div class="newsinfo_artical p14 lh24">
+      {dede:field.body/}
+      <div class="dede_pages">
+       <ul class="pagelist">
+        {dede:pagebreak/}
+       </ul>
+      </div>
+    </div>
+    <div id="newsinfo_share">
+      <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+        <a class="bds_qzone" title="分享到QQ空间" href="#">QQ空间</a>
+        <a class="bds_tsina" title="分享到新浪微博" href="#">新浪微博</a>
+        <a class="bds_tqq" title="分享到腾讯微博" href="#">腾讯微博</a>
+        <a class="bds_renren" title="分享到人人网" href="#">人人网</a>
+        <span class="bds_more">更多</span>
+    		<a class="shareCount" href="#" title="累计分享0次">0</a>
+      </div>
+    </div>
+    <div class="news_push">
+        <ul class="lh40">
+          <li class="fl news_width">{dede:prenext get='pre'/}</li>
+          <li class="fl news_width">{dede:prenext get='next'/}</li>
+        </ul>
+    </div>
+    <div class="news_date">
+      <div class="fl news_width adv">
+        <script src='/plus/bd_js.php?aid=10&nocache=1' language='javascript'></script>
+      </div>
+      <div class="fr news_width">
+          <h5 class="lh40">每日看点&gt;&gt;</h5>
+          <ul class="lh24 black news_push1">
+            {dede:arclist flag='c' titlelen='80' typeid='12' row='6'}
+            <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
+            {/dede:arclist}
+          </ul>
+      </div>
+    </div>
+    <div class="player_comment">
+      {dede:include file='ajaxfeedback.htm' /}
+    </div>
+  </div>
+  <div class="fr newsinfo_right">
+    <div class="fl boder_base r_box  padding_10" id="rel_srvlist" style="display: none;">
+          <h2 class="p14 black strong lh30 nomal_h2back">相关开服信息</h2>
+          <div class="more">{dede:type typeid='6'}<div class="more_index"><a href="[field:typelink function=GetRealTypeUrl(@me) /]" target="_blank" title="更多" class="blue">更多&gt;&gt;</a></div>{/dede:type}</div>
+          <ul class="titlecolor strong">
+          <li class="li_1">时间</li>
+          <li class="li_2">服务器</li>
+          <li class="li_3">平台 </li>
+          <li class="li_4">礼包</li>
+          <li class="li_5">操作</li>
+          </ul>
+    	<div id="rel_srvlist_con">
+        {dede:arclist typeid='6' row='10' addfields='game_name,game_tag,oper_short_name, dev_short_name,test_date,server_name,register_url,game_id' date_by='test_date' _where='~~do-game_id-from~~' _where_value="@me" orderby='test_date' orderway='desc' channelid='17'}
+                    <ul class="">
+          <li class="li_1">[field:test_date function="MyDate('m-d',@me)" /]</li>
+          <li class="li_2">[field:server_name /]</li>
+          <li class="li_3">[field:oper_short_name /]</li>
+          <li class="li_4">
+                            <a class="lq_bt nogift" href="javascript:void(0);" title="暂无礼包">领</a>
+                    </li>
+          <li class="li_5"><a href="[field:register_url /]" target="_blank">开始游戏</a></li>
+    </ul>
+    {/dede:arclist}
+
+            </div>
+            <script type="text/javascript">
+                
+                    $("#rel_srvlist_con").find("ul").each(function(){
+                            $("#rel_srvlist").show();
+                            return false;
+                    });
+                          
+            </script>
+        </div>
+    <div class="picbd boder_base adv160">
+      <script src='/plus/bd_js.php?aid=12&nocache=1' language='javascript'></script>
+    </div>
+    <div class="fl boder_base r_box  padding_10 mt">
+       <h2 class="p14 black strong lh30 nomal_h2back">图片推荐</h2>
+      <div class="more">{dede:type typeid="18"}<a href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank" title="查看更多精彩图片" class="blue">更多&gt;&gt;</a>{/dede:type}</div>
+    	 <ul class="pic_push mt_5">
+         {dede:arclist typeid=18 channelid=22 row=4}
+         <li class="">
+            <a class="lh24" href="[field:arcurl/]" title="[field:title /]" target="_blank">
+                    <img width="140" height="110" class="picbd" src="[field:id function='GetArticleThumb(@me, 1, gallery)'/]">
+                    <center><p>[field:title /]</p></center>
+            </a>
+          </li>
+          {/dede:arclist}
+      </ul>
+    </div>
+  <div class="fl boder_base r_box  padding_10 Ranking mt">
+      <h2 class="p14 black strong lh30 nomal_h2back ">新闻点击榜</h2>
+      <div class="more">{dede:type typeid='12'}<a href='[field:typelink/]' target="_blank" class="blue">更多&gt;&gt;</a>{/dede:type}</div>
+    <ul class="lh24 fl">
+    {dede:arclist typeid='12' row=10 orderby=click titlelen="55"}
+    <li>
+        <span class="">[field:global name=autoindex/]</span>
+        <a target="_blank" title="[field:title/]" href="[field:arcurl/]">[field:title/]</a>
+    </li>
+    {/dede:arclist}
+    </ul>
+  </div>
+</div>
+</div>
+
+{dede:include filename="footer.htm"/}
+</body>
+</html>

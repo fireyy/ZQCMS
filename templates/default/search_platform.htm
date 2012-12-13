@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>搜索运营平台 {dede:global name='keys' function='RemoveXSS(@me)'/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+<link href="{dede:global.cfg_templets_skin/}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{dede:include filename="scripts.htm"/}
+</head>
+<body>
+{dede:include filename="head.htm"/}
+<div id="content">
+
+	<div style="margin-top:15px;" class="boxmodel operator">
+		<h1 class="p20 h1yb">找到 <span class="red">{dede:global name='keys' function='RemoveXSS(@me)'/}</span> 相关信息共 <span class="red">{dede:global name='totalResult' /}</span> 条：</h1>		
+
+		<ul>
+		{dede:platformlist pagesize=45}
+			<li>
+				<a href="[field:arcurl /]">
+					<img width="180" height="90" src="[field:company_thumb/]">
+				</a>
+				<p><a href="[field:arcurl /]">[field:short_name /]</a></p>
+				<p>旗下运营游戏：[field:game_count/] 款</p>
+			</li>
+		{/dede:platformlist}	
+		</ul>
+
+		<div class="qdiv">
+			{dede:pagelist listsize='4'/}
+		</div>
+	</div>
+
+
+	<div style="clear:both"></div>
+
+</div>
+{dede:include filename="footer.htm"/}
+</body>
+</html>

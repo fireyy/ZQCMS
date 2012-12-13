@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>{dede:field.short_name/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+{dede:include filename="scripts.htm"/}
+</head>
+<body>
+{dede:include filename="head.htm"/}
+<div id="content">
+    <div id="pathway"><strong>当前位置:</strong> {dede:field name='position'/}</div>
+	<div class="ptsport">
+		<div class="leftdiv2"> 
+			<a href="{dede:field name='offical_url'/}" target="_blank">
+				<img alt="{dede:field name='short_name'/}" src="{dede:field name='company_thumb'/}" width="200" height="100" />
+			</a>
+            <p><a href="{dede:field name='offical_url'/}" target="_blank">进入平台官网>></a></p>
+		</div>
+		<div class="rightdiv">
+			<h2 class="p20 org">{dede:field name='short_name'/}</h2>
+			<div class="morediv">
+				网页游戏：{dede:field name="game_count" /} 款 | 最新开服信息：{dede:field name="kaifu_today_count" /} 条
+			</div>
+			<div style="float:left;width:100%;">{dede:field name='description'/}</div>
+		</div>
+	</div>
+	<div class="ptsportback"></div>
+		<div class="gamelist">
+			<ul>
+				<h2 class="p14 strong" style="padding-left: 10px;">
+				{dede:field name='short_name'/}网页游戏>></h2>
+				{dede:companygame}
+				<li>
+				    <a href="[field:game_url /]" title="[field:game_name/]" class="p14" target="_blank">[field:game_name/]</a>
+				</li>
+				{/dede:companygame}
+			</ul>
+		</div>
+
+		<div id="gift">
+			<h1 class="h1yb p20">{dede:field name='short_name'/}礼包/新手卡(共{dede:field name="gift_count" /}款)
+			</h1>
+			<ul>
+				{dede:companygift}
+				<li>
+					<a target="_blank" href="[field:get_url /]">
+						<img width="90" height="90" alt="[field:gift_title /]" src="http://res.kaifu.com/isy/templates/front/images/card_03.gif">
+					</a>
+					<p style="height:40px;">
+						<a target="_blank" class="p14" href="[field:get_url /]">[field:gift_title /]</a>
+					</p>
+					<p style="text-align:left;line-height: 20px">礼包类型：新手卡</p>
+					<p style="text-align:left;line-height: 20px">所属游戏：<a target="_blank" href="[field:game_url /]">[field:game_name /]</a></p>
+					<!--
+					<p style="text-align:left;line-height: 20px">所属区服：删档封测服</p>
+					-->
+					<p><a target="_blank" rel="nofollow" href="[field:get_url /]"><img src="http://res.kaifu.com/isy/templates/front/images/gw_01_3.gif"></a></p>
+				</li>	
+				{/dede:companygift}
+						
+			</ul>
+		</div>
+
+		<div id="kflist">
+			<h1 class="p20 h1yb" style="float:left">{dede:field name='short_name'/}最新开服信息</h1>
+			<div style="float:left; line-height:40px; margin-left:15px; color:#ff6600;">开服总数：{dede:field name="kaifu_count" /}</div>
+			<!--
+			<div class="morediv"><a href="">更多&gt;&gt;</a></div>
+			-->
+			<div class="div_top">
+				<ul>
+					<li class="li_6">开服日期</li>
+					<li class="li_1">游戏名称</li>
+					<li class="li_3">新服/新区名称</li>
+					<li class="li_3">线路</li>
+					<li class="li_3">游戏模式</li>
+					<li class="li_3">运营状态</li>
+					<li class="li_3">快捷操作</li>
+				</ul>
+			</div>
+			{dede:companykaifu rows=50}
+			<ul>
+				<li class="li_6"><span class="p14">12月07日11点开服</span></li>
+				<li class="li_1"><a href="[field:game_url/]" class="p14 title" target="_blank">[field:game_name /]</a></li>
+				<li class="li_3">
+					<a href="[field:game_url/]" rel="nofollow" target="_blank">[field:server_name/]</a> 
+				</li>
+				<li class="li_3">双线</li>
+				<li class="li_3"><a href="[field:game_tag_url /]" target="_blank" class='backa'>[field:game_tag /]</a></li>
+				<li class="li_3">[field:game_status /]</li>
+				<li class="li_3" name="Tag" value="104963">
+					<a href="[field:game_url/]" rel="nofollow" target="_blank">开始游戏</a>
+					
+				</li>
+			</ul>
+			{/dede:companykaifu}
+		</div>
+		<div style=" clear:both"></div>
+</div>
+
+{dede:include filename="footer.htm"/}
+</body>
+</html>
