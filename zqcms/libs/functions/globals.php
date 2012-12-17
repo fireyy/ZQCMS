@@ -20,7 +20,7 @@ function preprocessFilter($filter){
  * @param $style 需要调用的样式
  *
  */
-function template($module, $template, $style = '') {
+function template($module, $template, $style = '', $output=true) {
     $TEMPLATE_CACHE_PATH = CACHE_PATH . "cache_template" . DIRECTORY_SEPARATOR;
     $TEMPLATE_PATH = ZQCMS_PATH . "templates" . DIRECTORY_SEPARATOR;
     $USER_TEMPLATE_PATH = ZQ_PATH."templates".DIRECTORY_SEPARATOR;
@@ -49,14 +49,20 @@ function template($module, $template, $style = '') {
     } else {
 	$smarty->setTemplateDir($TEMPLATE_PATH.$style);
     }
-
-    //$this->caching = Smarty::CACHING_LIFETIME_CURRENT;
-    //templateExists()
-    //$smarty->setCaching(Smarty::CACHING_LIFETIME_CURRENT);
-    //$smarty->setCompileCheck(false);
-
-    print_r($smarty);
+    $path = $module.DIRECTORY_SEPARATOR.$template.".html";
+    if ($smarty->templateExists($path)) {
+	//$this->caching = Smarty::CACHING_LIFETIME_CURRENT;
+	//templateExists()
+	//$smarty->setCaching(Smarty::CACHING_LIFETIME_CURRENT);
+	//$smarty->setCompileCheck(false);
+	if ($output) {
+	$smarty->display($path);
+	    return true;
+	} else {
+	    return $smarty->fetch($path);
+	}
+    }
 }
 
-template('game', 'page');
+template('game', 'page', '');
 ?>
