@@ -1,4 +1,30 @@
 <?php
+/**
+ * 主框架入口
+ */
+define("IN_ZQCMS", true);
+
+//zqcms path
+define("ZQ_PATH", dirname(__FILE__).DIRECTORY_SEPARATOR);
+if (!defined("ZQCMS_PATH")){
+    define("ZQCMS_PATH", ZQ_PATH."..".DIRECTORY_SEPARATOR);
+}
+
+//CACHE 
+define("CACHE_PATH", ZQCMS_PATH.'caches'.DIRECTORY_SEPARATOR);
+
+//current site url
+define("SITE_URL", (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
+
+//define referer
+define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : ''));
+
+
+
+
+
+
+
 class Router {
     private static $controllers = array();
     public static function Start() {
