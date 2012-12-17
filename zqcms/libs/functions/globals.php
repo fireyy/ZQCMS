@@ -41,6 +41,9 @@ function template($module, $template, $style = '') {
     $smarty->setCompileDir($TEMPLATE_CACHE_PATH."compiles".DIRECTORY_SEPARATOR);
     $smarty->setConfigDir($TEMPLATE_CACHE_PATH."configs".DIRECTORY_SEPARATOR);
     $smarty->setCacheDir($TEMPLATE_CACHE_PATH."caches".DIRECTORY_SEPARATOR);
+    
+    //先去尝试读取用户定义的模板
+
 
     //$smarty->setTemplateDir('/web/www.example.com/guestbook/templates/');
     //$this->caching = Smarty::CACHING_LIFETIME_CURRENT;
