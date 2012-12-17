@@ -51,12 +51,19 @@ function template($module, $template, $style = '', $output=true) {
     }
     $path = $module.DIRECTORY_SEPARATOR.$template.".html";
     if ($smarty->templateExists($path)) {
+	//将所有的变量 全部传给模板
 	//$this->caching = Smarty::CACHING_LIFETIME_CURRENT;
 	//templateExists()
 	//$smarty->setCaching(Smarty::CACHING_LIFETIME_CURRENT);
 	//$smarty->setCompileCheck(false);
 	if ($output) {
-	$smarty->display($path);
+	    $values = register_template_data(false, false, false, true);
+	    foreach ($values as $k => $v) {
+		$smarty->assign($k, $v);
+	    }
+
+	    $smarty->display($path);
+	    //clean cache
 	    return true;
 	} else {
 	    return $smarty->fetch($path);
@@ -64,5 +71,31 @@ function template($module, $template, $style = '', $output=true) {
     }
 }
 
-template('game', 'page', '');
+/**
+ * 注册变量到模板中
+ * @param string $key 模板需要调用的key
+ * @param mixed $value 变量值
+ * @param boolean $update 是否需要更新此变量
+ * @param boolean $get_values 取出所有已经注册的变量
+ */
+function register_template_data($key, $value, $update = true, $get_values=false) {
+    static $registered_template_data = array();
+    
+    if ($get_values) {
+	return $registered_template_data;
+    }
+
+    if (isset($registered_template_data[$key])) {
+
+    }
+
+    $registered_template_data[$key] = $value;
+    //print_r($registered_template_data);
+    return $registered_template_data;
+}
+
+register_template_data("title", "测试一下");
+register_template_data("keywords", "xadasda");
+//print_r($registered_template_data);
+template("game", "page");
 ?>
