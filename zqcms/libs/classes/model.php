@@ -1,4 +1,6 @@
 <?php
+defined("IN_ZQCMS") or exit("Permission denied.");
+zq_core::load_sys_class('Crow', '', 0);
 //数据模型基础类
 //require mysql
 class model {
