@@ -1,0 +1,87 @@
+<div id="tools"><div class="tminmenu ">
+	<ul class="fl tminmenu_l"><li><a class="bhome black" href="/">首页</a></li></ul>
+</div></div>
+<script src='/plus/bd_js.php?aid=1&nocache=1' language='javascript'></script>
+        <div id="header" class=" boder_base">
+      <div class=" headernav fl">
+                <div id="logo">
+          <h1><a href="/"><img src="{dede:global.cfg_basehost /}{dede:global.cfg_indexurl/}{dede:global.cfg_weblogo/}" width="220" height="60" /></a></h1>
+        </div>
+        <div> <a href=""onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{dede:global.cfg_basehost/}');" class=" szindex black">设为首页</a><a href="javascript:window.external.AddFavorite('{dede:global.cfg_basehost/}','{dede:global.cfg_webname/}')" class=" collect black">加入收藏</a></div>
+      </div>
+      <div id="searchnav" class="fl gray">
+	<form name="formsearch" method="get" action="{dede:global.cfg_cmsurl/}/plus/searchv1.php">
+	    <input type="hidden" id="searchtype_val" name="stype" value="game">
+	    <div class="searchbar_5">
+		    <div class="searchinputbox fl">
+		      <input type="text" value="请在此输入要查找的内容" class="hcolour" id="keys" name="keys">
+		    </div>
+		    <script type="text/javascript">
+				$('#keys').focus(function(){
+					    var s = $(this);
+					    if(s.val() == '请在此输入要查找的内容')
+						    s.val('');
+				    }).bind('blur', function(){
+					    if($.trim($('#keys').val())=='' || $('#keys').val()=='请在此输入要查找的内容'){
+						    $('#keys').val('请在此输入要查找的内容').addClass('hcolour');
+						    return false;
+					    }
+					    else{
+						    $('#keys').removeClass('hcolour');
+					    }
+				    });
+			</script>
+		<div class="selectbox_5 fl searchlistbutton">
+			    <div id="search_txt">游戏</div>
+			    <div style="display: none;" id="searchType" class="downlist changelist">
+					       <a href="javascript:void(0);">游戏</a>
+					       <a href="javascript:void(0);">运营商</a>
+					       <a href="javascript:void(0);">资讯</a>
+			    </div>
+		</div>
+
+		    <input type="submit" class="searchbutton fl search_hand" value="">
+	    </div>
+	</form>
+
+      </div>
+
+      <div id="mininfor" class="fl boder_base" >
+	  <div class=" mininfor_l fl">
+	      <div class="servernum">
+		  <span class="gray" >今日开服</span><br />
+		  {dede:type typeid=6}<a class="white" href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank">{/dede:type}{dede:php}
+		    global $dsql;
+		    $time = strtotime('today');
+		    $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
+		    $end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
+		    $sql = "SELECT count(*) AS dd FROM `#@__addonkaifu` WHERE test_date >= $begin_date AND test_date < $end_date";
+		    $count = $dsql->GetOne($sql);
+		    echo $count['dd'];
+		{/dede:php}</a>
+	      </div>
+	      <p class=" gray">收录游戏</p>
+	      <p class=" gray">共 <a href="/plus/list.php?tid=10" target="_blank" class="org">{dede:sql sql='select count(*) as dd FROM `#@__addongame` WHERE 1'}[field:dd /] {/dede:sql}</a> 款</p>
+	  </div>
+	  <div class="weekhotgame fl">
+	      <h3 class="red fl">本周最热门</h3>
+	      <ul class="fl">
+	      {dede:arclist typeid='10' flag='h' row=4 addfields='game_name, game_tag, game_thumb, game_effect, game_theme, game_status, offical_url, oper_short_name, dev_short_name, copy_from, pub_short_name, game_id' channelid='20'}
+		  <li>
+		      <a href='[field:arcurl /]' title='[field:game_name/]' target='_blank'><img alt='[field:game_name/]' src="[field:game_thumb /]" width="65" height="50"  class="picbd"/></a>
+		      <p><a href='[field:arcurl /]' title='[field:game_name /]' class="black" target='_blank'>[field:game_name/]</a></p>
+		  </li>
+	      {/dede:arclist}
+	      </ul>
+        </div>
+        </div>
+      
+        </div>
+        <div class="main_menu">
+        <ul>
+      <li><a href="/">首页</a></li>
+      {dede:channel type='top' row='10' currentstyle="<li class='hover'><a href='~typelink~' ~rel~>~typename~</a></li>"}
+        <li><a href="[field:typeurl function="GetRealTypeUrl(@me)"/]" class="nav_2" [field:rel/]>[field:typename/]</a></li>
+      {/dede:channel}
+      </ul>
+        </div>

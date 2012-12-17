@@ -21,23 +21,35 @@ function preprocessFilter($filter){
  *
  */
 function template($module, $template, $style = '') {
-    zq_core::load_sys_class("smarty", 'libs'.DIRECTORY_SEPARATOR."smarty", 0);
-    $smarty = new Smarty();
+    $TEMPLATE_CACHE_PATH = CACHE_PATH . "cache_template" . DIRECTORY_SEPARATOR;
+    $TEMPLATE_PATH = ZQCMS_PATH . "templates" . DIRECTORY_SEPARATOR;
     
+    $module = str_replace("/", DIRECTORY_SEPARATOR, $module);
+    if (!empty($style) && preg_match('/[a-z0-9\-_]+/is', $style)) {
+    } elseif (empty($style) && zq_core::load_config('system', "style")) {
+	$style = zq_core::load_config('system', 'style');
+    }else {
+	$style = 'default';
+    }
 
     if (!$style) {
 	$style = 'default';
     }
     //Configure Smarty
+    zq_core::load_sys_class("smarty", 'libs'.DIRECTORY_SEPARATOR."smarty", 0);
+    $smarty = new Smarty();
+    $smarty->setCompileDir($TEMPLATE_CACHE_PATH."compiles".DIRECTORY_SEPARATOR);
+    $smarty->setConfigDir($TEMPLATE_CACHE_PATH."configs".DIRECTORY_SEPARATOR);
+    $smarty->setCacheDir($TEMPLATE_CACHE_PATH."caches".DIRECTORY_SEPARATOR);
+
     //$smarty->setTemplateDir('/web/www.example.com/guestbook/templates/');
-    //$smarty->setCompileDir('/web/www.example.com/guestbook/templates_c/');
-    //$smarty->setConfigDir('/web/www.example.com/guestbook/configs/');
-    //$smarty->setCacheDir('/web/www.example.com/guestbook/cache/');
     //$this->caching = Smarty::CACHING_LIFETIME_CURRENT;
     //templateExists()
     //$smarty->setCaching(Smarty::CACHING_LIFETIME_CURRENT);
     //$smarty->setCompileCheck(false);
+
+    print_r($smarty);
 }
 
-template('conetent', 'index');
+template('game', 'page');
 ?>

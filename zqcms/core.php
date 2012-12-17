@@ -106,7 +106,7 @@ class zq_core {
 	if (isset($funcs[$key])) {
 	    return true;
 	}
-	echo $path;
+
 	if (file_exists(ZQ_PATH.$path)) {
 	    include ZQ_PATH.$path;
 	} else {

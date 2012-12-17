@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+<link href="{dede:global.cfg_templets_skin/}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+<link href="{dede:global.cfg_templets_skin/}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.game_info .game_class { text-align: left; width: auto;float: none; clear: both; margin: 10px 0; }
+</style>
+{dede:include filename="scripts.htm"/}
+<script language="javascript" type="text/javascript" src="{dede:global.cfg_cmsurl/}/include/dedeajax2.js"></script>
+<script type="text/javascript">
+function CheckLogin() {
+    var taget_obj = document.getElementById('_ajax_feedback');
+    myajax = new DedeAjax(taget_obj,false,false,'','','');
+    myajax.SendGet2("/member/ajax_feedback.php");
+    DedeXHTTP = null;
+}
+function postDigg(aid) {
+    var saveid = GetCookie('diggid');
+    if(saveid != null) {
+        var saveids = saveid.split(',');
+        var hasid = false;
+        saveid = '';
+        j = 1;
+        for(i=saveids.length-1;i>=0;i--)
+        {
+            if(saveids[i]==aid && hasid) continue;
+            else {
+        	if(saveids[i]==aid && !hasid) hasid = true;
+        	saveid += (saveid=='' ? saveids[i] : ','+saveids[i]);
+        	j++;
+        	if(j==20 && hasid) break;
+        	if(j==19 && !hasid) break;
+            }
+        }
+        if(hasid) { alert("您已经顶过该帖，请不要重复顶帖 ！"); return; }
+        else saveid += ','+aid;
+        SetCookie('diggid',saveid,1);
+    } else {
+        SetCookie('diggid',aid,1);
+    }
+
+
+    $.ajax({
+        url : '/plus/digg_ajax.php',
+        data : {
+            action : 'good',
+            formurl: "caicai",
+            id: aid
+        },
+        type: "GET",
+        success: function(data) {
+	    var score = ".vote-count-" + aid;
+	    var $score = $(score);
+	    if ($score.length) {
+		$score.each(function(index, el) {
+		    $(el).text(data + "票");
+		})
+	    }
+        }
+    })
+}
+
+function showServerList(el){
+    $(el).find('.tc_div').show();
+}
+function closeServerList(el){
+    $(el).find('.tc_div').hide();
+}
+</script>
+</head>
+<body>
+{dede:include filename="head.htm"/}
+<div id="content">
+      <div id="pathway"><strong>当前位置:</strong> {dede:field name='position'/}</div>
+  <div class="fl boder_base newsinfo_left game_info">
+    <div class="fl pic mr picbd">
+  <img width="250" height="250" src="{dede:field.game_avatar/}">
+</div>
+<div class="fr text_width">
+  <div class="fl wd">
+    <div class="title">
+      <h6 class="fl">{dede:field.game_name /}</h6>
+    </div>
+    <span>游戏模式：{dede:field.game_tag /}</span>
+    <span>游戏题材：{dede:field.game_theme /}</span>
+    <span>画面方式：{dede:field.game_effect /}</span>
+    <span>游戏状态：{dede:field.test_status /}</span>
+    <span>收费模式：{dede:field.game_status /}</span>
+    <span>开发公司：{dede:field.dev_short_name /}</span>
+  </div>
+  <div class="fr wd">
+      <div class="g_left2 fl">
+	  <span class="lh30" id="score-text">优秀作品</span>
+	  <p>
+	  </p>
+	  <div class="star_bg left">
+	      <div game_id="{dede:field.id/}" score="{dede:php} echo trim(sprintf("%4.2f", $refObj->Fields["scores"] / $refObj->Fields["weight"])); {/dede:php}" id="score-items" class="star_bt">
+		  <a title="一场噩梦" href="javascript:void(0);"></a>
+		  <a title="不怎么样" href="javascript:void(0);"></a>
+		  <a title="没有感觉" href="javascript:void(0);"></a>
+		  <a title="很一般" href="javascript:void(0);"></a>
+		  <a title="还可以" href="javascript:void(0);"></a>
+		  <a title="值得一试" href="javascript:void(0);"></a>
+		  <a title="很不错哦" href="javascript:void(0);"></a>
+		  <a title="优秀作品" href="javascript:void(0);"></a>
+		  <a title="非常棒" href="javascript:void(0);"></a>
+		  <a title="不同凡响" href="javascript:void(0);"></a>
+	      </div>
+	      <div id="score-num" class="star_bar8"></div>
+	  </div>
+	  <span id="score-value" class="text_hot">{dede:php} echo trim(sprintf("%4.2f", $refObj->Fields["scores"] / $refObj->Fields["weight"])); {/dede:php}</span>
+	  <p></p>
+      </div>
+    <p class="lh30">
+	<a onclick="postDigg({dede:field.id /})" class="bt_good"></a><strong class="yahei boder_num vote-count-{dede:field.id /}">{dede:field.goodpost /}票</strong>
+    </p>
+    <div class="mt" id="newsinfo_share">
+	<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+	    <span class="fl">分享到:</span>
+	    <a class="bds_qzone" title="分享到QQ空间" href="#"></a>
+	    <a class="bds_tsina" title="分享到新浪微博" href="#"></a>
+	    <a class="bds_tqq" title="分享到腾讯微博" href="#"></a>
+	    <a class="bds_renren" title="分享到人人网" href="#"></a>
+	    <span class="bds_more"></span>
+	</div>
+    </div>
+  </div>
+  <div class="text_width bt_all">
+      <a class="bt_playgame" href="{dede:field.offical_url /}" target="_blank"></a>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+  var link =  $(".bt_playgame").attr("href");
+  if(link.indexOf("http://") == -1) {
+    var a1 = $(".kaifu_table").find(".list_04 a").get(0);
+    if(a1) {
+      link = $(a1).attr("href");
+    }else{
+      link = "#";
+    }
+    $(".bt_playgame").attr("href", link);
+  }
+})
+</script>
+<div class="newsinfo_artical p14 lh24 fl mt_5">
+  <h5>游戏简介&gt;&gt;</h5>
+  <p>{dede:field.description /}</p>
+</div>
+
+{dede:php}
+global $dsql; 
+$sql = "SELECT arc.*, b.aid, b.body FROM `#@__archives` AS arc LEFT JOIN `#@__addongallery` AS b ON arc.id = b.aid WHERE arc.typeid = 18 AND b.game_id = ".$refObj->Fields['game_id']." LIMIT 0, 1";
+
+$query = $dsql->SetQuery($sql);
+$dsql->Execute('z551');
+while ($data = $dsql->GetArray('z551')) {
+$arcurl = GetFileUrl($data['id'], $data['typeid'], $data['senddate'], $data['title'], $data["ismake"], 0, $data['namerule'], $data['typedir'], 0, $data['filename']);
+$imga = GetThumbsArray($data['body']);
+if(!empty($imga)){
+  echo '<div class="game_screen fl mt_5"><div class="game_screen"><h5 style="float:left;">游戏截图&gt;&gt;</h5><a href="'.$arcurl.'" target="_blank" class="blue fr lh40 mr">更多&gt;&gt;</a></div><ul>';
+    for($i = 0;$i < count($imga);$i++){
+      if($i > 3) break;
+		  echo '<li><div class="booklet-image-wrap">';
+		  echo '<span class="picbd"><a class="booklet-image" href="'.$arcurl.'" target="_blank"><i class="booklet-image-hack"></i><img width="140" src="'.$imga[$i].'"></a></span>';
+			echo '</div><a href="'.$arcurl.'" target="_blank"><p>游戏截图</p></a></li>';
+    }
+  echo '</ul></div>';
+}
+}
+{/dede:php}
+
+<div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
+    <h5>{dede:field.title /} 开服表 >> 
+	{dede:php}
+	global $dsql;
+	$game_name = $refObj->Fields["game_name"];
+	$sql = "SELECT count(aid) as dd FROM `#@__addonkaifu` WHERE game_name='$game_name'";
+	$kaifu_totalCount = $dsql->GetOne($sql);
+	if ($kaifu_totalCount) {
+	    $ksql = "SELECT count(oper_short_name) as dd, oper_short_name FROM `#@__addonkaifu` WHERE game_name='$game_name' GROUP BY oper_short_name";
+	    $dsql->Query('zz11', $ksql);
+	    $count = $dsql->GetAffectedRows();
+	    $company = array();
+	    while ($data = $dsql->GetArray('zz11')){
+		$company[$data['oper_short_name']] = $data['dd'];
+	    }
+	    $GLOBALS['_cmdp_companies_list'] = $company;
+	    echo '（<span class="p12 text_span">官网全部'.$count.' | 开服表全部'.$kaifu_totalCount['dd'].'</span>）';
+	}
+
+	{/dede:php}
+    </h5>
+
+    <div id="game_kaifu_list" class="div_top fl">
+	<ul class="top_ul">
+	    <li class="list_01 strong">官网名称</li>
+	    <li class="list_02 strong">开服总数</li>
+	    <li class="list_03_1 strong">最新开服</li>
+	    <li class="list_04 strong">操作</li>
+	</ul>
+	
+	{dede:php}
+	global $dsql;
+	$company = $GLOBALS['_cmdp_companies_list'];
+	$game_name = $refObj->Fields["game_name"];
+	$now = time();
+	$today = mktime(0, 0, 0, date("m", $now), date("d", $now), date("Y", $now));
+	$today_1 = mktime(0, 0, 0, date("m", $now), date("d", $now) + 1, date("Y", $now));
+	$sql = "SELECT oper_short_name, test_date, register_url, server_name FROM `#@__addonkaifu` WHERE game_name='$game_name' and test_date <= $today_1 ORDER BY test_date DESC LIMIT 0, 30";
+	$count = 0;
+	$exList = array();
+
+	$dsql->Query('zz11', $sql);
+	while ($data = $dsql->GetArray('zz11')) {
+	    if ($exList[$data['oper_short_name']]) {
+		continue;
+	    }else{
+		$exList[$data['oper_short_name']] = true;
+	    }
+	    echo '<ul>';
+	    echo '<li class="list_01 lh40">'.$data['oper_short_name'].'</li>';
+	    echo '<li class="list_02">'.$company[$data['oper_short_name']].'服</li>';
+	    echo '<li class="list_03">';
+	    $ds = $dsql->GetOne("SELECT oper_short_name, test_date, register_url, server_name FROM `#@__addonkaifu` WHERE game_name='$game_name' AND oper_short_name = '{$data['oper_short_name']}' AND test_date < {$data['test_date']} ORDER BY test_date DESC");
+	    if (!empty($ds)) {
+	    echo '<div class="list_bg fl"><span class="list_span mblack">'. getRelativeTime($ds['test_date']).'</span><span class="list_span "><a href="'.$ds['register_url'].'">'.$ds['server_name'].'</a></span></div>';
+	    } else {
+		echo '<div class="list_bg fl"> / </div>';
+	    }
+	    
+
+	    $ds2 = $dsql->Query('zz13', "SELECT oper_short_name, test_date, register_url, server_name FROM `#@__addonkaifu` WHERE game_name='$game_name' AND oper_short_name = '{$data['oper_short_name']}' AND ( test_date >= $today AND test_date < $today_1) ORDER BY test_date ASC");
+	    $ds2Count = $dsql->GetAffectedRows('zz13');
+	    if ($ds2Count > 1) {
+		echo '<div onmouseout="javascript:closeServerList(this);" onmouseover="javascript:showServerList(this);" class="list_bg fl">';
+		echo '<span class="list_span mblack"><b class="red">今日</b>开服'.$ds2Count.'组</span>';
+		echo '<span class="list_span"><img width="15" height="9" src="http://res.kaifu.com/isy/templates/front/images/xl_15.jpg">';
+		echo '<span style="display: none;" class="tc_div">';
+		echo '<ul class="topdiv"><li class="li001">开服时间</li><li class="li002">服务器</li><li class="li003">线路</li></ul>';
+
+		while ($_sd = $dsql->GetArray('zz13')) {
+		    echo '<ul><li class="li001">'.date("h", $_sd['test_date']).'点</li><li class="li002"><a target="_blank" href="'.$_sd['register_url'].'">'.$_sd["server_name"].'</a></li><li class="li003">双线</li></ul>';
+		}
+
+		echo '	</span></span>';
+		echo '</div>';
+	    }else {
+	    echo '<div class="list_bg fl"><span class="list_span mblack">'. ((date('d', $data['test_date']) == date('d', $now)) ? ('<b class="red">今日</b>'.date("h", $data['test_date']).'点') : (getRelativeTime($data['test_date']))).'</span><span class="list_span "><a href="'.$data['register_url'].'">'.$data['server_name'].'</a></span></div>';
+	    }
+
+	    $ds1 = $dsql->GetOne("SELECT oper_short_name, test_date, register_url, server_name FROM `#@__addonkaifu` WHERE game_name='$game_name' AND oper_short_name = '{$data['oper_short_name']}' AND test_date >= $today_1 ORDER BY test_date DESC");
+	    if (!empty($ds1)) {
+		echo '<div class="list_bg fl"><span class="list_span mblack">'. getRelativeTime($ds1['test_date']).'</span><span class="list_span "><a href="'.$ds1['register_url'].'">'.$ds1['server_name'].'</a></span></div>';
+	    } else {
+		echo '<div class="list_bg fl"> / </div>';
+	    }
+
+	    echo '</li>';
+	    echo '<li class="list_04">  <a class="blue play_game" href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a></li>';
+	    echo '</ul>';
+
+	    $count++;
+
+	    if ($count >= 10) {
+		break;
+	    }
+	}
+	{/dede:php}
+    </div>
+</div>    
+<div id="game_kaice" class="kaifu_table mt_5" style="margin-top: 5px;">
+    <h5>{dede:field.title /} 开测表 >> </h5>
+    <div id="game_kaice_list" class="div_top fl">
+	<ul class="top_ul">
+	    <li class="list_01 strong">时间</li>
+	    <li class="list_02 strong">测试状态</li>
+	    <li class="list_03_1 strong">运营厂商</li>
+	    <li class="list_04 strong">操作</li>
+	</ul>
+
+
+	{dede:arclist typeid='8' row='10' addfields='game_name,game_tag,oper_short_name, dev_short_name,test_date,test_status,register_url,game_id' date_by='test_date' _where='~~do-game_id-from~~' _where_value="@me" orderby='test_date' orderway='desc' channelid='18'}
+	<ul>
+	    <li class="list_01">[field:test_date function="MyDate('m-d',@me)" /]</li>
+	    <li class="list_02">[field:test_status /]</li>
+	    <li class="list_03">[field:oper_short_name /]</li>
+	    <li class="list_04">
+		<!--
+		<a class="blue play_game" href="[field:register_url /]" target="_blank">注册游戏</a>
+		-->
+	    </li>
+	</ul>
+	{/dede:arclist}
+
+    </div>
+</div>
+<div id="game_gift" class="kaifu_table mt_5" style="margin-top: 5px;">
+    <h5>{dede:field.title /} 新手卡/激活码 >> </h5>
+    <div id="game_gift_list" class="div_top fl">
+	<ul class="top_ul">
+	    <li class="list_01 strong">时间</li>
+	    <li class="list_02 strong">卡名称</li>
+	    <li class="list_03_1 strong">运营厂商</li>
+	    <li class="list_04 strong">操作</li>
+	</ul>
+
+
+	{dede:arclist typeid='11' row='10' addfields='game_name,gift_title,oper_short_name,send_date,get_url,game_id' date_by='send_date' _where='~~do-game_id-from~~' _where_value="@me" orderby='send_date' orderway='desc' channelid='21'}
+	<ul>
+	    <li class="list_01">[field:send_date function="MyDate('m-d',@me)" /]</li>
+	    <li class="list_02">[field:gift_title /]</li>
+	    <li class="list_03">[field:oper_short_name /]</li>
+	    <li class="list_04"><a href="[field:get_url /]" class="bt_getnumber white mt_5" target="_blank">领号</a></li>
+	</ul>
+	{/dede:arclist} 
+
+    </div>
+</div>
+
+<div class="news_push fl mt">
+    <div class="news_push1 fl comment_bg  bt">
+	<h5 class="lh24 fl ">相关内容推荐&gt;&gt;</h5>
+	<span class="fr lh24 strong gray"><a class="gray decoration" href="/plus/list.php?tid=13&gameid={dede:field.game_id /}" target="_blank">新闻</a> | <a class="gray decoration" href="/plus/list.php?tid=17&gameid={dede:field.game_id /}" target="_blank">攻略</a></span>
+    </div>
+    <ul class="lh24 news_push1  black">
+	{dede:arclist typeid='12' row='12' addfields='game_id' date_by='send_date' _where='~~do-game_id-from~~' _where_value="@me" orderby='send_date' orderway='desc' titlelen='45' channelid='1'}
+	<li><a href="[field:arcurl /]" target="_blank">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)" /]</span></li>
+	{/dede:arclist}
+    </ul>
+</div>
+           
+<div style=" clear:both"></div>
+    {dede:include file='ajaxfeedback.htm' /}
+</div>
+<div class="fr newsinfo_right">
+  <div class="picbd boder_base adv160">
+    <script src='/plus/bd_js.php?aid=12&nocache=1' language='javascript'></script>
+  </div>
+    <div class="fl boder_base r_box  padding_10 hotgame mt">
+	<h2 class="p14 black strong lh30 nomal_h2back">最新测试游戏</h2>
+	<ul class="lh20 game-test-wrap">
+	    {dede:arclist typeid=10 row=6 addfields='game_name, game_tag, game_thumb, game_effect, game_theme, game_status, offical_url, oper_short_name, dev_short_name, copy_from, pub_short_name' channelid='20'}
+	    <li>
+		<a href="[field:arcurl /]" target="_blank"><img width="80" height="80" src="[field:game_thumb /]" class="picbd"></a>
+		<p><a href="[field:arcurl /]" target="_blank">[field:game_name /]</a></p>
+		<p>[field:game_status /]</p>
+	    </li>
+	    {/dede:arclist}
+	</ul>
+    </div>
+    <div class="fl boder_base r_box  padding_10 hotgame mt">
+	<h2 class="p14 black strong lh30 nomal_h2back">同类热门游戏</h2>
+	<ul class="lh20 game-test-wrap">
+	    {dede:php}
+	    global $dsql;
+	    $game_theme = $GLOBALS['arc']->Fields['game_theme'];
+	    $sql = "SELECT arc.*, b.aid, b.game_name, b.game_tag, b.game_thumb, b.game_effect, b.game_theme, b.game_status, b.oper_short_name FROM `#@__archives` AS arc LEFT JOIN `#@__addongame` AS b ON arc.id = b.aid WHERE arc.typeid = 10 AND game_theme='$game_theme' ORDER BY goodpost DESC LIMIT 0, 6";
+	    $query = $dsql->SetQuery($sql);
+	    $dsql->Execute('z55');
+	    while ($data = $dsql->GetArray('z55')) {
+		echo "<li>";
+		echo '<a href="'.GetGameUrl($data['aid']).'" target="_blank"><img width="80" height="80" src="'.$data['game_thumb'].'" class="picbd"></a>';
+		echo '<p><a href="'.GetGameUrl($data['aid']).'" target="_blank">'.$data["game_name"].'</a></p>';
+		echo "<p>".$data['game_status']."</p>";
+		echo "</li>";	    
+	    }
+	    {/dede:php}
+	</ul>
+    </div>
+    <div class="fl boder_base r_box  padding_10 mt hotgame">
+	<h2 class="p14 black strong lh30 nomal_h2back">网页游戏人气榜</h2>
+	<div class="bang">
+	    {dede:php}
+	    global $dsql;
+	    $sql = "SELECT arc.*, b.aid, b.game_name, b.game_tag, b.game_thumb, b.game_effect, b.game_theme, b.game_status, b.oper_short_name FROM `#@__archives` AS arc LEFT JOIN `#@__addongame` AS b ON arc.id = b.aid WHERE arc.typeid = 10 ORDER BY goodpost DESC LIMIT 0, 3";
+	    $query = $dsql->SetQuery($sql);
+	    $dsql->Execute('z56');
+	    $count = 1;
+	    while ($data = $dsql->GetArray('z56')) {
+		echo '<div class="bang_all">';
+		echo '<div class="bang_num mt">'.$count.'.</div>';
+		echo '<div class="fl mt_5">';
+		echo '<a target="_blank" href="'.GetGameUrl($data['aid']).'">';
+		echo '<img width="70" height="70" src="'.$data['game_thumb'].'" class="picbd">';
+		echo '</a></div>';
+		echo '<div class="fl ml">';
+		echo '    <h3 class="lh30 p14 strong">';
+		echo '	<a target="_blank" href="'.GetGameUrl($data['aid']).'">'.$data["game_name"].'</a>';
+		echo '    </h3>';
+		echo '    <div class="mt_5">';
+		echo '	<a class="bt_tp fl" href="javascript:" onclick="postDigg('.$data['aid'].');">投票支持</a>';
+		echo '	<div class="lh28 ml fl">';
+		echo '	    票数：<span class="vote-count-'.$data['aid'].'">'.$data['goodpost'].'票</span>';
+		echo '	</div>';
+		echo '    </div>';
+		echo '</div>';
+		echo '</div>';
+		$count++;
+	    }
+	    {/dede:php}
+	    <ul class="fl">
+		{dede:php}
+		global $dsql;
+		$sql = "SELECT arc.*, b.aid, b.game_name, b.game_tag, b.game_thumb, b.game_effect, b.game_theme, b.game_status, b.oper_short_name FROM `#@__archives` AS arc LEFT JOIN `#@__addongame` AS b ON arc.id = b.aid WHERE arc.typeid = 10 ORDER BY goodpost DESC LIMIT 3, 7";
+		$query = $dsql->SetQuery($sql);
+		$dsql->Execute('z55');
+		$count = 4;
+		while ($data = $dsql->GetArray('z55')) {
+		    echo '<li>';
+		    echo '    <label class="number mr">'.$count.'</label>';
+		    echo '    <a title="'.$data['game_name'].'" class="strong top1_gamename" href="'.GetGameUrl($data['aid']).'" target="_blank">'.$data["game_name"].'</a>';
+		    echo '    <a class=" bt_tp1 fl" href="javascript:" onclick="postDigg('.$data['aid'].');">投票支持</a><span class="top1_ps gray vote-count-'.$data['aid'].'">'.$data['goodpost'].'票</span>';
+		    echo '</li>';
+		    $count++;
+		}
+		{/dede:php}
+	    </ul>
+    </div>	</div>   
+</div></div>
+{dede:include filename="footer.htm"/}
+<script type="text/javascript">
+(function(){
+     var $ = jQuery;
+    function checkList(id) {
+	$div = $("#"+id);
+	$list = $('#'+id+"_list ul");
+
+	if ($list.length <= 1) {
+	    $div.hide();
+	} else{
+	    $div.show();
+	}
+    }
+
+    checkList('game_kaifu');
+    checkList('game_kaice');
+    checkList('game_gift');
+})()
+
+</script>
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6519356" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+</body>
+</html>
