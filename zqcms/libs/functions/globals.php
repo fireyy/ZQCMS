@@ -22,5 +22,22 @@ function preprocessFilter($filter){
  */
 function template($module, $template, $style = '') {
     zq_core::load_sys_class("smarty", 'libs'.DIRECTORY_SEPARATOR."smarty", 0);
+    $smarty = new Smarty();
+    
+
+    if (!$style) {
+	$style = 'default';
+    }
+    //Configure Smarty
+    //$smarty->setTemplateDir('/web/www.example.com/guestbook/templates/');
+    //$smarty->setCompileDir('/web/www.example.com/guestbook/templates_c/');
+    //$smarty->setConfigDir('/web/www.example.com/guestbook/configs/');
+    //$smarty->setCacheDir('/web/www.example.com/guestbook/cache/');
+    //$this->caching = Smarty::CACHING_LIFETIME_CURRENT;
+    //templateExists()
+    //$smarty->setCaching(Smarty::CACHING_LIFETIME_CURRENT);
+    //$smarty->setCompileCheck(false);
 }
+
+template('conetent', 'index');
 ?>

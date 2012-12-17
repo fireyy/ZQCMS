@@ -20,8 +20,7 @@ define("SITE_URL", (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
 define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : ''));
 
 // load common func and class
-
-
+zq_core::load_sys_func("globals");
 //设定网站配置
 
 /**
@@ -107,6 +106,7 @@ class zq_core {
 	if (isset($funcs[$key])) {
 	    return true;
 	}
+	echo $path;
 	if (file_exists(ZQ_PATH.$path)) {
 	    include ZQ_PATH.$path;
 	} else {
