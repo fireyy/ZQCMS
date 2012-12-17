@@ -20,10 +20,13 @@ define("SITE_URL", (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
 define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : ''));
 
 // load common func and class
-Router::auto_load_func();
+zq_core::auto_load_func();
 
-class Router {
-    public static function Start() {
+class zq_core {
+    /**
+     * Create an app and run
+     */
+    public static function Run() {
 	//$result = self::page_init();
 	//if (!$result) {
 	//    self::error_404();
