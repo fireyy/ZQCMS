@@ -12,11 +12,11 @@
 	<div class=" headernav fl">
 		<div id="logo">
 	    	<h1><a href="/">
-	    		<img src="{$site_basehost}{$site_indexurl}{$site_logo}" width="220" height="60" />
+	    		<img src="{$site_config.site_basehost}{$site_config.site_indexurl}{$site_config.site_logo}" width="220" height="60" />
 	    	</a></h1>
         </div>
         <div>
-        	<a href=""onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('dede:global.cfg_basehost');" class=" szindex black">设为首页</a><a href="javascript:window.external.AddFavorite('dede:global.cfg_basehost','dede:global.cfg_webname')" class=" collect black">加入收藏</a>
+        	<a href=""onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$site_config.site_basehost}');" class=" szindex black">设为首页</a><a href="javascript:window.external.AddFavorite('{$site_config.site_basehost}','{$site_config.site_name}')" class=" collect black">加入收藏</a>
         </div>
     </div>
     <div id="searchnav" class="fl gray">
@@ -90,7 +90,8 @@
         
 <div class="main_menu">
 	<ul>
-	<!--     <li><a href="/">首页</a></li>
+		<li><a href="{$site_config.site_indexurl}">首页</a></li>
+		<!--     
 	    dede:channel type='top' row='10' currentstyle="<li class='hover'><a href='~typelink~' ~rel~>~typename~</a></li>"}
 	    <li><a href="[field:typeurl function="GetRealTypeUrl(@me)"/]" class="nav_2" [field:rel/]>[field:typename/]</a></li>
 	    dede:channel} -->
