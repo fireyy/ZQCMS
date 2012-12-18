@@ -23,6 +23,17 @@ define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER
 zq_core::load_sys_func("globals");
 //设定网站配置
 
+register_template_data('charset', zq_core::load_config('system', 'charset', 'utf-8'));
+register_template_data('WEB_PATH', zq_core::load_config('system', 'web_path'));
+register_template_data('CSS_PATH', zq_core::load_config('system', 'js_path'));
+register_template_data('JS_PATH', zq_core::load_config('system', 'css_path'));
+register_template_data('IMAGE_PATH', zq_core::load_config('system', 'image_path'));
+register_template_data('site_name', zq_core::load_config('system', 'site_name'));
+register_template_data('site_keywords', zq_core::load_config('system', 'site_keywords'));
+register_template_data('site_description', zq_core::load_config('system', 'site_description'));
+register_template_data('style', zq_core::load_config('system', 'style'));
+
+
 /**
  * 
  */

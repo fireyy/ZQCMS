@@ -349,8 +349,8 @@ function preprocessFilter($filter){
  */
 function template($module, $template, $style = '', $output=true) {
     $TEMPLATE_CACHE_PATH = CACHE_PATH . "cache_template" . DIRECTORY_SEPARATOR;
-    $TEMPLATE_PATH = ZQCMS_PATH . "templates" . DIRECTORY_SEPARATOR;
-    $USER_TEMPLATE_PATH = ZQ_PATH."templates".DIRECTORY_SEPARATOR;
+    $TEMPLATE_PATH = ZQ_PATH. "templates" . DIRECTORY_SEPARATOR;
+    $USER_TEMPLATE_PATH = ZQCMS_PATH."templates".DIRECTORY_SEPARATOR;
 
     $module = str_replace("/", DIRECTORY_SEPARATOR, $module);
     if (!empty($style) && preg_match('/[a-z0-9\-_]+/is', $style)) {
@@ -373,8 +373,10 @@ function template($module, $template, $style = '', $output=true) {
     //先去尝试读取用户定义的模板
     if (file_exists($USER_TEMPLATE_PATH.$style.DIRECTORY_SEPARATOR.$module.DIRECTORY_SEPARATOR.$template.".html")) {
 	$smarty->setTemplateDir($USER_TEMPLATE_PATH.$style);
+	register_template_data("style_dir", DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$style);
     } else {
 	$smarty->setTemplateDir($TEMPLATE_PATH.$style);
+	register_template_data("style_dir", DIRECTORY_SEPARATOR."zqcms".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$style);
     }
     $path = $module.DIRECTORY_SEPARATOR.$template.".html";
     if ($smarty->templateExists($path)) {

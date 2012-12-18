@@ -10,102 +10,46 @@ class Router {
      *     资讯    /article.html=1 /articles.html
      */
     public function __construct() {
+	//设定 m, c, a
+	//起动页面
+	$param = zq_core::load_sys_class('param');
+	define("ROUTE_M", $param->route_m());
+	define("ROUTE_C", $param->route_c());
+	define("ROUTE_A", $param->route_a());
+	$this->run();
     }
 
-    //public static function Start() {
-    //    $result = self::page_init();
-    //    if (!$result) {
-    //        exit("Action does not exist.");
-    //    }
-    //}
+    private function run() {
+	$controller = $this->load_controller();
+	if (method_exists($controller, ROUTE_A)) {
+	    if (preg_match('/^[_]/i', ROUTE_A)) {
+		exit('You are visiting the action is to protect the private action');
+	    } else {
+		call_user_func(array($controller, ROUTE_A));
+	    }
+	} else {
+	    exit('Action does not exist.');
+	}
+    }
 
-    //private static function page_init() {
-    //    if (!empty($_GET['q'])){
-    //        self::get_normal_path(trim($_GET['q'], '/'));
-    //        return true;
-    //    }else{
-    //        if (count($_GET) == 0){
-    //    	return true;
-    //        }
-    //        return false;
-    //    }
-    //}
-
-    //public static function arg($index = null, $path = null) {
-    //    static $arguments;
-    //    if (!isset($path)){
-    //        $path = $_GET["q"];
-    //    }
-    //    if (!isset($arguments[$path])){
-    //        $arguments[$path] = explode("/", $path);
-    //    }
-
-    //    if (!isset($index)){
-    //        return $arguments[$path];
-    //    }
-    //    if (isset($arguments[$path][$index])){        
-    //        return $arguments[$path][$index];
-    //    }
-    //}
-
-    //public static function query_string($index = null) {
-    //    $tmp = $_REQUEST;
-    //    array_shift($tmp);
-    //    $args = array();
-    //    foreach ($tmp as $k=>$v){
-    //        if (!isset($v)){
-    //    	$args[$k] = true;
-    //        }else{
-    //    	$args[$k] = $v;
-    //        }
-    //    }
-
-    //    if (!isset($index)){
-    //        return $args;
-    //    }
-
-    //    if (isset($args[$index])){
-    //        return $args[$index];
-    //    }
-    //}
-    //
-    //private static function get_normal_path($path) {
-    //    global $_GLOBAL;
-    //    list($t) = self::arg();
-    //    $controller = self::get_controller($t);
-    //}
-    
     /**
      * 加载控制器
      */
     public function load_controller($filename = '', $module = '') {
-	//chdir(ROOT_PATH."controllers");
-	//$controllers_list = glob("*.php");
-	//if (!isset($t)) {
-	//    return;
-	//}
-	//list($type, $action) = explode("=", $t);
-
-	//$controller_file = $type.".php";
-	//if (!isset(self::$controllers[$controller_file])) {
-	//    if (in_array($controller_file, $controllers_list)) {
-	//	$loadfile = ROOT_PATH . "controllers/$controller_file";
-	//	if (is_file($loadfile)) {
-	//	    try{
-	//		require_once $loadfile;
-	//	    }catch (Exception $e){
-	//		echo $e->getMessage();
-	//	    }
-
-	//	    $className = "{$type}_controller";
-	//	    $controller = new $className($action);
-	//	    if ($controller) {
-	//		self::$controllers[$controller_file] = $controller;
-	//	    }
-	//	} 
-	//    }
-	//}
-	//return self::$controllers[$controller_file];
+	if (empty($filename)) $filename = ROUTE_C;
+	if (empty($m)) $m = ROUTE_M;
+	$loadfile = ZQ_PATH.'modules'.DIRECTORY_SEPARATOR.$m.DIRECTORY_SEPARATOR.$filename.".php";
+	if (file_exists($loadfile)) {
+	    $className = strtolower($filename);
+	    include $loadfile;
+	    if (class_exists($className)) {
+		return new $className;
+	    } else {
+		exit('Controller does not exists');
+	    }
+	} else {
+	    exit("Controller does not exists");
+	}
     }
 }
 ?>
