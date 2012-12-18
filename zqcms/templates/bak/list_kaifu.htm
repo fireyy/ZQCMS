@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+	<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+	<meta name="keywords" content="{dede:field name='keywords'/}" />
+	<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+	{dede:include filename="styles.htm"/}
+	<link href="{dede:global.cfg_templets_skin/}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+	{dede:include filename="head.htm"/}
+	{dede:include filename="scripts.htm"/}	
+	<script language="javascript" type="text/javascript" src="{dede:global.cfg_templets_skin/}/picker/WdatePicker.js"></script>
+    </head>
+    <body>
+
+    <div id="content">
+	  <script language="JavaScript">
+		var time=new Date();
+		var localtime = new Array();
+		var hours = 0;
+		var minute = 0;
+		var second = 0;
+
+		localtime[0] = time.getFullYear();
+		localtime[1] = time.getMonth()+1;
+		localtime[2] = time.getDate();
+		localtime[3]= hours = time.getHours();
+		minute = time.getMinutes();
+		second = time.getSeconds();
+
+		remtime = ((60-minute)*60-second)*1000;
+		setTimeout('reflresh()', remtime);
+		
+		function getstatus(gtime, ghour) {
+			var status = '';
+			var getarray = gtime.split("-");
+			var gettime = new Array(parseInt(getarray[0],10), parseInt(getarray[1],10), parseInt(getarray[2],10), ghour);
+			for(var i=0;i<4;i++) {
+			if(gettime[i]>localtime[i]) {
+				status = '<span style="color:#339900;">即将开服</span>';
+				break;
+			} else if(gettime[i]<localtime[i]){
+				status = '<span>已经开服</span>';
+				break;
+			} else {
+				status = '<span class="f06">正在开服</span>';
+			}
+		    }
+			document.write(status);
+		}
+
+		function echotime(gtime, ghour) {
+			var isday = true;
+			var timestr = '';
+			var getarray = gtime.split("-");		
+			var gettime1 = new Array(parseInt(getarray[0],10), parseInt(getarray[1],10), parseInt(getarray[2],10));
+			for(var i=0;i<3;i++) {
+			if(gettime1[i] != localtime[i]) {
+				isday = false;
+				break;
+			}
+		    }
+			if(isday) {
+				timestr = '<td style="color:red">今天 ' + ghour + ':00</td>';
+			} else {
+				timestr = '<td>' + getarray[1] + '-' + getarray[2] +' '+ghour  + ':00</td>';
+			}
+			document.write(timestr);
+		}
+		
+			
+		function reflresh() {
+			window.location.reload();
+		}
+
+	    </script>
+    <div id="pathway"><strong>当前位置:</strong> 
+	{dede:field name='position'/}
+    </div>
+
+    <div id="kflist">
+	<div class="listmenu" style="margin-top:0px;">
+	    {dede:php}
+	      $now = time();
+	      $now_d = date("d", $now);
+	      $now_m = date("m", $now);
+	      $now_y = date("Y", $now);
+	      $y = intval($_GET["y"]) ? intval($_GET["y"]) : date("Y", $now);
+	      $m = intval($_GET["m"]) ? intval($_GET["m"]) : date("m", $now);
+	      $d = intval($_GET["d"]) ? intval($_GET["d"]) : date("d", $now);
+		
+	      $from = $_GET['from'];
+	      if (!empty($from)) {
+		  $time = strtotime($from);
+		  $y = date("Y", $time);
+		  $m = date("m", $time);
+		  $d = date("d", $time);
+	      }
+
+	      if ($now_d == $d && $now_m == $m && $now_y == $y) {
+		echo '<h1 class="p20">今日开服表</h1>';
+	      }else{
+		echo '<h1 class="p20">'."{$y}年{$m}月{$d}日".'开服表</h1>';
+	      }
+	    {/dede:php}
+
+	    <div style=" line-height:36px;float: left;height: 35px;width: 1000px; margin-top: 5px;">
+		<div style="float:left">
+		    时间：
+		    <a href="/plus/list.php?tid=6&from=yesterday" rel="nofollow" class="{dede:php }
+			if ($_GET['from'] == 'yesterday' || ($y == $now_y && ($d == ($now_d-1)))){echo 'enterpart_active';}else{echo 'backa';}
+		    {/dede:php}">昨天</a>
+		    <a href="/plus/list.php?tid=6&from=today" rel="nofollow" class="{dede:php }if ($_GET['from'] == 'today'){echo 'enterpart_active';}else{echo 'backa';}{/dede:php}">今天</a>
+		    <a href="/plus/list.php?tid=6&from=tomorrow" rel="nofollow" class="{dede:php }if ($_GET['from'] == 'tomorrow'){echo 'enterpart_active';}else{echo 'backa';}{/dede:php}">明天</a>
+		    <a href="#timelist2"time rel="nofollow" class="backa">更多></a>
+		</div>
+		<div style="float:left">
+		    <form method="get">
+		    <label style="float:left">&nbsp;|&nbsp;指定游戏：</label>
+		    <input name="name" type="text" class="inputbox" style="width:70px;" id="game_name" value="{dede:php}echo $_GET['name']; {/dede:php}" />
+		    <input type="hidden" name="tid" value="6" />
+		    <input type="hidden" name='from' value="{dede:php} $date = $_GET['from']; if(empty($date)){ $date = 'today';} echo $date; {/dede:php}" />
+		    <input type="submit" value="搜索" class="dybutton_sty6" style=" *padding:0;margin-left:5px;*margin-left:5px;*margin-top:-1px;_margin-top:5px; height:26px; line-height:26px;"/>
+		    </form>
+		</div>
+	    </div>
+	</div>
+
+	<div class="time">
+	    {dede:php}
+	      $now = time();
+	      $y = intval($_GET["y"]) ? intval($_GET["y"]) : date("Y", $now);
+	      $m = intval($_GET["m"]) ? intval($_GET["m"]) : date("m", $now);
+	      $d = intval($_GET["d"]) ? intval($_GET["d"]) : date("d", $now);
+	      $from = $_GET['from'];
+	      if (!empty($from)) {
+		  $time = strtotime($from);
+		  $y = date("Y", $time);
+		  $m = date("m", $time);
+		  $d = date("d", $time);
+	      }
+	      $basic_url = "/plus/list.php?tid=6";
+	      $date = array(
+		  "y=".$y,
+		  "m=".$m,
+		  "d=".$d
+	      );
+
+	    echo '<dl>';
+	    echo '    <dt style="border-left: 1px solid #ccc;  color: #000;" class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=0'))).'" style="color: #333; font-weight: bold;">全部</a></dt>';
+	    echo '</dl>';
+	    echo '<dl>';
+	    echo '    <dt style="border-left: 1px solid #ccc;" class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=1'))).'">上午</a></dt>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=3'))).'">9:00~10:59</a></dd>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=4'))).'">11:00~12:59</a></dd>';
+	    echo '</dl>';
+	    echo '<dl>';
+	    echo '    <dt class="bg"><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=5'))).'">下午</a></dt>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=6'))).'">13:00~14:59</a></dd>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=7'))).'">15:00~16:59</a></dd>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=8'))).'">17:00~18:59</a></dd>';
+	    echo '</dl>';
+	    echo '<dl>';
+	    echo '    <dt class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=9'))).'">晚上</a></dt>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=10'))).'">19:00~20:59</a></dd>';
+	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=11'))).'">21:00~22:59</a></dd>';
+	    echo '</dl>';
+	    {/dede:php}
+	</div>
+
+	<div class="div_top">
+	  <ul>
+	    <li class="li_6">开服日期</li>
+	    <li class="li_1">游戏名称</li>
+	    <li class="li_4">服务器名</li>
+	    <li class="li_2">运营商</li>
+	    <li class="li_7">开发商</li>
+	    <li class="li_3">快捷操作</li>
+	    <li class="li_3">状态</li>
+	  </ul>
+	</div>
+
+	{dede:php}
+	global $dsql;
+	$now = time();
+	$now_h = mktime(0, 0, 0, date("m", $now), date("d", $now), date("Y", $now));
+
+	$sql = "SELECT arc.*, tp.typedir,tp.typename,tp.corank,tp.isdefault,tp.defaultname,tp.namerule, tp.namerule2,tp.ispart,tp.moresite,tp.siteurl,tp.sitepath, addf.game_name, addf.game_id,addf.test_date, addf.server_name, addf.oper_short_name,addf.game_tag FROM `#@__archives` AS arc LEFT JOIN `#@__arctype` AS tp on arc.typeid=tp.id LEFT JOIN `#@__addonkaifu` as addf ON addf.aid = arc.id WHERE flag LIKE '%c%' AND test_date >= $now_h order by test_date asc";
+
+	$dsql->SetQuery($sql);
+	$dsql->Execute('z10');
+	while ($data = $dsql->GetArray('z10')) {
+	    echo '<div class="hot">';
+	    echo '<ul class="">';
+	    echo '<li class="li_6">'.date('m-d H:i', $data['test_date']).'</li>';
+	    echo '<li class="li_1"><a href="'.GetGameURL($data['id']).'" class="p14 title" target="_blank">'.$data['game_name'].'</a></li>';
+	    echo '<li class="li_4">'.$data['server_name'].'</li>';
+	    echo '<li class="li_2">'.$data['oper_short_name'].'</li>';
+	    echo '<li class="li_7">'.$data['dev_short_name'].'</li>';
+	    echo '<li class="li_3">  <a href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a></li>';
+	    echo '<li class="li_3 org"><script language="JavaScript">getstatus("'.date('Y-m-d', $data['test_date']).'", '.date('H', $data['test_date']).');</script></li>';
+	    echo '</ul>';
+	    echo '</div>';
+	}
+	{/dede:php}
+
+    {dede:php}
+    global $dsql;
+    $today = false;
+    $now = time();
+    $now_d = date("d", $now);
+    $now_m = date("m", $now);
+    $now_y = date("Y", $now);
+    $now_h = mktime(date("H", $now), 0, 0, date("m", $now), date("d", $now), date("Y", $now));
+    $y = intval($_GET["y"]) ? intval($_GET["y"]) : date("Y", $now);
+    $m = intval($_GET["m"]) ? intval($_GET["m"]) : date("m", $now);
+    $d = intval($_GET["d"]) ? intval($_GET["d"]) : date("d", $now);
+    $from = $_GET['from'];
+    if (!empty($from)) {
+	$time = strtotime($from);
+	$y = date("Y", $time);
+	$m = date("m", $time);
+	$d = date("d", $time);
+    }
+
+    if ($y == $now_y && $m == $now_m && $d == $now_d) {
+	$today = true;
+    }
+    
+    $t = intval($_GET['t']) ? intval($_GET['t']) : 0;
+
+    if ($t > 0) {
+	$today = false;
+    }
+
+    switch ($t) {
+	case 1:
+	    $begin_date = mktime(9, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(12, 59, 0, $m, $d, $y);
+	    break;
+	case 3:
+	    $begin_date = mktime(9, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(10, 59, 0, $m, $d, $y);
+	    break;
+	case 4:
+	    $begin_date = mktime(11, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(12, 59, 0, $m, $d, $y);
+	    break;
+	case 5:
+	    $begin_date = mktime(13, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(18, 59, 0, $m, $d, $y);
+	    break;
+	case 6:
+	    $begin_date = mktime(13, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(14, 59, 0, $m, $d, $y);
+	    break;
+	case 7:
+	    $begin_date = mktime(15, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(16, 59, 0, $m, $d, $y);
+	    break;
+	case 8:
+	    $begin_date = mktime(16, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(18, 59, 0, $m, $d, $y);
+	    break;
+	case 9:
+	    $begin_date = mktime(19, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(22, 59, 0, $m, $d, $y);
+	    break;
+	case 10:
+	    $begin_date = mktime(19, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(20, 59, 0, $m, $d, $y);
+	    break;
+	case 11:
+	    $begin_date = mktime(21, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(22, 59, 0, $m, $d, $y);
+	    break;
+	case 0:
+	default:
+	    $begin_date = mktime(0, 0, 0, $m, $d, $y);
+	    $end_date   = mktime(0, 0, 0, $m, $d+1, $y);
+    }
+
+    $name = $_GET['name'];
+    $game_id = $_GET["gameid"];
+    
+    $sql = "SELECT arc.*, tp.typedir,tp.typename,tp.corank,tp.isdefault,tp.defaultname,tp.namerule, tp.namerule2,tp.ispart,tp.moresite,tp.siteurl,tp.sitepath, addf.game_name, addf.game_id,addf.test_date, addf.server_name, addf.oper_short_name,addf.game_tag, addf.register_url FROM `#@__archives` AS arc LEFT JOIN `#@__arctype` AS tp on arc.typeid=tp.id LEFT JOIN `#@__addonkaifu` as addf ON addf.aid = arc.id";
+
+    $wheres = array();
+    $wheres[] = " (flag ='' OR flag = NULL) ";
+    if ($today) {
+	$wheres[] = "addf.test_date < $end_date AND addf.test_date >= $now_h";
+    }else{
+	$wheres[] = "addf.test_date >= $begin_date AND addf.test_date < {$end_date}";
+    }
+
+    if (!empty($name)) {
+	$wheres[] = "addf.game_name LIKE '%$name%'";
+    }
+
+    if (!empty($gameid)) {
+	$wheres[] = 'addf.game_id = $gameid';
+    }
+
+    if (count($wheres)) {
+	$sql .= " WHERE ".join(' AND ', $wheres);
+    }
+
+    $sql .= " order by test_date asc ";
+
+    $dsql->SetQuery($sql);
+    $dsql->Execute('z5');
+    while ($data = $dsql->GetArray('z5')) {
+	echo '<ul class="">';
+        echo '<li class="li_6">'.date('m-d H:i', $data['test_date']).'</li>';
+	echo '<li class="li_1"><a href="'.GetGameURL($data['id']).'" class="p14 title" target="_blank">'.$data['game_name'].'</a></li>';
+        echo '<li class="li_4">'.$data['server_name'].'</li>';
+        echo '<li class="li_2">'.$data['oper_short_name'].'</li>';
+	echo '<li class="li_7">'.$data['dev_short_name'].'</li>';
+	echo '<li class="li_3">  <a href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a></li>';
+	echo '<li class="li_3 org"><script language="JavaScript">getstatus("'.date('Y-m-d', $data['test_date']).'", '.date('H', $data['test_date']).');</script></li>';
+        echo '</ul>';
+    }
+
+    if ($today) {
+	$wheres = array();
+	$sql = "SELECT arc.*, tp.typedir,tp.typename,tp.corank,tp.isdefault,tp.defaultname,tp.namerule, tp.namerule2,tp.ispart,tp.moresite,tp.siteurl,tp.sitepath, addf.game_name, addf.game_id,addf.test_date, addf.server_name, addf.oper_short_name,addf.game_tag, addf.register_url, addf.dev_short_name FROM `#@__archives` AS arc LEFT JOIN `#@__arctype` AS tp on arc.typeid=tp.id LEFT JOIN `#@__addonkaifu` as addf ON addf.aid = arc.id";
+	$wheres[] = "addf.test_date > $begin_date AND addf.test_date < $now_h";
+	$wheres[] = " (flag ='' OR flag = NULL) ";
+	if (!empty($name)) {
+	    $wheres[] = "addf.game_name LIKE '%$name%'";
+	}
+	if (!empty($gameid)) {
+	    $wheres[] = 'addf.game_id = $gameid';
+	}
+	if (count($wheres)) {
+	    $sql .= " WHERE ".join(' AND ', $wheres);
+	}
+	$sql .= " order by test_date desc ";
+	$dsql->SetQuery($sql);
+	$dsql->Execute('z6');
+	while ($data = $dsql->GetArray('z6')) {
+	    echo '<ul class="">';
+	    echo '<li class="li_6">'.date('m-d H:i', $data['test_date']).'</li>';
+	    echo '<li class="li_1"><a href="'.GetGameURL($data['id']).'" class="p14 title" target="_blank">'.$data['game_name'].'</a></li>';
+	    echo '<li class="li_4">'.$data['server_name'].'</li>';
+	    echo '<li class="li_2">'.$data['oper_short_name'].'</li>';
+	    echo '<li class="li_7">'.$data['dev_short_name'].'</li>';
+	    echo '<li class="li_3">  <a href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a></li>';
+	    echo '<li class="li_3 org"><script language="JavaScript">getstatus("'.date('Y-m-d', $data['test_date']).'", '.date('H', $data['test_date']).');</script></li>';
+	    echo '</ul>';
+	}
+    }
+
+
+    {/dede:php}
+  </div>
+
+  <div id="timelist2">
+      <div class="leftbox">
+      {dede:php}
+      global $dsql;
+      $now = time();
+      $now_d = date("d", $now);
+      $y = intval($_GET["y"]) ? intval($_GET["y"]) : date("Y", $now);
+      $m = intval($_GET["m"]) ? intval($_GET["m"]) : date("m", $now);
+      $d = intval($_GET["d"]) ? intval($_GET["d"]) : date("d", $now);
+      $basic_url = "/plus/list.php?tid=6";
+
+      $previous_m = $m - 1;
+      $previous_y = $y;
+      if ($previous_m < 1) {
+         $previous_m = 12;
+	 $previous_y -= 1;
+      }
+      $next_m = $m + 1;
+      $next_y = $y;
+      if ($next_m > 12) {
+	$next_m = 1;
+	$next_y += 1;
+      }   
+      echo '<h2 class=" White p20">'.$y.'</h2>';
+      echo '<div><a title="上一月最新开服表" href="'.$basic_url.'&'.join('&', array('y='.$previous_y, 'm='.$previous_m)).'"><img width="10" height="11" alt="上一月最新开服表" src="http://res.kaifu.com/isy/templates/front/images/gamelist__07.gif"></a></div>';
+      echo '<div class="p30" style=" width:70px;">'.$m.'月</div>';
+      echo '<div><a title="下一月最新开服表" href="'.$basic_url.'&'.join('&', array('y='.$next_y, 'm='.$next_m)).'"><img width="10" height="11" alt="下一月最新开服表" src="http://res.kaifu.com/isy/templates/front/images/gamelist_07-03.gif"></a></div>';
+      $maxday_list = array(
+	  1 => 31,
+	  2 => ((($y % 400 == 0) || (($y % 4 == 0) && ($y % 100 != 0))) ? 29 : 28),
+	  3 => 31,
+	  4 => 30,
+	  5 => 31,
+	  6 => 30,
+	  7 => 31,
+	  8 => 31,
+	  9 => 30,
+	  10 => 31,
+	  11 => 30,
+	  12 => 31
+       );
+       $max_day = $maxday_list[$m];
+       $sql = "SELECT COUNT(aid) as dd, DATE_FORMAT(FROM_UNIXTIME(test_date), '%c') as m, DATE_FORMAT(FROM_UNIXTIME(test_date), '%e') as d FROM `#@__addonkaifu` WHERE DATE_FORMAT(FROM_UNIXTIME(test_date), '%c')  = $m GROUP BY d";
+       $kaifu_data = array();
+       $kaifu_count = 0;
+       $dsql->SetQuery($sql);
+       $dsql->Execute('z7');
+       while ($data = $dsql->GetArray('z7')) {
+	   $kaifu_data[$data[d]] = $data['dd'];
+	   $kaifu_count+=$data['dd'];
+       }
+	
+       echo '<div style=" width:100%; height:20px; line-height:20px;">开服总量：'.$kaifu_count.'服</div></div>';
+
+       for ($c = 0; $c < $max_day; ++$c) {
+         if ($kaifu_data[$c+1]) {
+	     echo '<div class="righttimebox">';
+	     echo '<a id="'."$y$m".($c+1).'" class="'.((($c + 1) == $d) ? 'totalday org' : 'backa otherday').'" href="'.$basic_url.'&'.join('&', array('y='.$y, 'm='.$m, 'd='.($c+1))).'">';
+	     echo ($c+1)."<br/>";
+	     echo '('.$kaifu_data[$c+1]."服)";
+	     echo '</a>';
+         }else{
+	     echo '<div class="righttimebox r_boxstyle2 strong hcolour">';
+	     echo ($c+1);
+         }
+	 echo '</div>';
+       }
+      {/dede:php}
+  </div>
+
+
+  <div style=" clear:both"></div>
+</div>
+{dede:include filename="footer.htm"/}
+</body>

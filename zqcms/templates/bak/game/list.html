@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+<link href="{dede:global.cfg_templets_skin/}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{dede:include filename="scripts.htm"/}
+
+</head>
+<body>
+{dede:include filename="head.htm"/}
+<div id="content">
+  <div id="pathway"><strong>当前位置:</strong> {dede:field name='position'/}</div>
+  <script src='/plus/ad_js.php?aid=9' language='javascript'></script>
+  <div class="gamelist_new">
+      <ul>
+	  <h1><span style="line-height: 30px;" class="p12 strong backa">游戏分类：</span></h1>
+	  <li><a href="list.php?tid=10" class="p12">全部</a></li>
+    <li><a {dede:php}echo($_GET['tag'] == '角色扮演' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&tag=角色扮演" >角色扮演</a></li>
+	  <li><a {dede:php}echo($_GET['tag'] == '战争策略' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&tag=战争策略" >战争策略</a></li>
+	  <li><a {dede:php}echo($_GET['tag'] == '模拟经营' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&tag=模拟经营" >模拟经营</a></li>
+	  <li><a {dede:php}echo($_GET['tag'] == '社区养成' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&tag=社区养成" >社区养成</a></li>
+	  <li><a {dede:php}echo($_GET['tag'] == '休闲竞技' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&tag=休闲竞技" >休闲竞技</a></li>
+	  <li><a {dede:php}echo($_GET['tag'] == '儿童游戏' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&tag=儿童游戏" >儿童游戏</a></li>
+      </ul>
+      <ul>
+	  <h1><span style="line-height: 30px;" class="p12 strong backa">题材分类：</span></h1>
+	  <li><a href="list.php?tid=10" class="p12">全部</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '三国' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=三国">三国</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '仙侠' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=仙侠">仙侠</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '体育' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=体育">体育</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '修真' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=修真">修真</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '军事' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=军事">军事</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '历史' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=历史">历史</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '奇幻' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=奇幻">奇幻</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '宠物' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=宠物">宠物</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '格斗' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=格斗">格斗</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '武侠' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=武侠">武侠</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '玄幻' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=玄幻">玄幻</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '神话' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=神话">神话</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '科幻' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=科幻">科幻</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '竞速' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=竞速">竞速</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '都市' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=都市">都市</a></li>
+	  <li><a {dede:php}echo($_GET['theme'] == '魔幻' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&theme=魔幻">魔幻</a></li>
+      </ul>
+      <ul>
+	  <h1><span style="line-height: 30px;" class="p12 strong backa">状态：</span></h1>
+	  <li><a href="list.php?tid=10" class="p12">全部</a></li>
+	  <li><a {dede:php}echo($_GET['status'] == '免费' ?     'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&status=免费">免费</a></li>
+	  <li><a {dede:php}echo($_GET['status'] == '时间收费' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&status=时间收费">时间收费</a></li>
+	  <li><a {dede:php}echo($_GET['status'] == '道具收费' ? 'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&status=道具收费">道具收费</a></li>
+      </ul>
+      <ul>
+	  <h1><span style="line-height: 30px;" class="p12 strong backa">画面：</span></h1>
+	  <li><a href="list.php?tid=10" class="p12">全部</a></li>
+	  <li><a {dede:php}echo($_GET['effect'] == '3D' ?        'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&effect=3D">3D</a></li>
+	  <li><a {dede:php}echo($_GET['effect'] == '2.5/2.8D' ?  'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&effect=2.5/2.8D">2.5/2.8D</a></li>
+	  <li><a {dede:php}echo($_GET['effect'] == '2D' ?        'class="p12 strong org"' : '');{/dede:php} href="/plus/list.php?tid=10&effect=2D">2D</a></li>
+      </ul>  
+  </div>
+  <div style="float:right; overflow:hidden; width:868px; margin-bottom:10px;">
+    <script src='/plus/bd_js.php?aid=13&nocache=1' language='javascript'></script>
+    <div class="gamelist_22">
+      <script src='/plus/bd_js.php?aid=9&nocache=1' language='javascript'></script>
+    </div>
+    <div class="gamelist_22">
+			<div style="overflow: hidden; float: left; margin-right: 7px;">
+			  <script src='/plus/bd_js.php?aid=3&nocache=1' language='javascript'></script>
+			</div>
+			<div style="overflow: hidden; float: left; margin-right: 7px;">
+			  <script src='/plus/bd_js.php?aid=4&nocache=1' language='javascript'></script>
+			</div>
+			<div style="overflow: hidden; float: left">
+			  <script src='/plus/bd_js.php?aid=5&nocache=1' language='javascript'></script>
+			</div>
+    </div>
+    <div class="box_line picbox" style="overflow:hidden; padding:10px 5px 13px 0px;margin-top:5px; width:860px;">
+      <!--
+      <div class="choosed">
+	  <h3 style="text-indent:10px;margin-right:0;" class="p12">您已选择：</h3>
+      </div>
+      -->
+      <div class="bq_div">
+	  <div class="bottom_line" id="hotGameNav">
+	      <a class="{dede:php} echo (($_GET['gamesort'] == 1 || empty($_GET[gamesort])) ? 'flh1_up' : 'flh1_on');{/dede:php}" href="{dede:type id='10'}[field:typelink function="GetRealTypeUrl(@me, 'gamesort=1', 'append')"/]{/dede:type}">最新入库</a>
+	      <a class="{dede:php}echo (($_GET['gamesort'] == 2) ? 'flh1_up' : 'flh1_on');{/dede:php}" href="{dede:type id='10'}[field:typelink function="GetRealTypeUrl(@me, 'gamesort=2', 'append')"/]{/dede:type}">开服量最多</a>
+	      <a class="{dede:php}echo (($_GET['gamesort'] == 3) ? 'flh1_up' : 'flh1_on');{/dede:php}" href="{dede:type id='10'}[field:typelink function="GetRealTypeUrl(@me, 'gamesort=3', 'append')"/]{/dede:type}">最多人赞</a>
+	      <a class="{dede:php}echo (($_GET['gamesort'] == 4) ? 'flh1_up' : 'flh1_on');{/dede:php}" href="{dede:type id='10'}[field:typelink function="GetRealTypeUrl(@me, 'gamesort=4', 'append')"/]{/dede:type}">评分最高</a>
+	  </div>
+      </div>
+      <div style="width:100%; padding-right:5px;  float:left;">
+      {dede:list typeid='10' addfields="game_tag,game_theme,game_effect,game_status,game_thumb,game_name" _where='~~get-game_tag-tag~~|~~get-game_theme-theme~~|~~get-game_effect-effect~~|~~get-game_status-status~~' _where_format="#action# LIKE '%#value#%'" pagesize='56'}
+        <ul class="position_div fl">
+          <li style="height:150px; overflow: hidden">
+            <p><a href="[field:arcurl /]" target="_blank"><img src="[field:game_thumb /]" alt="[field:game_name /]" class="imgboxs" /></a></p>
+            <p><a href="[field:arcurl /]" target="_blank">[field:game_name /]</a></p>
+          </li>
+        </ul>
+      {/dede:list}
+
+      </div>
+    </div>
+    <div class="dede_pages">
+	<ul>
+	    {dede:pagelist listitem="info,index,end,pre,next,pageno" listsize="5"/}
+	</ul>
+    
+    </div>
+
+  </div>
+</div>
+{dede:include filename="footer.htm"/}
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>搜索资讯 {dede:global name='keys' function='RemoveXSS(@me)'/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+<link href="{dede:global.cfg_templets_skin/}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
+{dede:include filename="scripts.htm"/}
+<script type="text/javascript" src="{dede:global.cfg_templets_skin/}/js/common.js?v=20120831"></script>
+</head>
+<body>
+{dede:include filename="head.htm"/}
+<div id="content">
+	<div id="pathway">你现在的位置：
+        <a href="/">主页</a>&gt; {dede:type typeid='12'}<a href="[field:typelink/]">资讯</a>{/dede:type}
+    </div>
+
+    <div class="fl newsinfo_topline boder_base newsinfo_left">
+    	<h5> 共找到关于“<span class="org">{dede:global name='keys' function='RemoveXSS(@me)'/}</span>”的资讯<span class="org">{dede:global name='totalResult' /}</span>篇</h5>
+
+    	<ul>
+    		{dede:articlelist pagesize=10 titlelen=120 infolen=300 }
+    		<li class='b_line'>
+    			<div class="fl p14 blue news_detailliset lh40">
+    			[field:actlink /]
+    			</div>
+    			<br>
+    			<div class="fl hcolour gray news_detailliset">
+                 发布日期：[field:pubdate function="MyDate('Y-m-d', @me)" /]
+                 <span class="gray decoration">[field:typelink /]</a></span>
+                </div>
+                <br>
+                <div class="news_detailliset mt lh24 mb">
+                [field:arcdescription /]
+                </div>
+    		</li>
+    		{/dede:articlelist}
+ 		</ul>
+
+    	<div class="qdiv">
+     	{dede:pagelist listsize='4'/}
+		</div>
+		<div style="clear:both"></div>
+    </div>
+
+    {dede:include filename="search_article_right.htm"/}
+
+
+</div>
+{dede:include filename="footer.htm"/}
+</body>
+</html>

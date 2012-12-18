@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+<title>搜索游戏 {dede:global name='keys' function='RemoveXSS(@me)'/} _{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+{dede:include filename="styles.htm"/}
+<link href="{dede:global.cfg_templets_skin/}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{dede:include filename="scripts.htm"/}
+</head>
+<body>
+{dede:include filename="head.htm"/}
+<div id="content">
+
+<div style="margin-top:15px;" class="gamelist bd_1">
+	<h1 class="p14">搜索结果</h1>
+	<h1 class="p14">找到 <span class="red">{dede:global name='keys' function='RemoveXSS(@me)'/}</span> 共 <span class="red">{dede:global name='totalResult' /}</span> 条相关信息：</h1>
+</div>
+
+<div class="box_line picbox">
+	<div style="width:98%; padding:10px; float:left;">
+		{dede:gamelist perpage='20'}
+		<ul class="position_div fl">
+			<li style="height:150px;">
+			<p>
+				<a target="_blank" title="[field:title/]" href="[field:arcurl /]"><img src="[field:game_thumb /]"/></a>
+			</p>
+			<p><a target="_blank" title="[field:title/]" href="[field:arcurl /]">[field:title/]</a></p>
+			<p class="gray">已开服[field:kaifu_count/]组</p>
+			</li>
+		</ul>
+		{/dede:gamelist}
+	</div>
+</div>
+
+<div class="qdiv">
+     {dede:pagelist listsize='4'/}
+</div>
+<div style="clear:both"></div>
+
+</div>
+{dede:include filename="footer.htm"/}
+</body>
+</html>
