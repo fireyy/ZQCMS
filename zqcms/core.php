@@ -33,8 +33,8 @@ register_template_data('site_name', zq_core::load_config('system', 'site_name'))
 register_template_data('site_keywords', zq_core::load_config('system', 'site_keywords'));
 register_template_data('site_description', zq_core::load_config('system', 'site_description'));
 register_template_data('site_basehost', zq_core::load_config('system', 'site_basehost'));
-register_template_data('style', zq_core::load_config('system', 'style'));
-register_template_data('style', zq_core::load_config('system', 'style'));
+register_template_data('site_indexurl', zq_core::load_config('system', 'site_indexurl'));
+register_template_data('site_logo', zq_core::load_config('system', 'site_logo'));
 
 
 /**
