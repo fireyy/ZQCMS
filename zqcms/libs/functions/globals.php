@@ -85,8 +85,8 @@ function register_template_data($key, $value, $update = true, $get_values=false)
 	return $registered_template_data;
     }
 
-    if (isset($registered_template_data[$key])) {
-
+    if (isset($registered_template_data[$key]) && !$update) {
+	return $registered_template_data[$key];
     }
 
     $registered_template_data[$key] = $value;
