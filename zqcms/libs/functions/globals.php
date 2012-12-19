@@ -370,6 +370,9 @@ function template($module, $template, $style = '', $output=true) {
     $smarty->setConfigDir($TEMPLATE_CACHE_PATH."configs".DIRECTORY_SEPARATOR);
     $smarty->setCacheDir($TEMPLATE_CACHE_PATH."caches".DIRECTORY_SEPARATOR);
 
+    //load zqcms plugin for smarty
+    $smarty->addPluginsDir(ZQ_PATH."libs".DIRECTORY_SEPARATOR."plugins");
+
     $smarty->debugging = true;
 
     //先去尝试读取用户定义的模板
