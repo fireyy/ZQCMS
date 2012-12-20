@@ -59,30 +59,25 @@
 		<div class=" mininfor_l fl">
 			<div class="servernum">
 				<span class="gray" >今日开服</span><br />
-<!-- 		  dede:type typeid=6}<a class="white" href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank">dede:type dede:php}
-		    global $dsql;
-		    $time = strtotime('today');
-		    $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
-		    $end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
-		    $sql = "SELECT count(*) AS dd FROM `#@__addonkaifu` WHERE test_date >= $begin_date AND test_date < $end_date";
-		    $count = $dsql->GetOne($sql);
-		    echo $count['dd'];
-		/dede:php}</a> -->
+				<!--kaifu link-->
+				<a class="white" target="_blank" href="#">{get_today_kaifu_count}</a>
 			</div>
 			<p class=" gray">收录游戏</p>
+				<p class=" gray">共 </p>
 <!-- 	      	<p class=" gray">共 <a href="/plus/list.php?tid=10" target="_blank" class="org">dede:sql sql='select count(*) as dd FROM `#@__addongame` WHERE 1'}[field:dd /] /dede:sql}</a> 款</p> -->
 	  	</div>
 	  	<div class="weekhotgame fl">
 			<h3 class="red fl">本周最热门</h3>
-<!-- 			<ul class="fl">
-				dede:arclist typeid='10' flag='h' row=4 addfields='game_name, game_tag, game_thumb, game_effect, game_theme, game_status, offical_url, oper_short_name, dev_short_name, copy_from, pub_short_name, game_id' channelid='20'
+			<ul class="fl">
+				<!-- 			
+				typeid='10' flag='h' row=4 addfields='game_name, game_tag, game_thumb, game_effect, game_theme, game_status, offical_url, oper_short_name, dev_short_name, copy_from, pub_short_name, game_id' channelid='20'
 				<li>
 					<a href='[field:arcurl /]' title='[field:game_name/]' target='_blank'>
 						<img alt='[field:game_name/]' src="[field:game_thumb /]" width="65" height="50"  class="picbd"/>
 						</a>
 		      		<p><a href='[field:arcurl /]' title='[field:game_name /]' class="black" target='_blank'>[field:game_name/]</a></p>
 		  		</li>
-	     		dede:arclist} -->
+	     		-->
 	      	</ul>
         </div>
     </div>
@@ -91,9 +86,8 @@
 <div class="main_menu">
 	<ul>
 		<li><a href="{$site_config.site_indexurl}">首页</a></li>
-		<!--     
-	    dede:channel type='top' row='10' currentstyle="<li class='hover'><a href='~typelink~' ~rel~>~typename~</a></li>"}
-	    <li><a href="[field:typeurl function="GetRealTypeUrl(@me)"/]" class="nav_2" [field:rel/]>[field:typename/]</a></li>
-	    dede:channel} -->
+		{zq_typelist current_class='hover'}
+		<li class='~class~'><a href="~link~" class="nav_2">~title~</a></li>
+		{/zq_typelist}
     </ul>
 </div>
