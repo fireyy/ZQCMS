@@ -12,10 +12,409 @@
 <body>
     {include "../head.html"}
     <div id="main_nav">
+    	<div class="secondary_menu boder_base">
+    		<div class="s_menu">
+    			<span class="games_h2 white">玄幻仙侠</span>
+    		</div>
+    		
+    		<div class="s_menu">
+				<span class="games_h2 white">三国战争</span>
+			</div>
+
+			<div class="s_menu">
+       			<span class="games_h2 white">热血武侠</span>
+       		</div>
+
+       		<div class="s_menu">
+				<span class="games_h2 white">奇幻历史</span>
+			</div>
+
+			<div class="s_menu2 boder_base">
+				<h2 class="fl p12"><span class="strong gray" >最新游戏入库</span>：</h2>
+				<a href="[field:arcurl /]" target="_blank" class="sline r_line black">[field:title /]</a>
+                <span class="newgame_list">
+                </span>
+                <a href='[field:typelink function=GetRealTypeUrl(@me)/]' target="_blank" class="gray more_newgames">更多&gt;&gt;</a>
+            </div>
+            <!--
+            <script src='/plus/bd_js.php?aid=2' language='javascript'></script>
+        	-->
+    	</div>
     </div>
+    <script type="text/javascript">
+	    $(function(){
+			$('#newsSlider').loopedSlider({
+				autoStart: 4000
+			});
+			
+			$("#enter_lab").click(function(){
+				window.location=$(this).find("a").attr("href"); return false;
+			});
+	    });
+	</script>
 
     <div class="content">
+    	<div id="flashbanner" class="fl"> 
+    		<div id="newsSlider">
+        		<div class="container" style="width:390px;overflow: hidden;height:160px;position: relative;">
+        			<ul id="slides" class="slides">
+        				<!--
+						
+        				-->
+        			</ul>
+        		</div>
 
+        		<div class=" nav_fl fl"><ul id="pagination_slider" class="pagination_slider t8 fr"></ul></div>
+        		<script type="text/javascript">
+			    	var slideNav = "";
+				    $("#slides").find("li").each(function(){
+					    slideNav += '<li class="fl_vist"><a href="#"></a></li>';
+				    });
+				    $("#pagination_slider").html(slideNav);
+		        </script>
+        	</div>
+        </div>
+
+        <div id="kaf_list" class="fr boder_blue">
+        	<h2>
+        		<a id="sv_t_1" href="javascript:void(0);" onclick="shift_choose(1,'sv_t_',2,['list_up'],['list_on']);" class="list_on fl p14 black"><strong>网页游戏开服表</strong><span class="p12">{get_today_kaifu_count}</span></a>
+
+        		<a id="sv_t_2" href="javascript:void(0);" onclick="shift_choose(2,'sv_t_',2,['list_up'],['list_on_r']);" class="list_up fl p14 black"><strong>网游开测表 </strong><span class="p12"></span></a>
+        	</h2>
+
+        	<div id="sv_t_1_content">
+	            <div class="kaf_title fl"> 
+					<a id="slist_1" href="javascript:void(0);" onclick="shift_choose(1,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_on blue strong">推 荐</a>
+					<a id="slist_2" href="javascript:void(0);" onclick="shift_choose(2,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_up black ">今 日</a>
+					<a id="slist_3" href="javascript:void(0);" onclick="shift_choose(3,'slist_',4,['title_up','black'],['title_on','blue','strong']);load_data(3)" class="title_up black">昨 日</a>
+					<a id="slist_4" href="javascript:void(0);" onclick="shift_choose(4,'slist_',4,['title_up','black'],['title_on','blue','strong']);load_data(4)" class="title_up black">明 日</a> 
+					<a href=[field:typelink function="GetRealTypeUrl(@me, 'from=today')" /] target="_blank" class="more_index fr lh40"> &gt;&gt; 进入新服大全</a>
+	            </div>
+	            <ul class="titlecolor">
+	            	<li class="li_1">开服时间</li>
+	            	<li class="li_2">游戏</li>
+	            	<li class="li_2">服务器</li>
+	            	<li class="li_3">平台</li>
+	            	<li class="li_3">题材</li>
+	            	<li class="li_5">状态</li>
+	            	<li class="li_6">礼包</li>
+		  		</ul>
+		  		<div id="slist_1_content">
+					<div class="hotcolor" id="ad_serverlist">
+					</div>
+				</div>
+				<div id="slist_2_content" style="display: none;">
+	            </div>
+	            <div id="slist_3_content" style="display: none;">
+	            </div>
+	            <div id="slist_4_content" style="display: none;">
+	            </div>
+	        </div>
+
+	        <div id="sv_t_2_content" style="display: none;">
+	        	<div  class="lise_kaice" >
+				<div class="more_index"><a href="[field:typelink function=GetRealTypeUrl(@me) /]" target="_blank" title="更多网游测试表">更多网游测试表&gt;&gt;</a></div>
+					<ul class="titlecolor">
+					    <li class="li_1">开测日期</li>
+					    <li class="li_2">游戏名称</li>
+					    <li class="li_2">测试类型</li>
+					    <li class="li_3">游戏类型</li>
+					    <li class="li_5">运营公司</li>
+					    <li class="li_6">礼包</li>
+					</ul>
+
+					<ul>
+					</ul>
+				</div>
+			</div>
+	    </div>
+
+	    <div class="boder_base mt newsnav">
+	    	<div class="f_news">
+				<h2>
+			      dede:arclist flag='h' typeid='12' limit='0,2' titlelen="20"}
+				  <a class=" p14 red strong lh20" href="[field:arcurl /]" target="_blank">[field:title /]</a>
+				  dede:arclist}
+				</h2>
+				<div class="left">
+            		dede:arclist flag='h' titlelen='20' typeid=12 limit="4,3"}
+	  				<a class=" p12 black lh20" href="[field:arcurl /]" target="_blank">[[field:title /]]</a>
+            		dede:arclist}
+     			</div>
+     			<h2>
+		        	dede:arclist flag='h' typeid='12' limit='2,2' titlelen="20"}
+			  		<a class=" p14 red strong lh20" href="[field:arcurl /]" target="_blank">[field:title /]</a>
+		        	dede:arclist}
+	  			</h2>
+	  			<div class="left">
+				dede:arclist flag='h' titlelen='20' typeid=12 limit="7,3"}
+			      <a class=" p12 black lh20" href="[field:arcurl /]" target="_blank">[[field:title /]]</a>
+				dede:arclist}
+	 			</div>
+	    	</div>
+
+	    	<ul class="newslist_yb lh24 fl">
+				dede:arclist flag='c' titlelen='80' typeid='12' row='12'}
+				<li><span class="fl p14 newslist_clss"></span><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a></li>
+				dede:arclist}
+			</ul>
+			<div class="more_index" >
+				dede:type typeid="12"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}
+			</div>
+	    </div>
+	    <div class="mt relative tonglan"></div>
+	    <div class="newsnav_2 boder_base mt fl">
+	    	<h2 class="nomal_h2back">
+	    		 <a id="whsy_1" href="javascript:void(0);" onclick="shift_choose(1,'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class=" changebt_on  p14 org strong">游戏资讯</a>
+            	<a id="whsy_2" href="javascript:void(0);" onclick="shift_choose(2,'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class=" changebt_up p14 black strong">海外资讯</a>
+            	<a id="whsy_3" href="javascript:void(0);" onclick="shift_choose(3,'whsy_',3,['changebt_up','black'],['changebt_on','org']);"  class=" changebt_up p14 black strong">产业新闻</a>
+        	</h2>
+
+        	<div id="whsy_1_content" class="hidden">
+        		<ul class="newslist_yb lh24 fl">
+					dede:arclist noflag='f,h,c' titlelen='80' typeid=13 row=14
+					<li>
+						<a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span>
+					</li>
+					dede:arclist
+            	</ul>
+	    		<div class="more_index" >dede:type typeid="13"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}
+	    		</div>
+        	</div>
+
+        	<div id="whsy_2_content" class="hidden" style="display:none;">
+            	<ul class="newslist_yb lh24 fl">
+				dede:arclist noflag='f,h,c' titlelen='80' typeid=14 row=14}
+				<li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
+				dede:arclist}
+			    </ul>
+			    <div class="more_index" >dede:type typeid="14"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}
+			    </div>
+   			</div>
+    		<div id="whsy_3_content" class="hidden" style="display: none;">
+            	<ul class="newslist_yb lh24 fl">
+				dede:arclist noflag='f,h,c' titlelen='80' typeid=15 row=14}
+				<li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
+				dede:arclist}
+		        </ul>
+			    <div class="more_index" >dede:type typeid="15"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
+    		</div>
+        </div>
+
+        <div class="mt ml fl boder_blue" id="NumberCenter">
+        	<h2 class="h2_yb1 h2_28"><span class="fl p14 strong black lh28">发号中心</span>dede:type typeid="11"}<a target="_blank" href="[field:typelink function=GetRealTypeUrl(@me)/]" class="fr org p12 lighter">dede:type} 共有count['dd']个礼包正在发放";</a></h2>
+        	<ul class="table titlecolor">
+		    	<li class="t1">日期</li>
+		    	<li class="t2">游戏名称</li>
+		    	<li class="t3">礼包名称</li>
+		    	<li class="t3">运营商</li>
+		    	<li class="t4">领取</li>
+		    </ul>
+		    <div class="table">
+				dede:arclist typeid=11 row=13 channelid='21' orderby='send_date' orderway='desc' date_by="send_date" _where='~~do-test_date-date~~' _where_value="today" _where_format="#action# >= '#value#'" }
+				<ul>
+				    <li class="t1">[field:send_date function="MyDate('m-d',@me)" /]</li>
+				    <li class="t2"><a href="[field:id function="GetGameUrl(@me)" /]" title="[field:game_name /]" target="_blank">[field:game_name/]</a></li>
+				    <li class="t3">[field:gift_title/]</li>
+				    <li class="t3">[field:oper_short_name/]</li>
+				    <li class="t4"><a class="white lq_bt ling" href="[field:id function='GetGameUrl(@me)' /]" target="_blank">领</a></li>
+				</ul>
+				dede:arclist}
+			</div>
+        </div>
+
+        <div class="fr mt relative index_ad_r">
+        	<!--
+		    <script src='/plus/bd_js.php?aid=11&nocache=1' language='javascript'></script>
+			-->
+		</div>
+		<div class="mt fl ad tonglan relative">
+			<!--
+			<script src='/plus/bd_js.php?aid=6&nocache=1' language='javascript'></script>
+			-->
+		</div>
+
+		<div class="fr mt boder_base developers padding_10">
+	    	<h2 class="p14 black strong lh28 nomal_h2back">
+	            <a class=" changebt_on  p14 org strong" id="gp_top_1" href="javascript:void(0);" onclick="shift_choose(1,'gp_top_',2,['changebt_up','black'],['changebt_on','org'])">开服排行</a>
+	    	</h2>
+	    	<div id="gp_top_1_content" class="fl">
+				<div class="more fr">dede:type typeid=6}<a class="blue" href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank">更多&gt;&gt;</a>dede:type}</div>
+				<ul>
+	    			<li class="lh24 t5 fl">游戏名称</li>  <li class="lh24 t6 fl"> 开服总量</li>
+				</ul>
+	    	</div>
+	    	<ul id="g_top_1_content" class="bang_kaifu">
+				<li>
+	  				<span class="numBer_red">[field:global.autoindex /]</span>
+	    			<a href="[field:aid function='GetGameUrl(@me)' /]" title="[field:game_name /]" target="_blank">[field:game_name /]</a>
+	    			<label>[field:dd /]</label>
+				</li>
+    		</ul>
+   		</div>
+
+   		<div class="newsnav_2 boder_base mt fl">
+   			<h2 class="nomal_h2back">
+            	<a id="gl_1" href="javascript:void(0);" onclick="shift_choose(1,'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" changebt_on  p14 org strong">游戏攻略</a>
+            	<a id="gl_2" href="javascript:void(0);" onclick="shift_choose(2,'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" changebt_up p14 black strong">人物采访</a>
+	   			<a id="gl_3" href="javascript:void(0);" onclick="shift_choose(3,'gl_', 3,['changebt_up','black'],['changebt_on','org'])"  class=" changebt_up p14 black strong">热点追踪</a>
+    		</h2>
+
+    		<div id="gl_1_content" class="hidden" >        
+				<ul class="newslist_yb lh24 fl">
+				    dede:arclist titlelen='80' typeid=17 row=14}
+				    <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
+				    dede:arclist}
+				</ul>
+				<div class="more_index" >dede:type typeid="17"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
+   			</div>
+
+   			<div id="gl_2_content"  style="display: none;" class="hidden" >        
+				<ul class="newslist_yb lh24 fl">
+				    dede:arclist titlelen='80' typeid=19 row=14}
+				    <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
+				    dede:arclist}
+				</ul>
+				<div class="more_index" >dede:type typeid="19"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
+		    </div>
+          
+    		<div id="gl_3_content"  style="display: none;" class="hidden" >        
+				<ul class="newslist_yb lh24 fl">
+				    dede:arclist titlelen='80' typeid=20 row=14}
+				    <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
+				    dede:arclist}
+				</ul>
+				<div class="more_index" >dede:type typeid="20"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
+			</div>
+		</div>
+
+		<div class="fl ml mt boder_base r_box "  >
+		    <script type="text/javascript">
+			    $(function(){
+				    $('#newsSlider_2').loopedSlider({
+					    autoStart: 4000
+				    });
+					$("#enter_lab").click(function(){
+					    window.location=$(this).find("a").attr("href"); return false;
+				    });
+			    });
+			</script>
+
+			<div id="newsSlider_2" >
+				<h2 class="p14 black strong lh28 nomal_h2back " >&nbsp;专题活动</h2>
+        		<ul id="pagination_slider_2" class="pagination_slider more fr"></ul>
+        		<div class="container " style="position: relative;width: 335px;overflow: hidden;height: 105px;">
+        			<ul id="slides_2" class="slides fl">
+        			</ul>
+        		</div>
+        		<script type="text/javascript">
+				    var slideNav = "";
+				    $("#slides_2").find("li").each(function(){
+					    slideNav += '<li class="r_reactive"><a href="#"></a></li>';
+				    });
+				    $("#pagination_slider_2").html(slideNav);
+		        </script>
+			</div>
+		</div>
+
+		<div class="fl ml mt boder_base r_box  padding_10"  >
+    		<h2 class="p14 black strong lh28 nomal_h2back" >&nbsp;游戏评测</h2>
+    		<div class="more">dede:type typeid='16'}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="blue">更多&gt;&gt;</a>dede:type}
+    		</div>
+    		<ul class="fl gray">
+			dede:arclist typeid='16' addfields="body,game_id" channelid="1" row="2" titlelen="45"}
+				<li> 
+				    <a target="_blank" href="[field:arcurl/]" title="[field:title /]" class="fl">
+					<img src="[field:id function='GetGameThumb(@me)' /]" height="80" class=" picbd"/>
+				    </a>
+				    <span class="fl lh20 mt wind_width">
+					<a class="" target="_blank" href="[field:arcurl/]" class=" p14 blue">[field:title/]</a>
+					<p>[field:body function="cn_substr(@me,160)"/]</p>
+				    </span>
+				</li>
+			dede:arclist}
+    		</ul>
+  		</div>
+
+  		<div class="mt fl relative tonglan">
+    		<!--
+    		<script src='/plus/bd_js.php?aid=7&nocache=1' language='javascript'></script>
+  			-->
+  		</div>
+
+  		<div class="newgames mt boder_base  fl">
+    		<h2 class=" lh28 p14 strong h2_yb2 nomal_h2back">最新测试游戏</h2>
+    		<div class="more">
+    			<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=战争策略')" /]" target="_blank">战争策略</a> | 
+				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=模拟经营')" /]" target="_blank">模拟经营</a> |
+				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=社区养成')" /]" target="_blank">社区养成</a> |
+				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=休闲竞技')" /]" target="_blank">休闲竞技</a> |
+				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=儿童游戏')" /]" target="_blank">儿童游戏</a> |
+				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=角色扮演')" /]" target="_blank">角色扮演</a> |
+				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=社区游戏')" /]" target="_blank">社区游戏</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank" class="blue">更多&gt;&gt;</a>
+    		</div>
+    		<ul>
+    			<li></li>
+    		</ul>
+		</div>
+
+		<div class="newgames mt boder_base  fl">
+		  	<h2 class="lh28 p14 strong h2_yb2 nomal_h2back">游戏截图</h2>     
+			<div class="more "><a href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank" title="查看更多精彩图片" class="blue">更多&gt;&gt;</a></div>
+		    <ul id="pic_rc_1_content">
+				dede:arclist typeid=18 channelid=22 row=6}
+				<li class="">
+				    <a class="lh24" href="[field:arcurl/]" title="[field:title /]" target="_blank">
+					<img width="140" height="110" class="picbd" src="[field:id function='GetArticleThumb(@me, 2, gallery)'/]">
+					<center><p>[field:title/]</p></center>
+				    </a>
+				</li>
+				dede:arclist}
+		    </ul>
+  		</div>
+
+  		<div style=" clear:both"></div>
+
+  		<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
+	  		<h2 class="p14 strong lh28 yb_1" >本周最热门</h2>
+	  		<ul class="lh24 t8 fl num_top">
+	  		</ul>
+	  	</div>
+
+	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
+  			<h2 class="p14 strong lh28 yb_2" >角色扮演页游前十位</h2>
+			<ul class="lh24 t8 fl num_top">
+			</ul>
+	  	</div>
+
+	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
+  			<h2 class="p14 strong lh28 yb_3" >战争策略页游前十位</h2>
+			<ul class="lh24 t8 fl num_top">
+			</ul>
+	  	</div>
+
+	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
+  			<h2 class="p14 strong lh28 yb_4" >模拟经营页游前十位</h2>
+  			<ul class="lh24 t8 fl num_top">
+  			</ul>
+	  	</div>
+
+	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt">
+  			<h2 class="p14 strong lh28 yb_5" >社区养成页游前十位</h2>
+			<ul class="lh24 t8 fl num_top">
+			</ul>
+	  	</div>
+	  	<div style=" clear:both"></div>
     </div>
 
+    <div class="fmt" style=" position:fixed;_position:absolute; bottom:223px;_bottom:0px; _margin-bottom: 0px;right:10px;width:35px;">
+		<div class="fmt_nav">
+			<a class="fmt_nav_a1" href="javascript:getshowfmt()" style="display:none;">展开富媒体</a>
+			<a class="fmt_nav_a3" href="javascript:scroll(0,0);">回到顶部</a>
+		</div>
+	</div>
+	<!--
+	<script src='/plus/bd_js.php?aid=8&nocache=1' language='javascript'></script>
+	-->
 {include "../footer.html"}
