@@ -1,24 +1,17 @@
 <?php
-// load gallery_model
-uses("gallery", "archives", "service", "arctiny");
-
 class gallery_controller {
     public  function __construct() {
-	global $_CONFIG;
-
-	$this->model = new gallery_model();
-	$this->archives = new archives_model();
+	$this->model = zq_core::load_model("screenshots_model");
 	$this->service = new service_model();
-	$this->arctiny = new arctiny_model();
 
 	list($header, $data) = $this->service->getJSON();
 
 	//栏目ID
-	$this->type = $_CONFIG['archtype']['gallery'];
-	$this->channel = $_CONFIG["channel"]["gallery"];
+	//$this->type = $_CONFIG['archtype']['gallery'];
+	//$this->channel = $_CONFIG["channel"]["gallery"];
 	//parse data and insert/update data
 	$method = $header->method;
-	$this->parse($data, $method);
+	//$this->parse($data, $method);
     }
 
     private function parse($data, $method) {

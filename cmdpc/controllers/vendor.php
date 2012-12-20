@@ -1,22 +1,14 @@
 <?php
-//load vendor_model
-uses("vendor", "archives", "service", "arctiny");
 class vendor_controller {
     public function __construct() {
-	global $_CONFIG;
-
-	$this->model = new vendor_model();
-	$this->archives = new archives_model();
-	$this->arctiny = new arctiny_model();
+	$this->model = zq_core::load_model("company_model");
 
 	$this->service = new service_model();
+
 	list($header, $data) = $this->service->getJSON();
 
-	$this->typeid = $_CONFIG["archtype"]["company"];
-	$this->channel = $_CONFIG["channel"]["company"];
-
 	$method = $header->method;
-	$this->parse($data, $method);
+	//$this->parse($data, $method);
     }
     private function parse($data, $method) {
 	if($data){

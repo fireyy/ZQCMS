@@ -1,26 +1,14 @@
 <?php
-//load kaifu_model
-uses("kaifu", "archives", "service", "arctiny");
 class kaifu_controller {
     public function __construct(){
-	global $_CONFIG;
-
-	$this->model = new kaifu_model();
-	$this->archives = new archives_model();
+	$this->model = zq_core::load_model("kaifu_model");
 	$this->service = new service_model();
-	$this->arctiny = new arctiny_model();
 
 	list($header, $data) = $this->service->getJSON();
 
-	/**
-	  *这部分需要重新改进
-	  */
-	$this->typeid = $_CONFIG["archtype"]["kaifu"];
-	$this->channel = $_CONFIG["channel"]["kaifu"];
-	
 	//读取操作
 	$method = $header->method;
-	$this->parse($data, $method);
+	//$this->parse($data, $method);
     }
 
     private function parse($data, $method) {

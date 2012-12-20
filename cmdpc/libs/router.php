@@ -95,6 +95,7 @@ class Router {
      */
     public static function getJSON() {
 	//-H "Accept: application/json" -H "Content-type: application/json"
+	zq_core::load_sys_class('json', 0, false);
 	$jsons = new Services_JSON();
 	if ($_SERVER["CONTENT_TYPE"] == "application/json") {
 	    $data = file_get_contents("php://input");
@@ -119,24 +120,21 @@ class Router {
     //load control file
     public static function get_controller($t = null) {
 	chdir(ROOT_PATH."controllers");
-	//$controllers_list = scandir(ROOT_PATH . "controllers");
 	$controllers_list = glob("*.php");
 	if (!isset($t)) {
 	    return;
 	}
 	list($type, $action) = explode("=", $t);
-
 	$controller_file = $type.".php";
 	if (!isset(self::$controllers[$controller_file])) {
 	    if (in_array($controller_file, $controllers_list)) {
 		$loadfile = ROOT_PATH . "controllers/$controller_file";
-		if (is_file($loadfile)) {
+		if (is_file($loadfile) && file_exists($loadfile)) {
 		    try{
 			require_once $loadfile;
 		    }catch (Exception $e){
 			echo $e->getMessage();
 		    }
-
 		    $className = "{$type}_controller";
 		    $controller = new $className($action);
 		    if ($controller) {

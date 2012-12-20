@@ -1,11 +1,12 @@
 <?php
 //这里只是作为一个hook, 将json数据重新封装
+defined("IN_ZQCMS") or exit("Permission denied.");
+zq_core::load_sys_class("model", '', 0);
 
-class service_model extends model{
+class service_model extends model {
     private $json;
     public function __construct() {
-	global $_CONFIG;
-	$this->db_config = $_CONFIG["dbs"];
+	$this->db_config = zq_core::load_config("database");
 	$this->db_setting = 'default';
 	$this->table_name = "pushlog";
 	$this->json = Router::getJSON();
@@ -48,11 +49,12 @@ class service_model extends model{
     }
 
     public function isDataExists($guidkey) {
-	$result = $this->get_one(array(
-	    'guid' => $guidkey
-	));
+	//$result = $this->get_one(array(
+	//    'guid' => $guidkey
+	//));
 
-	return (empty($result) ? false : true);
+	//return (empty($result) ? false : true);
+	return false;
     }
 }
 

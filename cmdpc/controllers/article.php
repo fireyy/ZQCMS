@@ -1,33 +1,27 @@
 <?php
-// load article_model
-uses("article", "archives", "service", "arctiny");
 class article_controller {
     public  function __construct() {
-	global $_CONFIG;
-
-	$this->model = new article_model();
-	$this->archives = new archives_model();
+	$this->model = zq_core::load_model('article_model');
 	$this->service = new service_model();
-	$this->arctiny = new arctiny_model();
 
 	list($header, $data) = $this->service->getJSON();
 
 	//栏目ID
-	if (file_exists(DEDE_DATA."/config.cmdp.php")) {
-	    $this->types = include(DEDE_DATA."/config.cmdp.php");
-	} else {
-	    $this->types = array(
-		1001 => 15,
-		1002 => 14,
-		1003 => 13,
-		1004 => 16,
-		1005 => 17
-	    );
-	}
-	$this->channel = $_CONFIG["channel"]["article"];
+	//if (file_exists(DEDE_DATA."/config.cmdp.php")) {
+	//    $this->types = include(DEDE_DATA."/config.cmdp.php");
+	//} else {
+	//    $this->types = array(
+	//	1001 => 15,
+	//	1002 => 14,
+	//	1003 => 13,
+	//	1004 => 16,
+	//	1005 => 17
+	//    );
+	//}
+	//$this->channel = $_CONFIG["channel"]["article"];
 	//parse data and insert/update data
 	$method = $header->method;
-	$this->parse($data, $method);
+	//$this->parse($data, $method);
     }
 
     private function parse($data, $method) {

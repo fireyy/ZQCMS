@@ -1,22 +1,13 @@
 <?php
-//load card_model
-uses("gift", "archives", "service", "arctiny");
 class gift_controller {
     public function __construct() { 
-	global $_CONFIG;
-
-	$this->model = new gift_model();
-	$this->archives = new archives_model();
-	$this->arctiny = new arctiny_model();
+	$this->model = new zq_core::load_model("gift_model");
 	
 	$this->service = new service_model();
 	list($header, $data) = $this->service->getJSON();
 
-	$this->typeid = $_CONFIG["archtype"]["gift"];
-	$this->channel = $_CONFIG["channel"]["gift"];
-
 	$method = $header->method;
-	$this->parse($data, $method);
+	//$this->parse($data, $method);
     }
 
     private function parse($data, $method) {

@@ -3,7 +3,7 @@ return array(
     'cookie_pre' => '',
     'cookie_domain' => '',
     'cookie_path' => '',
-    'auth_key' => '',
+    'auth_key' => 'z13a',
     'style' => 'default',
     'charset' => 'utf-8',
     'web_path' => '',

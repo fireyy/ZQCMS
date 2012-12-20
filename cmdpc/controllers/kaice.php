@@ -1,23 +1,14 @@
 <?php
-// load kaice_model
-uses("kaice", "archives", "service", "arctiny");
 class kaice_controller{
     public function __construct(){
-	global $_CONFIG;
-
-	$this->model = new kaice_model();
-	$this->archives = new archives_model();
+	$this->model = zq_core::load_model("kaice_model");
 	$this->service = new service_model();
-	$this->arctiny = new arctiny_model();
 
 	list($header, $data) = $this->service->getJSON();
 
-	$this->typeid = $_CONFIG["archtype"]["kaice"];
-	$this->channel = $_CONFIG["channel"]["kaice"];
-
 	$method = $header->method;
 	//parse data and insert/update data
-	$this->parse($data, $method);
+	//$this->parse($data, $method);
     }
     private function parse($data, $method){
 	if($data){
