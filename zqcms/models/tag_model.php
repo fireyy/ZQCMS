@@ -8,7 +8,7 @@ class tag_model extends tag {
     public function __construct() {
 	$this->db_config = zq_core::load_config("database");
 	$this->setting = 'default';
-	$this->table_name = 'game';
+	$this->table_name = 'tags';
 	parent::__construct();
     }
 }
