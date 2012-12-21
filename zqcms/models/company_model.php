@@ -10,6 +10,21 @@ class company_model extends tag {
 	$this->setting = 'default';
 	$this->table_name = 'companies';
 	parent::__construct();
+
+	$type_model = zq_core::load_model('type_model');
+	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
+    }
+
+    public function addCompany($data) {
+
+    }
+
+    public function updateCompany($data) {
+
+    }
+
+    public function deleteCompany($guid) {
+
     }
 }
 

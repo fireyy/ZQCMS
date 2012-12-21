@@ -11,5 +11,16 @@ class type_model extends model {
 	$this->table_name = 'types';
 	parent::__construct();
     }
+
+    public function getTypeIdByTableName($table_name) {
+	if (isset($table_name)) {
+	    //自动去除table_prefix
+	    $table_name = str_replace($this->table_prefix, '', $table_name);
+	    $result = $this->get_one(array('table_name'=>$table_name));
+	    if (!empty($result) && is_array($result)) {
+		return $result["id"];
+	    }
+	}
+    }
 }
 ?>

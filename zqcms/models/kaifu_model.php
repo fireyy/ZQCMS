@@ -10,6 +10,21 @@ class kaifu_model extends model {
 	$this->setting = 'default';
 	$this->table_name = 'kaifus';
 	parent::__construct();
+
+	$type_model = zq_core::load_model('type_model');
+	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
+    }
+
+    public function addKaifu($data) {
+
+    }
+
+    public function deleteKaifu($guid) {
+
+    }
+
+    public function updateKaifu($data) {
+
     }
 }
 ?>

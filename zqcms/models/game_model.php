@@ -9,7 +9,11 @@ class game_model extends model {
 	$this->db_config = zq_core::load_config('database');
 	$this->setting = 'default';
 	$this->table_name = 'games';
+
 	parent::__construct();
+
+	$type_model = zq_core::load_model('type_model');
+	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
 
     /**
@@ -41,6 +45,7 @@ class game_model extends model {
 
 	$insert_data = array(
 	    'guid' => $data->guid,
+	    'typeid'=>$this->typeid,
 	    'flag' => getFlags($data->isTop),
 	    'game_name' => trim($data->gameName),
 	    'shorttitle' => trim($data->gameName),
@@ -70,7 +75,7 @@ class game_model extends model {
 	    "game_id" => $data->id
 	);
 	
-	$aid = $this->insert($insert_data, true);
+	//$aid = $this->insert($insert_data, true);
 	//update tag
 	//现在所有的数据都会在这里插入
 	// game_tag  category
