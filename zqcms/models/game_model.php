@@ -74,8 +74,12 @@ class game_model extends model {
 	    'pinyin' => $data->pinyin,
 	    "game_id" => $data->id
 	);
-	
+	    
 	//$aid = $this->insert($insert_data, true);
+	// 战阵策略 -> tags
+	// tagid AND 'category' -> taxonomy
+	// taxonomy_id AND aid -> relationships
+	
 	//update tag
 	//现在所有的数据都会在这里插入
 	// game_tag  category
