@@ -16,6 +16,34 @@ class company_model extends tag {
     }
 
     public function addCompany($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateGame($data);
+	}
+
+	$insert_data = array(
+	    'guid' => $data->guid,
+	    'typeid' => $this->typeid,
+	    'title' => $data->fullName,
+	    'shorttitle' => $data->shortName,
+	    'description' => $data->companyDesc,
+	    'flag' => getFlags($data->isTop),
+	    'color' => $data->fontColor,
+	    'click' => rand(0, 500),
+	    'source' => $data->copyFrom,
+	    'rank' => time(),
+	    'pubdate' => time(),
+	    'senddate' => time(),
+	    'lastpost' => time(),
+	    'data_type' => $data->dataType,
+	    'offical_url' => $data->officalUrl,
+	    'address' => $data->address,
+	    'telephone' => $data->telephone,
+	    'email' => $data->email,
+	    'company_id' => $data->id,
+	    'company_thumb' => $data->logoPath,
+	    'pinyin' => $data->pinyin
+	);
 
     }
 

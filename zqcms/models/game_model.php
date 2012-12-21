@@ -65,7 +65,7 @@ class game_model extends model {
 	    'test_status' => trim($data->testStatus),
 	    'offical_url' => trim($data->officalUrl),
 	    'oper_short_name' => trim($data->operShortName),
-	    'dev_short_Name' => trim($data->devShortName),
+	    'dev_short_name' => trim($data->devShortName),
 	    'pub_short_name' => trim($data->pubShortName),
 	    'game_avatar' => trim($data->gameAvatar),
 	    'dev_id' => $data->devId,

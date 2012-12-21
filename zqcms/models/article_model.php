@@ -21,7 +21,7 @@ class article_model extends tag {
 	    return $this->updateArticle($data);
 	}
 
-	$insertData = array(
+	$insert_data = array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
 	    'flag' => getFlags($data->isTop),
@@ -43,7 +43,7 @@ class article_model extends tag {
 	    'game_id' => $data->gameId
 	);
 
-	//$aid = $this->insert($insertData, true);
+	//$aid = $this->insert($insert_data, true);
 	//categoryId
     }
 
@@ -55,6 +55,4 @@ class article_model extends tag {
 
     }
 }
-
-
 ?>

@@ -16,6 +16,40 @@ class kaice_model extends tag {
     }
 
     public function addKaice($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateGame($data);
+	}
+
+	$insert_data = array(
+	    'guid' => $data->guid,
+	    'typeid' => $this->typeid,
+	    'title' => $data->gameName,
+	    'shorttitle' => $data->gameName,
+	    'flag' => getFlags($data->isTop),
+	    'color' => $data->fontColor,
+	    'click' => rand(0, 500),
+	    'source' => $data->copyFrom,
+	    'rank' => time(),
+	    'pubdate' => time(),
+	    'senddate' => time(),
+	    'lastpost' => time(),
+	    'game_name' => $data->gameName,
+	    'game_tag' => $data->gameTag,
+	    'game_id' => $data->gameId
+	    'oper_short_name' => $data->operShortName,
+	    'dev_short_name' => $data->devShortName,
+	    'server_name' => $data->serverName,
+	    'test_date' => $data->testDate / 1000,
+	    'register_url' => $data->registerUrl,
+	    'data_type' => $data->dataType,
+	    'pub_short_name' => $data->pubShortName,
+	    'test_status' => $data->testStatus,
+	    'get_url' => $data->getUrl,
+	    'bbs_url' => $data->bbsUrl,
+	    'gift_id' => $data->giftId,
+	    'oper_id' => $data->operId
+	);
 
     }
 
