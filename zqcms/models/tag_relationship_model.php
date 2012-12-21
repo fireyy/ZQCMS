@@ -1,4 +1,10 @@
 <?php
+/**
+ * 关系表
+ * 与tag_taxonomy进行关联,
+ * 内容id / typeid 联合唯一
+ *
+ */
 defined("IN_ZQCMS") or exit("Permission denied.");
 zq_core::load_sys_class("model", '', 0);
 
