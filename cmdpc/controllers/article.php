@@ -37,7 +37,7 @@ class article_controller {
 		if($guid){
 		    switch ($method) {
         	        case "add":
-			    if ($this->model->add($_data)){
+			    if ($this->model->addArticle($_data)){
 			    }else{
 				$errorids[] = $guid;
 				$status = -2;

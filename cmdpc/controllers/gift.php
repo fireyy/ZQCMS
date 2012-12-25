@@ -1,7 +1,7 @@
 <?php
 class gift_controller {
     public function __construct() { 
-	$this->model = new zq_core::load_model("gift_model");
+	$this->model = zq_core::load_model("gift_model");
 	
 	$this->service = new service_model();
 	list($header, $data) = $this->service->getJSON();
@@ -23,7 +23,8 @@ class gift_controller {
 		if($guid){
 		    switch ($method) {
         	        case "add":
-			    if ($this->model->add($_data)){
+			    if ($aid = $this->model->addGift($_data)){
+				$errorids[] = $aid;
 			    }else{
 				$errorids[] = $guid;
 				$status = -2;

@@ -18,7 +18,7 @@ class gift_model extends model {
     public function addGift($data) {
 	$info = $this->get_one(array('guid' => $data->guid));
 	if (is_array($info) && !empty($info)) {
-	    return $this->updateGame($data);
+	    return $this->updateGift($data);
 	}
 
 	$insert_data = array(
@@ -35,7 +35,7 @@ class gift_model extends model {
 	    'senddate' => time(),
 	    'lastpost' => time(),
 	    'game_name' => $data->gameName,
-	    'game_id' => $data->gameId
+	    'game_id' => $data->gameId,
 	    'oper_short_name' => $data->operShortName,
 	    'server_name' => $data->serverName,
 	    'send_date' => $data->sendDate / 1000,
