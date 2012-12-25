@@ -2,7 +2,7 @@
 defined("IN_ZQCMS") or exit("Permission denied.");
 zq_core::load_sys_class("model", '', 0);
 
-class article_model extends tag {
+class article_model extends model {
     public $table_name = "";
 
     public function __construct() {
@@ -43,8 +43,9 @@ class article_model extends tag {
 	    'game_id' => $data->gameId
 	);
 
-	//$aid = $this->insert($insert_data, true);
+	$aid = $this->insert($insert_data, true);
 	//categoryId
+	return $aid;
     }
 
     public function deleteArticle($guid) {

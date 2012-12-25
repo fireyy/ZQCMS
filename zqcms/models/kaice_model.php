@@ -2,7 +2,7 @@
 defined("IN_ZQCMS") or exit("Permission denied.");
 zq_core::load_sys_class("model", '', 0);
 
-class kaice_model extends tag {
+class kaice_model extends model {
     public $table_name = "";
 
     public function __construct() {
@@ -51,6 +51,8 @@ class kaice_model extends tag {
 	    'oper_id' => $data->operId
 	);
 
+	$aid = $this->insert($insert_data, true);
+	return $aid;
     }
 
     public function deleteKaice($guid) {

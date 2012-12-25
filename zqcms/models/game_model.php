@@ -75,7 +75,8 @@ class game_model extends model {
 	    "game_id" => $data->id
 	);
 	    
-	//$aid = $this->insert($insert_data, true);
+	$aid = $this->insert($insert_data, true);
+	return $aid;
 	// 战阵策略 -> tags
 	// tagid AND 'category' -> taxonomy
 	// taxonomy_id AND aid -> relationships

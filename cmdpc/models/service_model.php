@@ -24,8 +24,8 @@ class service_model extends model {
 	    $header = $data->head;
 	    $body = $data->body;
 
-	    if (!empty($header) && isset($header->guidKey)) {
-		$guidkey = $header->guidKey;
+	    if (!empty($header) && isset($header->guid)) {
+		$guidkey = $header->guid;
 		if (!$this->isDataExists($guidkey)) {
 		    return array($header, $body);
 		}else{

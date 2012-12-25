@@ -6,8 +6,8 @@ function send_ajax_response($status, $msg = '', $errorids = array()) {
     $header = $service->getJSONHeader();
     $data = array(
 	'code' => $status,
-	'guidKey' => $header->guidKey,
-	'msg' => urlencode($msg)
+	'guidKey' => $header->guid,
+	'msg' => $msg
     );
     $error = array();
     foreach ($errorids as $v) {
@@ -33,7 +33,7 @@ function send_ajax_response($status, $msg = '', $errorids = array()) {
     //}
     
     //if ($_SERVER["HTTP_ACCEPT"] == "application/json") {
-    echo urldecode(json_encode($data));
+    echo json_encode($data);
     //	return true;
     //}else{
     //    return $data;

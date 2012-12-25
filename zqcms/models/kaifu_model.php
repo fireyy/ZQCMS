@@ -18,7 +18,7 @@ class kaifu_model extends model {
     public function addKaifu($data) {
 	$info = $this->get_one(array('guid' => $data->guid));
 	if (is_array($info) && !empty($info)) {
-	    return $this->updateGame($data);
+	    return $this->updateKaifu($data);
 	}
 
 	$insert_data = array(
@@ -36,7 +36,7 @@ class kaifu_model extends model {
 	    'lastpost' => time(),
 	    'game_name' => $data->gameName,
 	    'game_tag' => $data->gameTag,
-	    'game_id' => $data->gameId
+	    'game_id' => $data->gameId,
 	    'oper_short_name' => $data->operShortName,
 	    'dev_short_name' => $data->devShortName,
 	    'server_name' => $data->serverName,
@@ -47,7 +47,9 @@ class kaifu_model extends model {
 	    'gift_id' => $data->giftId,
 	    'oper_id' => $data->operId
 	);
-
+	
+	$aid = $this->insert($insert_data, true);
+	return $aid;
     }
 
     public function deleteKaifu($guid) {

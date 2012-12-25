@@ -2,7 +2,7 @@
 defined("IN_ZQCMS") or exit("Permission denied.");
 zq_core::load_sys_class("model", '', 0);
 
-class company_model extends tag {
+class company_model extends model {
     public $table_name = "";
 
     public function __construct() {
@@ -18,7 +18,7 @@ class company_model extends tag {
     public function addCompany($data) {
 	$info = $this->get_one(array('guid' => $data->guid));
 	if (is_array($info) && !empty($info)) {
-	    return $this->updateGame($data);
+	    return $this->updateCompany($data);
 	}
 
 	$insert_data = array(
@@ -44,7 +44,10 @@ class company_model extends tag {
 	    'company_thumb' => $data->logoPath,
 	    'pinyin' => $data->pinyin
 	);
+	
+	$aid = $this->insert($insert_data, true);
 
+	return $aid;
     }
 
     public function updateCompany($data) {

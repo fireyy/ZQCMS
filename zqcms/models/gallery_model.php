@@ -2,7 +2,7 @@
 defined("IN_ZQCMS") or exit("Permission denied.");
 zq_core::load_sys_class("model", '', 0);
 
-class gallery_model extends tag {
+class gallery_model extends model {
     public $table_name = "";
 
     public function __construct() {
@@ -18,7 +18,7 @@ class gallery_model extends tag {
     public function addGallery($data) {
 	$info = $this->get_one(array('guid' => $data->guid));
 	if (!empty($info) && is_array($info)) {
-	    return $this->updateArticle($data);
+	    return $this->updateGallery($data);
 	}
 
 	$insert_data = array(
@@ -43,8 +43,8 @@ class gallery_model extends tag {
 	    'game_id' => $data->gameId
 	);
 
-	//$aid = $this->insert($insert_data, true);
-	//categoryId
+	$aid = $this->insert($insert_data, true);
+	return $aid;
     }
 
     public function deleteGallery($guid) {
