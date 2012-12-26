@@ -21,7 +21,7 @@ class game_info_model extends model {
 
 	$insert_data = array(
 	    'guid' => $data->guid,
-	    'title' => $data->title,
+	    'title' => base64_decode($data->title),
 	    'value' => base64_decode($data->content),
 	    "game_id" => $data->gameId
 	);
