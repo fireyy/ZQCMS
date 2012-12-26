@@ -24,7 +24,6 @@ class gift_controller {
 		    switch ($method) {
         	        case "add":
 			    if ($aid = $this->model->addGift($_data)){
-				$errorids[] = $aid;
 			    }else{
 				$errorids[] = $guid;
 				$status = -2;
@@ -41,6 +40,9 @@ class gift_controller {
         		    send_ajax_response("-4", "未知操作, 你需要对我干吗?");
 			    exit();
         	    }
+		} else {
+		    $status = -2;
+		    $msg = "插入数据失败.";
 		}
 	    }
 	    if($status == 0){

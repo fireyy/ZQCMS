@@ -26,7 +26,6 @@ class kaifu_controller {
         	    switch ($method) {
         	        case "add":
 			    if ($aid = $this->model->addKaifu($_data)){
-				$errorids[] = $aid;
 			    }else{
 				$errorids[] = $guid;
 				$status = -2;

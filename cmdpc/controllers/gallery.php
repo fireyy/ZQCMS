@@ -1,7 +1,7 @@
 <?php
 class gallery_controller {
     public  function __construct() {
-	$this->model = zq_core::load_model("screenshots_model");
+	$this->model = zq_core::load_model("gallery_model");
 	$this->service = new service_model();
 
 	list($header, $data) = $this->service->getJSON();
