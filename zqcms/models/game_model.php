@@ -69,18 +69,33 @@ class game_model extends model {
 	);
 	    
 	$aid = $this->insert($insert_data, true);
+
+	$game_tag = $data->gameTag;
+	if ($game_tag && $aid) {
+	    zq_tag($game_tag, $aid, $this->typeid, 'tag');
+	}
+
+	$game_theme = $data->gameTheme;
+	if ($game_theme && $aid) {
+	    zq_tag($game_theme, $aid, $this->typeid, 'tag');
+	}
+
+	$game_effect = $data->gameEffect;
+	if ($game_effect && $aid) {
+	    zq_tag($game_effect, $aid, $this->typeid, 'tag');
+	}
+
+	$game_status = $data->gameStatus;
+	if ($game_status && $aid) {
+	    zq_tag($game_status, $aid, $this->typeid, 'tag');
+	}
+
+	$test_status = $data->testStatus;
+	if ($test_status && $aid) {
+	    zq_tag($test_status, $aid, $this->typeid, 'tag');
+	}
+
 	return $aid;
-	// 战阵策略 -> tags
-	// tagid AND 'category' -> taxonomy
-	// taxonomy_id AND aid -> relationships
-	
-	//update tag
-	//现在所有的数据都会在这里插入
-	// game_tag  category
-	// effect
-	// theme
-	// status
-	// test_status
     }
 
     /**

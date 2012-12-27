@@ -454,7 +454,7 @@ function register_template_plugin($type, $name, $callback, $get_values=false) {
 	return $registered_template_plugins;
     }
 
-    $key = $typ.$name;
+    $key = $type.$name;
 
     if (isset($registered_template_plugins[$key])) {
 	throw "This $type $name has registered";

@@ -44,6 +44,11 @@ class gallery_model extends model {
 	);
 
 	$aid = $this->insert($insert_data, true);
+	$categoryId = $data->categoryId;
+	if ($categoryId && $aid) {
+	    zq_tag($categoryId, $aid, $this->typeid, 'category');
+	}
+
 	return $aid;
     }
 

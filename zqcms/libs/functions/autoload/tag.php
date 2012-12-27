@@ -15,15 +15,18 @@
  */
 function zq_tag($tagname, $aid, $typeid, $type = 'tag', $action='add') {
     $tagid = getTagIdByName($tagname);
+    //新增没有的话 尝试加入
     $taxonomyId = getTaxonomyId($tagid, $type);
 
-    if ($action == 'add') {
-	addTagRelationship($aid, $taxonomyId, $typeid);
-    } elseif ($action == 'update') {
-	deleteTagRelationship($aid, $typeid, false);
-	addTagRelationship($aid, $taxonomyId, $typeid);
-    } elseif ($action == 'delete') {
-	deleteTagRelationship($aid, $typeid, $taxonomyId);
+    if ($taxonomyId) {
+	if ($action == 'add') {
+	    addTagRelationship($aid, $taxonomyId, $typeid);
+	} elseif ($action == 'update') {
+	    deleteTagRelationship($aid, $typeid, false);
+	    addTagRelationship($aid, $taxonomyId, $typeid);
+	} elseif ($action == 'delete') {
+	    deleteTagRelationship($aid, $typeid, $taxonomyId);
+	}
     }
 }
 
@@ -34,6 +37,8 @@ function zq_tag($tagname, $aid, $typeid, $type = 'tag', $action='add') {
  */
 function getTagIdByName($tagname) {
     $db = zq_core::load_model('tag_model');
+    
+    $tagname = trim($tagname);
 
     $r = $db->get_one(array(
 	'name' => $tagname
@@ -64,7 +69,7 @@ function getTagInfoById($tagid) {
 /**
  * 获得真实的tag id
  */
-function getTaxonomyId($tagid, $type) {
+function getTaxonomyId($tagid, $type, $readonly=false) {
     $tag = getTagInfoById($tagid);
     if (empty($tag)) {
 	return false;
@@ -98,22 +103,22 @@ function getTaxonomyId($tagid, $type) {
  * @param integer $taxonomy 
  * @param boolean $isaddication 增加还是降低
  */
-function updateTaxonomyCount($taxonomy, $isaddication) {
+function updateTaxonomyCount($taxonomyId, $isaddication) {
     $db = zq_core::load_model('tag_taxonomy_model');
-    $r = $db->get_one(array('id'=>$taxonomy));
+    $r = $db->get_one(array('id'=>$taxonomyId));
 
     if (!empty($r) && is_array($r)) {
+	$sql = array();
 	if ($isaddication) {
-	    $count = '+=1';
+	    $sql['count']= '+=1';
 	} else {
-	    $count = '-=1';
+	    $sql['count']= '-=1';
 	}
-	return $db->update(
+	
+	$db->update(
+	    $sql,
 	    array(
-		'count' => $count
-	    ), 
-	    array(
-		'id' => $taxonomy
+		'id' => $taxonomyId
 	    )
 	);
     }
@@ -142,10 +147,7 @@ function addTagRelationship($aid, $taxonomyId, $typeid) {
 	    )
 	);
 	
-	if ($issucces) {
-	    //更新计数
-	    updateTaxonomyCount($taxonomyId, true);
-	}
+	updateTaxonomyCount($taxonomyId, true);
 
 	return $issucces;
     }
@@ -178,9 +180,7 @@ function deleteTagRelationship($aid, $typeid, $taxonomyId=false) {
 	    )
 	);
 
-	if ($issucces) {
-	    updateTaxonomyCount($taxonomyId, false);
-	}
+	updateTaxonomyCount($taxonomyId, false);
     }
 }
 
@@ -192,13 +192,26 @@ function deleteTagRelationship($aid, $typeid, $taxonomyId=false) {
  * @param integer typeid 内容模型id
  */
 function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
-    $tagInfo = getTagIdByName($tagname);
+    $tagid = getTagIdByName($tagname);
     $ids = array();
-    if ($tagInfo) {
+    if ($tagid) {
+	$taxonomyIds = array();
+	if ($taxonomy == '*' ) {
+	    $taxonomyIds[] = getTaxonomyId($tagid, 'category');
+	    $taxonomyIds[] = getTaxonomyId($tagid, 'tag');
+	} elseif ($taxonomy == 'category' || $taxonomy == 'tag') {
+	    $taxonomyIds[] = getTaxonomyId($tagid, $taxonomy);
+	}
 
+	if (!empty($taxonomyId)) {
+	    $db = zq_core::load_model('tag_relationship_model');
+	    #$db->select();
+	    $where = array();
+	    foreach ($taxonomyIds as $taxonomyId) {
+		
+	    }
+	}
     }
-
-
 
     return $ids;
 }
