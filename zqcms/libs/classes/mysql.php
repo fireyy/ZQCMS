@@ -157,7 +157,7 @@ final class mysql {
 		case '+=':
 		    $v = substr($v, 2);
 		    if (is_numeric($v)) {
-			$fields[] = $this->add_special_char($k).'='.$this->add_special_char($k).'+'.$this->escape_string($v, '', false);
+			$fields[] = $this->add_special_char($k).'='.$k.'+'.$this->escape_string($v, '', false);
 		    }else{
 			continue;
 		    }
@@ -165,7 +165,7 @@ final class mysql {
 		case '-=':
 		    $v = substr($v, 2);
 		    if (is_numeric($v)) {
-			$fields[] = $this->add_special_char($k).'='.$this->add_special_char($k).'-'.$this->escape_string($v, '', false);
+			$fields[] = $this->add_special_char($k).'='.$k.'-'.$this->escape_string($v, '', false);
 		    }else{
 			continue;
 		    }
