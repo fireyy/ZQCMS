@@ -44,6 +44,8 @@ class article_model extends model {
 	);
 
 	$aid = $this->insert($insert_data, true);
+	
+	$categoryId = $data->categoryId;
 	//categoryId
 	return $aid;
     }

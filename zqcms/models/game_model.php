@@ -17,13 +17,6 @@ class game_model extends model {
     }
 
     /**
-     * 获得当前游戏的数量
-     */
-    public function getTotalCount() {
-	return $this->count();
-    }
-
-    /**
      * 活得游戏分数
      */
     public function getGoodAndBadPost($id) {
