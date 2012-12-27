@@ -391,9 +391,15 @@ function template($module, $template, $style = '', $output=true) {
 	//$smarty->setCaching(Smarty::CACHING_LIFETIME_CURRENT);
 	//$smarty->setCompileCheck(false);
 	if ($output) {
+	    //向模板中注册全局变量
 	    $values = register_template_data(false, false, false, true);
 	    foreach ($values as $k => $v) {
 		$smarty->assign($k, $v);
+	    }
+
+	    $functions = register_template_plugin(false, false, false, true);
+	    foreach ($functions as $k => $function) {
+		$smarty->registerPlugin($function['type'], $function['name'], $function['callback']);
 	    }
 
 	    $smarty->display($path);
@@ -426,6 +432,43 @@ function register_template_data($key, $value, $update = true, $get_values=false)
     $registered_template_data[$key] = $value;
     //print_r($registered_template_data);
     return $registered_template_data;
+}
+
+/**
+ * 注册函数到模板中
+ * @param string type 类型 (function, block, compiler, modifier)
+ *
+ *  function  直接可以在模板中调用此函数 比如date_now  {date_now}  每个函数都会有两个固定的值
+ *    $params, $smarty    $params 所有的参数都会在得到比如 {date_now format='Y-M-d'}，  $smarty 全局模板类。 
+ *  block  块函数  注册成一个标签。用来引用内部大量的文字 {typelist} <a href='~~link~~'></a>  {/typelist}
+ *     每个注册中的函数一共包含有5个参数  具体可以看plugins目录下的block.zq_typelist.php
+ *
+ *  modifier 修饰器  调用方式{$var|ss}  其中ss就是调用的函数   这里的ss 是我们注册进去的stripslashes
+ * @param string name 在smarty模板中的函数名
+ * @param string function 回调函数 
+ */
+function register_template_plugin($type, $name, $callback, $get_values=false) {
+    static $registered_template_plugins = array();
+
+    if ($get_values) {
+	return $registered_template_plugins;
+    }
+
+    $key = $typ.$name;
+
+    if (isset($registered_template_plugins[$key])) {
+	throw "This $type $name has registered";
+	//return $registered_template_plugins[$key];	
+	return;
+    }
+
+    $registered_template_plugins[$key] = array(
+	'type' => $type,
+	'name' => $name,
+	'callback' => $callback
+    );
+
+    return $registered_template_plugins;
 }
 
 
