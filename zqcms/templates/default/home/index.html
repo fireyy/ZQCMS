@@ -15,6 +15,10 @@
     	<div class="secondary_menu boder_base">
     		<div class="s_menu">
     			<span class="games_h2 white">玄幻仙侠</span>
+          {get_game_list assign='items' theme='玄幻,仙侠' limit='0,10'}
+          {foreach $items as $item}
+  				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black">{$item.game_name}</a>
+          {/foreach}
     		</div>
     		
     		<div class="s_menu">
@@ -77,7 +81,7 @@
 
         <div id="kaf_list" class="fr boder_blue">
         	<h2>
-        		<a id="sv_t_1" href="javascript:void(0);" onclick="shift_choose(1,'sv_t_',2,['list_up'],['list_on']);" class="list_on fl p14 black"><strong>网页游戏开服表</strong><span class="p12">{get_today_kaifu_count}</span></a>
+        		<a id="sv_t_1" href="javascript:void(0);" onclick="shift_choose(1,'sv_t_',2,['list_up'],['list_on']);" class="list_on fl p14 black"><strong>网页游戏开服表</strong><span class="p12">{get_today_kaifu_count()}</span></a>
 
         		<a id="sv_t_2" href="javascript:void(0);" onclick="shift_choose(2,'sv_t_',2,['list_up'],['list_on_r']);" class="list_up fl p14 black"><strong>网游开测表 </strong><span class="p12"></span></a>
         	</h2>
