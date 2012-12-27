@@ -31,12 +31,12 @@ class gameinfo_controller {
 	        		$msg = "插入数据失败.";
 	        	    }
                 	    break;
-                        //case "delete":
-                	//    $this->delete($guid);
-                	//    break;
-                        //case "update":
-                	//    $this->update($_data);
-                	//    break;
+                        case "delete":
+                	    $this->model->deleteGameinfo($guid);
+                	    break;
+                        case "update":
+                	    $this->model->updateGameInfo($_data);
+                	    break;
                         default:
                 	    send_ajax_response("-4", "未知操作, 你需要对我干吗?");
 	        	    exit();

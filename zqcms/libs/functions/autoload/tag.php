@@ -210,7 +210,6 @@ function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
 
 	if (!empty($taxonomyId)) {
 	    $db = zq_core::load_model('tag_relationship_model');
-	    #$db->select();
 	    $where = array();
 	    foreach ($taxonomyIds as $taxonomyId) {
 		
