@@ -49,6 +49,7 @@ class kaifu_model extends model {
 	);
 	
 	$aid = $this->insert($insert_data, true);
+
 	return $aid;
     }
 
