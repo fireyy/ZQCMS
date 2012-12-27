@@ -44,8 +44,7 @@ function smarty_block_zq_typelist($params, $content, $smarty, &$repeat, $templat
 	        $currentClass = $params["currentClass"];
 	    }
 
-	    //$typelink = getTypeLink();
-	    $typelink = "";
+	    $typelink = getTypeLink($modelInfo['id']);
 	    $str = str_replace('~name~', $modelInfo['name'], $_template);
 	    $str = str_replace('~link~', $typelink, $str);
 	    $str = str_replace('~title~', $modelInfo['title'], $str);

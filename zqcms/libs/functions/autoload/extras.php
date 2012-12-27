@@ -26,14 +26,58 @@ function getGameURL($game_id) {
   return "#";
 }
 
-function getTypeLink($type,$tagname) {
-  return "#";
+/**
+ * 获得内容模型的url
+ * 
+ * @param string|integer $type
+ * @param string $tagname
+ *
+ * @return string url
+ */
+function getTypeLink($type,$tagname='') {
+    $where = array();
+    if (is_numeric($type) && intval($type) ){ 
+	$where['id'] = $type;
+    }elseif (is_string($type) && !empty($type)){
+	$where['name'] = $type;
+    }
+
+    if (!empty($where)) {
+	$db = zq_core::load_model('type_model');
+	$r = $db->get_one($where);
+	if ($r) {
+	    $url = array();
+	    $url['m'] = $r['name'];
+	    $url['c'] = 'index';
+	    $url['a'] = 'list';
+
+	    $page = intval($_GET['page']);
+	    $page = $page == 0 ? 1 : $page;
+
+	    $url['page'] = $page;
+
+	    if (!empty($tagname)) {
+		$url['tag'] = $tagname;
+	    }
+
+	    $url = http_build_query($url);
+	    return 'index.php?' . $url;
+	}
+    }
+
+    return '#';
 }
+
 
 function getArticleThumb() {
   return "#";
 }
 register_template_plugin("modifier", "zqthumb", "getArticleThumb");
+
+
+
+
+
 
 function get_today_kaifu_count() {
   $db = zq_core::load_model("kaifu_model");
