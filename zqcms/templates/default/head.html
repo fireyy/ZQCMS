@@ -4,10 +4,9 @@
 	</ul>
 </div>
 </div>
-
-<!--
-<script src='/plus/bd_js.php?aid=1&nocache=1' language='javascript'></script>
--->
+<script type="text/javascript">
+  _loadAnalysis("topBackground");
+</script>
 <div id="header" class=" boder_base">
 	<div class=" headernav fl">
 		<div id="logo">
@@ -68,7 +67,7 @@
 	  	<div class="weekhotgame fl">
 			<h3 class="red fl">本周最热门</h3>
 			<ul class="fl">
-        {get_game_list assign='items' hot='1' limit='0,4'}
+        {get_game_list assign='items' flag='h' limit='0,4'}
         {foreach $items as $item}
 				<li>
 					<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank'>
