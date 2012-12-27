@@ -208,19 +208,19 @@ function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
 	    $taxonomyIds[] = getTaxonomyId($tagid, $taxonomy);
 	}
 
-	if (!empty($taxonomyId)) {
+	if (!empty($taxonomyIds)) {
 	    $db = zq_core::load_model('tag_relationship_model');
 	    $where = array();
 	    foreach ($taxonomyIds as $taxonomyId) {
-		$where[] = array(
-		    'tag_taxonomy_id' => $taxonomyId
-		);
+		$where[] = "tag_taxonomy_id=$taxonomyId";
 	    }
 
 	    $where = join(' or ', $where);
-	    $where .= $where . ' AND ' . 'typeid='.$typeid;
-
-	    return $db->select($where, 'aid');
+	    $where = $where . ' AND ' . 'typeid='.$typeid;
+	    $data = $db->select($where, 'aid');
+	    foreach ($data as $item) {
+		    $ids[] = $item["aid"];
+	    }
 	}
     }
 

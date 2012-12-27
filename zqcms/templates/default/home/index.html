@@ -210,41 +210,25 @@
 	    </div>
 	    <div class="mt relative tonglan"></div>
 	    <div class="newsnav_2 boder_base mt fl">
+        {$tag_list1=["游戏资讯","海外资讯","产业新闻"]}
 	    	<h2 class="nomal_h2back">
-	    		 <a id="whsy_1" href="javascript:void(0);" onclick="shift_choose(1,'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class=" changebt_on  p14 org strong">游戏资讯</a>
-            	<a id="whsy_2" href="javascript:void(0);" onclick="shift_choose(2,'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class=" changebt_up p14 black strong">海外资讯</a>
-            	<a id="whsy_3" href="javascript:void(0);" onclick="shift_choose(3,'whsy_',3,['changebt_up','black'],['changebt_on','org']);"  class=" changebt_up p14 black strong">产业新闻</a>
+          {foreach $tag_list1 as $tag}
+	    		 <a id="whsy_{$tag@iteration}" href="javascript:void(0);" onclick="shift_choose({$tag@iteration},'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class="{if $tag@iteration == 1}changebt_on org{else}changebt_up black{/if} p14 strong">{$tag}</a>
+          {/foreach}
         	</h2>
-
-        	<div id="whsy_1_content" class="hidden">
+          {foreach $tag_list1 as $tag}
+        	<div id="whsy_{$tag@iteration}_content" class="hidden"{if $tag@iteration gt 1} style="display:none;"{/if}>
         		<ul class="newslist_yb lh24 fl">
-					dede:arclist noflag='f,h,c' titlelen='80' typeid=13 row=14
+          {get_articles_byTagName assign="items" noflag='f,h,c' tagname="$tag" limit="0,14"}
+					{foreach $items as $item}
 					<li>
-						<a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span>
+						<a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{str_cut($item.title,80,"")}</a><span>{date('m-d',$item.pubdate)}</span>
 					</li>
-					dede:arclist
-            	</ul>
-	    		<div class="more_index" >dede:type typeid="13"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}
-	    		</div>
+					{/foreach}
+            </ul>
+	    		<div class="more_index"><a href='{getTypeLink("article","$tag")}' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a></div>
         	</div>
-
-        	<div id="whsy_2_content" class="hidden" style="display:none;">
-            	<ul class="newslist_yb lh24 fl">
-				dede:arclist noflag='f,h,c' titlelen='80' typeid=14 row=14}
-				<li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
-				dede:arclist}
-			    </ul>
-			    <div class="more_index" >dede:type typeid="14"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}
-			    </div>
-   			</div>
-    		<div id="whsy_3_content" class="hidden" style="display: none;">
-            	<ul class="newslist_yb lh24 fl">
-				dede:arclist noflag='f,h,c' titlelen='80' typeid=15 row=14}
-				<li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
-				dede:arclist}
-		        </ul>
-			    <div class="more_index" >dede:type typeid="15"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
-    		</div>
+          {/foreach}
         </div>
 
         <div class="mt ml fl boder_blue" id="NumberCenter">
@@ -302,38 +286,25 @@
    		</div>
 
    		<div class="newsnav_2 boder_base mt fl">
+        {$tag_list2=["游戏攻略","人物采访","热点追踪"]}
    			<h2 class="nomal_h2back">
-            	<a id="gl_1" href="javascript:void(0);" onclick="shift_choose(1,'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" changebt_on  p14 org strong">游戏攻略</a>
-            	<a id="gl_2" href="javascript:void(0);" onclick="shift_choose(2,'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" changebt_up p14 black strong">人物采访</a>
-	   			<a id="gl_3" href="javascript:void(0);" onclick="shift_choose(3,'gl_', 3,['changebt_up','black'],['changebt_on','org'])"  class=" changebt_up p14 black strong">热点追踪</a>
+          {foreach $tag_list2 as $tag}
+            	<a id="gl_{$tag@iteration}" href="javascript:void(0);" onclick="shift_choose({$tag@iteration},'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" {if $tag@iteration == 1}changebt_on org{else}changebt_up black{/if} p14 strong">{$tag}</a>
+          {/foreach}
     		</h2>
-
-    		<div id="gl_1_content" class="hidden" >        
-				<ul class="newslist_yb lh24 fl">
-				    dede:arclist titlelen='80' typeid=17 row=14}
-				    <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
-				    dede:arclist}
-				</ul>
-				<div class="more_index" >dede:type typeid="17"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
+        {foreach $tag_list2 as $tag}
+    		<div id="gl_{$tag@iteration}_content" class="hidden"{if $tag@iteration gt 1} style="display:none;"{/if}>        
+      		<ul class="newslist_yb lh24 fl">
+        {get_articles_byTagName assign="items" noflag='f,h,c' tagname="$tag" limit="0,14"}
+				{foreach $items as $item}
+				<li>
+					<a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{str_cut($item.title,80,"")}</a><span>{date('m-d',$item.pubdate)}</span>
+				</li>
+				{/foreach}
+          </ul>
+				<div class="more_index"><a href='{getTypeLink("article","$tag")}' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a></div>
    			</div>
-
-   			<div id="gl_2_content"  style="display: none;" class="hidden" >        
-				<ul class="newslist_yb lh24 fl">
-				    dede:arclist titlelen='80' typeid=19 row=14}
-				    <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
-				    dede:arclist}
-				</ul>
-				<div class="more_index" >dede:type typeid="19"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
-		    </div>
-          
-    		<div id="gl_3_content"  style="display: none;" class="hidden" >        
-				<ul class="newslist_yb lh24 fl">
-				    dede:arclist titlelen='80' typeid=20 row=14}
-				    <li><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
-				    dede:arclist}
-				</ul>
-				<div class="more_index" >dede:type typeid="20"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}</div>
-			</div>
+        {/foreach}
 		</div>
 
 		<div class="fl ml mt boder_base r_box "  >
