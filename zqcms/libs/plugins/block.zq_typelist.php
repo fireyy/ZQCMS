@@ -31,6 +31,7 @@ function smarty_block_zq_typelist($params, $content, $smarty, &$repeat, $templat
 
 	$_template = $content;
 	$content = "";
+
 	for ($c = 0; $c < count($data); ++$c) {
 	    $modelInfo = $data[$c];
 	    

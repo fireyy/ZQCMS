@@ -15,30 +15,49 @@
     	<div class="secondary_menu boder_base">
     		<div class="s_menu">
     			<span class="games_h2 white">玄幻仙侠</span>
+          {get_game_list assign='items' flag='f' theme='玄幻,仙侠' limit='0,10'}
+          {foreach $items as $item}
+  				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+          {/foreach}
     		</div>
     		
     		<div class="s_menu">
 				<span class="games_h2 white">三国战争</span>
+        {get_game_list assign='items' flag='f' theme='三国,战争' limit='0,10'}
+        {foreach $items as $item}
+				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+        {/foreach}
 			</div>
 
 			<div class="s_menu">
        			<span class="games_h2 white">热血武侠</span>
+            {get_game_list assign='items' flag='f' theme='热血,武侠' limit='0,10'}
+            {foreach $items as $item}
+    				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+            {/foreach}
        		</div>
 
        		<div class="s_menu">
 				<span class="games_h2 white">奇幻历史</span>
+        {get_game_list assign='items' flag='f' theme='奇幻,历史' limit='0,10'}
+        {foreach $items as $item}
+				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+        {/foreach}
 			</div>
 
 			<div class="s_menu2 boder_base">
 				<h2 class="fl p12"><span class="strong gray" >最新游戏入库</span>：</h2>
-				<a href="[field:arcurl /]" target="_blank" class="sline r_line black">[field:title /]</a>
                 <span class="newgame_list">
+                  {get_game_list assign='items' limit='0,15' orderby='pubdate' orderway='desc'}
+                  {foreach $items as $item}
+          				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+                  {/foreach}
                 </span>
-                <a href='[field:typelink function=GetRealTypeUrl(@me)/]' target="_blank" class="gray more_newgames">更多&gt;&gt;</a>
+                <a href='{getTypeLink("game")}' target="_blank" class="gray more_newgames">更多&gt;&gt;</a>
             </div>
-            <!--
-            <script src='/plus/bd_js.php?aid=2' language='javascript'></script>
-        	-->
+            <script type="text/javascript">
+              _loadAnalysis("navGameRecom");
+            </script>
     	</div>
     </div>
     <script type="text/javascript">
@@ -58,9 +77,16 @@
     		<div id="newsSlider">
         		<div class="container" style="width:390px;overflow: hidden;height:160px;position: relative;">
         			<ul id="slides" class="slides">
-        				<!--
-						
-        				-->
+                {get_article_list assign='items' flag='f' limit='0,6'}
+                {foreach $items as $item}
+                <li>
+                  <div class='slide_c_r'>
+                		<a target="_blank" class="fl slideimg" tilte="{$item.title}" href="{$item|zqurl}">
+                		    <img width="390" height="160" alt="{$item.title}" src="{$item|zqthumb}">
+                		</a>
+                	</div>
+                </li>
+                {/foreach}
         			</ul>
         		</div>
 
@@ -77,43 +103,50 @@
 
         <div id="kaf_list" class="fr boder_blue">
         	<h2>
-        		<a id="sv_t_1" href="javascript:void(0);" onclick="shift_choose(1,'sv_t_',2,['list_up'],['list_on']);" class="list_on fl p14 black"><strong>网页游戏开服表</strong><span class="p12">{get_today_kaifu_count}</span></a>
+        		<a id="sv_t_1" href="javascript:void(0);" onclick="shift_choose(1,'sv_t_',2,['list_up'],['list_on']);" class="list_on fl p14 black"><strong>网页游戏开服表</strong><span class="p12">（今日开服{get_today_kaifu_count()}组）</span></a>
 
-        		<a id="sv_t_2" href="javascript:void(0);" onclick="shift_choose(2,'sv_t_',2,['list_up'],['list_on_r']);" class="list_up fl p14 black"><strong>网游开测表 </strong><span class="p12"></span></a>
+        		<a id="sv_t_2" href="javascript:void(0);" onclick="shift_choose(2,'sv_t_',2,['list_up'],['list_on_r']);" class="list_up fl p14 black"><strong>网游开测表 </strong><span class="p12">（今日{get_today_kaice_count()}款游戏开测）</span></a>
         	</h2>
 
         	<div id="sv_t_1_content">
-	            <div class="kaf_title fl"> 
-					<a id="slist_1" href="javascript:void(0);" onclick="shift_choose(1,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_on blue strong">推 荐</a>
-					<a id="slist_2" href="javascript:void(0);" onclick="shift_choose(2,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_up black ">今 日</a>
-					<a id="slist_3" href="javascript:void(0);" onclick="shift_choose(3,'slist_',4,['title_up','black'],['title_on','blue','strong']);load_data(3)" class="title_up black">昨 日</a>
-					<a id="slist_4" href="javascript:void(0);" onclick="shift_choose(4,'slist_',4,['title_up','black'],['title_on','blue','strong']);load_data(4)" class="title_up black">明 日</a> 
-					<a href=[field:typelink function="GetRealTypeUrl(@me, 'from=today')" /] target="_blank" class="more_index fr lh40"> &gt;&gt; 进入新服大全</a>
-	            </div>
-	            <ul class="titlecolor">
-	            	<li class="li_1">开服时间</li>
-	            	<li class="li_2">游戏</li>
-	            	<li class="li_2">服务器</li>
-	            	<li class="li_3">平台</li>
-	            	<li class="li_3">题材</li>
-	            	<li class="li_5">状态</li>
-	            	<li class="li_6">礼包</li>
-		  		</ul>
-		  		<div id="slist_1_content">
-					<div class="hotcolor" id="ad_serverlist">
-					</div>
-				</div>
-				<div id="slist_2_content" style="display: none;">
-	            </div>
-	            <div id="slist_3_content" style="display: none;">
-	            </div>
-	            <div id="slist_4_content" style="display: none;">
-	            </div>
+  	       <div class="kaf_title fl"> 
+  					<a id="slist_1" href="javascript:void(0);" onclick="shift_choose(1,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_on blue strong">推 荐</a>
+  					<a id="slist_2" href="javascript:void(0);" onclick="shift_choose(2,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_up black ">今 日</a>
+  					<a id="slist_3" href="javascript:void(0);" onclick="shift_choose(3,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_up black">昨 日</a>
+  					<a id="slist_4" href="javascript:void(0);" onclick="shift_choose(4,'slist_',4,['title_up','black'],['title_on','blue','strong']);" class="title_up black">明 日</a> 
+  					<a href="{getTypeLink('kaifu')}" target="_blank" class="more_index fr lh40"> &gt;&gt; 进入新服大全</a>
+  	        </div>
+            <ul class="titlecolor">
+            	<li class="li_1">开服时间</li>
+            	<li class="li_2">游戏</li>
+            	<li class="li_2">服务器</li>
+            	<li class="li_3">平台</li>
+            	<li class="li_3">题材</li>
+            	<li class="li_5">状态</li>
+            	<li class="li_6">礼包</li>
+  		  		</ul>
+  		  		<div id="slist_1_content">
+  					  <div class="hotcolor" id="ad_serverlist">
+                {get_recomm_kaifu_list assign='items' flag='c' limit='0,19' orderby='test_date'}
+                {foreach $items as $item}
+                <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
+                {/foreach}
+  					  </div>
+  				  </div>
+            {$kaifu_days=["today","yesterday","tomorrow"]}
+            {foreach $kaifu_days as $kaifu_day}
+  				  <div id="slist_{$kaifu_day@index + 2}_content"{if $kaifu_day@index > 0} style="display: none;"{/if}>
+              {get_kaifu_list assign='items' flag='c' limit='0,19' orderby='test_date' day="$kaifu_day"}
+              {foreach $items as $item}
+              <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
+              {/foreach}
+  	        </div>
+            {/foreach}
 	        </div>
 
 	        <div id="sv_t_2_content" style="display: none;">
 	        	<div  class="lise_kaice" >
-				<div class="more_index"><a href="[field:typelink function=GetRealTypeUrl(@me) /]" target="_blank" title="更多网游测试表">更多网游测试表&gt;&gt;</a></div>
+				<div class="more_index"><a href="{getTypeLink('kaice')}" target="_blank" title="更多网游测试表">更多网游测试表&gt;&gt;</a></div>
 					<ul class="titlecolor">
 					    <li class="li_1">开测日期</li>
 					    <li class="li_2">游戏名称</li>
@@ -122,9 +155,17 @@
 					    <li class="li_5">运营公司</li>
 					    <li class="li_6">礼包</li>
 					</ul>
-
-					<ul>
-					</ul>
+          {get_kaice_list assign='items' flag='c' limit='0,19' orderby='test_date' day="today"}
+          {foreach $items as $item}
+          <ul>
+    		    <li class="li_1 red "><span class="">{date("m日d日", $item.test_date)}</span></li>
+    		    <li class="li_2 red">{$item.game_name}</li>
+    		    <li class="li_2">{$item.test_status}</li>
+    		    <li class="li_3"><a href="#" target="_blank" title="{$item.game_tag}">{$item.game_tag}</a></li>
+    		    <li class="li_5"><span>{$item.oper_short_name}</span></li>
+    		    <li class="li_6"><a href='{getGameURL($item.game_id)}' target="_blank" class="lq_bt white ling">领取</a></li>
+      		</ul>
+          {/foreach}
 				</div>
 			</div>
 	    </div>
@@ -132,34 +173,39 @@
 	    <div class="boder_base mt newsnav">
 	    	<div class="f_news">
 				<h2>
-			      dede:arclist flag='h' typeid='12' limit='0,2' titlelen="20"}
-				  <a class=" p14 red strong lh20" href="[field:arcurl /]" target="_blank">[field:title /]</a>
-				  dede:arclist}
+          {get_article_list assign='items' flag='h' limit='0,2'}
+          {foreach $items as $item}
+          <a class=" p14 red strong lh20" href="{$item|zqurl}" target="_blank">{str_cut($item.title, 30, '')}</a>
+          {/foreach}
 				</h2>
 				<div class="left">
-            		dede:arclist flag='h' titlelen='20' typeid=12 limit="4,3"}
-	  				<a class=" p12 black lh20" href="[field:arcurl /]" target="_blank">[[field:title /]]</a>
-            		dede:arclist}
+          {get_article_list assign='items' flag='h' limit='4,3'}
+          {foreach $items as $item}
+	  				<a class=" p12 black lh20" href="{$item|zqurl}" target="_blank">[{str_cut($item.title, 21, '')}]</a>
+          {/foreach}
      			</div>
      			<h2>
-		        	dede:arclist flag='h' typeid='12' limit='2,2' titlelen="20"}
-			  		<a class=" p14 red strong lh20" href="[field:arcurl /]" target="_blank">[field:title /]</a>
-		        	dede:arclist}
+            {get_article_list assign='items' flag='h' limit='2,2'}
+            {foreach $items as $item}
+            <a class=" p14 red strong lh20" href="{$item|zqurl}" target="_blank">{str_cut($item.title, 30, '')}</a>
+            {/foreach}
 	  			</h2>
 	  			<div class="left">
-				dede:arclist flag='h' titlelen='20' typeid=12 limit="7,3"}
-			      <a class=" p12 black lh20" href="[field:arcurl /]" target="_blank">[[field:title /]]</a>
-				dede:arclist}
-	 			</div>
+            {get_article_list assign='items' flag='h' limit='7,3'}
+            {foreach $items as $item}
+  	  				<a class=" p12 black lh20" href="{$item|zqurl}" target="_blank">[{str_cut($item.title, 21, '')}]</a>
+            {/foreach}
+	 			  </div>
 	    	</div>
 
 	    	<ul class="newslist_yb lh24 fl">
-				dede:arclist flag='c' titlelen='80' typeid='12' row='12'}
-				<li><span class="fl p14 newslist_clss"></span><a class="" target="_blank" href="[field:arcurl/]" title="[field:title /]">[field:title /]</a></li>
-				dede:arclist}
+        {get_article_list assign='items' flag='c' limit='0,12'}
+        {foreach $items as $item}
+				<li><span class="fl p14 newslist_clss"></span><a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{$item.title}</a></li>
+				{/foreach}
 			</ul>
 			<div class="more_index" >
-				dede:type typeid="12"}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>dede:type}
+				<a href='{getTypeLink("article")}' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>
 			</div>
 	    </div>
 	    <div class="mt relative tonglan"></div>
@@ -223,15 +269,15 @@
 			</div>
         </div>
 
-        <div class="fr mt relative index_ad_r">
-        	<!--
-		    <script src='/plus/bd_js.php?aid=11&nocache=1' language='javascript'></script>
-			-->
+    <div class="fr mt relative index_ad_r">
+      <script type="text/javascript">
+        _loadAnalysis("indexRightLitpic1");
+      </script>
 		</div>
 		<div class="mt fl ad tonglan relative">
-			<!--
-			<script src='/plus/bd_js.php?aid=6&nocache=1' language='javascript'></script>
-			-->
+      <script type="text/javascript">
+        _loadAnalysis("indexTonLan1");
+      </script>
 		</div>
 
 		<div class="fr mt boder_base developers padding_10">
@@ -337,9 +383,9 @@
   		</div>
 
   		<div class="mt fl relative tonglan">
-    		<!--
-    		<script src='/plus/bd_js.php?aid=7&nocache=1' language='javascript'></script>
-  			-->
+        <script type="text/javascript">
+          _loadAnalysis("indexTonLan2");
+        </script>
   		</div>
 
   		<div class="newgames mt boder_base  fl">
@@ -355,22 +401,32 @@
 				<a href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank" class="blue">更多&gt;&gt;</a>
     		</div>
     		<ul>
-    			<li></li>
+          {get_game_list assign='items' limit='0,7' orderby='pubdate' orderway='desc'}
+          {foreach $items as $item}
+          <li>
+      	    <a href="{$item|zqurl}" title="{$item.game_name}" target="_blank"><img width="120" height="120" class="picbd" src="{$item.game_avatar}" alt="{$item.game_name}"></a>
+           	<p><a class="" href="{$item|zqurl}" target="_blank" title="{$item.game_name}">{$item.game_name}</a></p>
+      	    <p class="gray">{$item.game_tag}</p>
+      	    <p class="gray">{$item.game_status}</p>
+      	    <p><a class="bt_enter white" href="{$item|zqurl}" target="_blank">进入</a></p>
+          </li>
+          {/foreach}
     		</ul>
 		</div>
 
 		<div class="newgames mt boder_base  fl">
 		  	<h2 class="lh28 p14 strong h2_yb2 nomal_h2back">游戏截图</h2>     
-			<div class="more "><a href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank" title="查看更多精彩图片" class="blue">更多&gt;&gt;</a></div>
+			<div class="more "><a href="{getTypeLink('gallery')}" target="_blank" title="查看更多精彩图片" class="blue">更多&gt;&gt;</a></div>
 		    <ul id="pic_rc_1_content">
-				dede:arclist typeid=18 channelid=22 row=6}
-				<li class="">
-				    <a class="lh24" href="[field:arcurl/]" title="[field:title /]" target="_blank">
-					<img width="140" height="110" class="picbd" src="[field:id function='GetArticleThumb(@me, 2, gallery)'/]">
-					<center><p>[field:title/]</p></center>
-				    </a>
+        {get_gallery_list assign='items' limit='0,6'}
+				{foreach $items as $item}
+				<li>
+			    <a class="lh24" href="{$item|zqurl}" title="{$item.title}" target="_blank">
+    				<img width="140" height="110" class="picbd" src="{$item|zqthumb}">
+    				<center><p>{str_cut($item.title, 30, '')}</p></center>
+			    </a>
 				</li>
-				dede:arclist}
+        {/foreach}
 		    </ul>
   		</div>
 
@@ -414,7 +470,7 @@
 			<a class="fmt_nav_a3" href="javascript:scroll(0,0);">回到顶部</a>
 		</div>
 	</div>
-	<!--
-	<script src='/plus/bd_js.php?aid=8&nocache=1' language='javascript'></script>
-	-->
+	<script type="text/javascript">
+	  _loadAnalysis("indexFloatAD");
+	</script>
 {include "../footer.html"}

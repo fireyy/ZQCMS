@@ -108,7 +108,7 @@ function str_cut($string, $length, $dot = '...') {
     if($strlen <= $length) return $string;
     $string = str_replace(array(' ','&nbsp;', '&amp;', '&quot;', '&#039;', '&ldquo;', '&rdquo;', '&mdash;', '&lt;', '&gt;', '&middot;', '&hellip;'), array('∵',' ', '&', '"', "'", '“', '”', '—', '<', '>', '·', '…'), $string);
     $strcut = '';
-    if(strtolower(CHARSET) == 'utf-8') {
+    if(strtolower(zq_core::load_config('system', 'charset')) == 'utf-8') {
 	$length = intval($length-strlen($dot)-$length/3);
 	$n = $tn = $noc = 0;
 	while($n < strlen($string)) {

@@ -4,10 +4,9 @@
 	</ul>
 </div>
 </div>
-
-<!--
-<script src='/plus/bd_js.php?aid=1&nocache=1' language='javascript'></script>
--->
+<script type="text/javascript">
+  _loadAnalysis("topBackground");
+</script>
 <div id="header" class=" boder_base">
 	<div class=" headernav fl">
 		<div id="logo">
@@ -60,25 +59,23 @@
 			<div class="servernum">
 				<span class="gray" >今日开服</span><br />
 				<!--kaifu link-->
-				<a class="white" target="_blank" href="#">{get_today_kaifu_count}
-				</a>
+				<a class="white" target="_blank" href="#">{get_today_kaifu_count()}</a>
 			</div>
 			<p class=" gray">收录游戏</p>
-				<p class=" gray">共 </p>
-<!-- 	      	<p class=" gray">共 <a href="/plus/list.php?tid=10" target="_blank" class="org">dede:sql sql='select count(*) as dd FROM `#@__addongame` WHERE 1'}[field:dd /] /dede:sql}</a> 款</p> -->
+        <p class=" gray">共 <a href="#" target="_blank" class="org">{get_game_count()}</a> 款</p>
 	  	</div>
 	  	<div class="weekhotgame fl">
 			<h3 class="red fl">本周最热门</h3>
 			<ul class="fl">
-				<!-- 			
-				typeid='10' flag='h' row=4 addfields='game_name, game_tag, game_thumb, game_effect, game_theme, game_status, offical_url, oper_short_name, dev_short_name, copy_from, pub_short_name, game_id' channelid='20'
+        {get_game_list assign='items' flag='h' limit='0,4'}
+        {foreach $items as $item}
 				<li>
-					<a href='[field:arcurl /]' title='[field:game_name/]' target='_blank'>
-						<img alt='[field:game_name/]' src="[field:game_thumb /]" width="65" height="50"  class="picbd"/>
+					<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank'>
+						<img alt='{$item.game_name}' src="{$item.game_thumb}" width="65" height="50"  class="picbd"/>
 						</a>
-		      		<p><a href='[field:arcurl /]' title='[field:game_name /]' class="black" target='_blank'>[field:game_name/]</a></p>
+		      		<p><a href='{$item|zqurl}' title='{$item.game_name}' class="black" target='_blank'>{$item.game_name}</a></p>
 		  		</li>
-	     		-->
+          {/foreach}
 	      	</ul>
         </div>
     </div>
@@ -89,5 +86,5 @@
 		{zq_typelist current_class='hover'}
 		<li class='~class~'><a href="~link~" class="nav_2">~title~</a></li>
 		{/zq_typelist}
-    </ul>
+  </ul>
 </div>
