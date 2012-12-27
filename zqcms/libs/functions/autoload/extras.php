@@ -40,6 +40,12 @@ function get_today_kaice_count() {
   return $count;
 }
 
+function get_gift_count(){
+  $db = zq_core::load_model("gift_model");
+  $count = $db->count();
+  return $count;
+}
+
 function get_game_count(){
   $db = zq_core::load_model("game_model");
   $count = $db->count();
@@ -62,6 +68,13 @@ function get_game_list($params, $template){
         $where[] = "FIND_IN_SET('$flag', flag)>0";
       }
     }
+  }
+  if (isset($params['tag'])){
+    $tag = explode(",", $params['tag']);
+    for ($i=0; $i < count($tag); $i++) { 
+      $tag[$i] = "game_tag = '".trim($tag[$i])."'";
+    }
+    $where[] = join(" or ",$tag);
   }
   if (isset($params['theme'])){
     $theme = explode(",", $params['theme']);
@@ -141,13 +154,6 @@ function get_kaifu_list($params, $template){
       }
     }
   }
-  if (isset($params['theme'])){
-    $theme = explode(",", $params['theme']);
-    for ($i=0; $i < count($theme); $i++) { 
-      $theme[$i] = "game_theme = '".trim($theme[$i])."'";
-    }
-    $where[] = join(" or ",$theme);
-  }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
   }
@@ -188,12 +194,45 @@ function get_kaice_list($params, $template){
       }
     }
   }
-  if (isset($params['theme'])){
-    $theme = explode(",", $params['theme']);
-    for ($i=0; $i < count($theme); $i++) { 
-      $theme[$i] = "game_theme = '".trim($theme[$i])."'";
+  if (isset($params['orderby'])){
+    $orderby = $params['orderby'];
+  }
+  if (isset($params['orderway'])){
+    if($orderby!="") $orderby .= " ".$params['orderway'];
+  }
+  if (isset($params['limit'])){
+    $limit = $params['limit'];
+  }
+  if(isset($params['day'])){
+    $time = strtotime($params['day']);
+    $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
+    #$end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
+    $where[] = "test_date >= $begin_date";
+  }
+  $where = join(" and ", $where);
+  $data = $db->select($where, '*', $limit, $orderby);
+  if (isset($params['assign'])) {
+  	$template->assign($params['assign'], $data);
+  }
+}
+register_template_plugin("function", "get_kaice_list", "get_kaice_list");
+
+function get_gift_list($params, $template){
+  $db = zq_core::load_model("gift_model");
+  $where = array();
+  $limit = "";
+  $orderby = "";
+  if (isset($params['flag'])){
+    $flag = $params['flag'];
+    if(!preg_match('#,#', $flag)){
+      $where[] = "FIND_IN_SET('$flag', flag)>0";
+    }else{
+      $flags = explode(',', $flag);
+      foreach($flags as $flag) {
+        if(trim($flag)=='') continue;
+        $where[] = "FIND_IN_SET('$flag', flag)>0";
+      }
     }
-    $where[] = join(" or ",$theme);
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
@@ -207,8 +246,8 @@ function get_kaice_list($params, $template){
   if(isset($params['day'])){
     $time = strtotime($params['day']);
     $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
-    $end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
-    $where[] = "test_date >= $begin_date AND test_date < $end_date";
+    #$end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
+    $where[] = "send_date >= $begin_date";
   }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
@@ -216,7 +255,7 @@ function get_kaice_list($params, $template){
   	$template->assign($params['assign'], $data);
   }
 }
-register_template_plugin("function", "get_kaice_list", "get_kaice_list");
+register_template_plugin("function", "get_gift_list", "get_gift_list");
 
 function get_article_list($params, $template){
   $db = zq_core::load_model("article_model");
@@ -253,7 +292,7 @@ function get_article_list($params, $template){
 register_template_plugin("function", "get_article_list", "get_article_list");
 
 function get_gallery_list($params, $template){
-  $db = zq_core::load_model("article_model");
+  $db = zq_core::load_model("gallery_model");
   $where = array();
   $limit = "";
   $orderby = "";
