@@ -320,10 +320,21 @@
 			</script>
 
 			<div id="newsSlider_2" >
-				<h2 class="p14 black strong lh28 nomal_h2back " >&nbsp;专题活动</h2>
+				<h2 class="p14 black strong lh28 nomal_h2back">&nbsp;厂商活动</h2>
         		<ul id="pagination_slider_2" class="pagination_slider more fr"></ul>
         		<div class="container " style="position: relative;width: 335px;overflow: hidden;height: 105px;">
         			<ul id="slides_2" class="slides fl">
+                {get_articles_byTagName assign="items" noflag='f,h,c' tagname="厂商活动" limit="0,6"}
+          			{foreach $items as $item}
+                {if $item@iteration is not div by 2}<li>{/if}
+          		    <div class='{if $item@iteration is div by 2}slide_c_r{else}slide_c{/if}'>
+              			<a target="_blank" class="fl slideimg" tilte="{$item.title}" href="{$item|zqurl}">
+              			    <img width="150" height="65" alt="{$item.title}" src="{$item|zqthumb}">
+              			</a>        
+              			<a class="flashh1" target="_blank" tilte="{$item.title}" href="{$item|zqurl}">{$item.title}</a>
+          		    </div>
+                {if $item@iteration is div by 2}</li>{/if}
+                {/foreach}
         			</ul>
         		</div>
         		<script type="text/javascript">
@@ -336,22 +347,23 @@
 			</div>
 		</div>
 
-		<div class="fl ml mt boder_base r_box  padding_10"  >
-    		<h2 class="p14 black strong lh28 nomal_h2back" >&nbsp;游戏评测</h2>
-    		<div class="more">dede:type typeid='16'}<a href='[field:typelink function=GetRealTypeUrl(@me) /]' target="_blank" class="blue">更多&gt;&gt;</a>dede:type}
+		<div class="fl ml mt boder_base r_box  padding_10">
+    		<h2 class="p14 black strong lh28 nomal_h2back">&nbsp;游戏评测</h2>
+    		<div class="more"><a href='{getTypeLink("article","游戏评测")}' target="_blank" class="blue">更多&gt;&gt;</a>
     		</div>
     		<ul class="fl gray">
-			dede:arclist typeid='16' addfields="body,game_id" channelid="1" row="2" titlelen="45"}
+        {get_articles_byTagName assign="items" noflag='f,h,c' tagname="游戏评测" limit="0,2"}
+  			{foreach $items as $item}
 				<li> 
-				    <a target="_blank" href="[field:arcurl/]" title="[field:title /]" class="fl">
-					<img src="[field:id function='GetGameThumb(@me)' /]" height="80" class=" picbd"/>
+				    <a target="_blank" href="{$item|zqurl}" title="{$item.title}" class="fl">
+					<img src="{$item|zqthumb}" height="80" class=" picbd"/>
 				    </a>
-				    <span class="fl lh20 mt wind_width">
-					<a class="" target="_blank" href="[field:arcurl/]" class=" p14 blue">[field:title/]</a>
-					<p>[field:body function="cn_substr(@me,160)"/]</p>
-				    </span>
+				    <div class="fl lh20 mt wind_width">
+					<a target="_blank" href="{$item|zqurl}" class=" p14 blue">{str_cut($item.title,45,"")}</a>
+					<p>{str_cut($item.description,160)}</p>
+				    </div>
 				</li>
-			dede:arclist}
+        {/foreach}
     		</ul>
   		</div>
 
