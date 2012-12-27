@@ -184,4 +184,23 @@ function deleteTagRelationship($aid, $typeid, $taxonomyId=false) {
     }
 }
 
+
+/**
+ * 根据tagname 获得文章列表数据
+ * @param string tagname
+ * @param string taxonomy  但设置*时 获得tag,category的数据
+ * @param integer typeid 内容模型id
+ */
+function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
+    $tagInfo = getTagIdByName($tagname);
+    $ids = array();
+    if ($tagInfo) {
+
+    }
+
+
+
+    return $ids;
+}
+
 ?>
