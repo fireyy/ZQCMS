@@ -90,10 +90,12 @@ class game_model extends model {
 	    zq_tag($game_status, $aid, $this->typeid, 'tag');
 	}
 
+	/*
 	$test_status = $data->testStatus;
 	if ($test_status && $aid) {
 	    zq_tag($test_status, $aid, $this->typeid, 'tag');
 	}
+	*/
 
 	return $aid;
     }

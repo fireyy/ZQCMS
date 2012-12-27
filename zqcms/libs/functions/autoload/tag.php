@@ -147,7 +147,10 @@ function addTagRelationship($aid, $taxonomyId, $typeid) {
 	    )
 	);
 	
-	updateTaxonomyCount($taxonomyId, true);
+	if ($issucces) {
+	    //更新计数
+	    updateTaxonomyCount($taxonomyId, true);
+	}
 
 	return $issucces;
     }
@@ -180,7 +183,9 @@ function deleteTagRelationship($aid, $typeid, $taxonomyId=false) {
 	    )
 	);
 
-	updateTaxonomyCount($taxonomyId, false);
+	if ($issucces) {
+	    updateTaxonomyCount($taxonomyId, false);
+	}
     }
 }
 
