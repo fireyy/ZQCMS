@@ -1,7 +1,24 @@
 <?php
 
 function getURL($item) {
-  return "#";
+    if ($item && $item["typeid"]) {
+	$typedb = zq_core::load_model('type_model');
+	$typeinfo = $typedb->get_one(array('id'=>$item["typeid"]));
+	$model_name = $typeinfo['name'];
+	// article show id page
+
+	//m c a
+	$url = array();
+	$url['m'] = $model_name;
+	$url['c'] = 'index';
+	$url['a'] = 'show';
+
+	$url['id'] = $item['id'];
+
+	$url = http_build_query($url);
+	return 'index.php?' . $url;
+    }
+    return '#';
 }
 register_template_plugin("modifier", "zqurl", "getURL");
 
