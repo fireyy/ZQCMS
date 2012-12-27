@@ -26,7 +26,7 @@ function getGameURL($game_id) {
   return "#";
 }
 
-function getTypeLink($type) {
+function getTypeLink($type,$tagname) {
   return "#";
 }
 
@@ -307,6 +307,58 @@ function get_article_list($params, $template){
   }
 }
 register_template_plugin("function", "get_article_list", "get_article_list");
+
+function get_articles_byTagName($params, $template){
+  $db = zq_core::load_model("article_model");
+  $where = array();
+  $limit = "";
+  $orderby = "";
+  if (isset($params['flag'])){
+    $flag = $params['flag'];
+    if(!preg_match('#,#', $flag)){
+      $where[] = "FIND_IN_SET('$flag', flag)>0";
+    }else{
+      $flags = explode(',', $flag);
+      foreach($flags as $flag) {
+        if(trim($flag)=='') continue;
+        $where[] = "FIND_IN_SET('$flag', flag)>0";
+      }
+    }
+  }
+  if (isset($params['noflag'])){
+    $noflag = $params['noflag'];
+    if(!preg_match('#,#', $noflag)){
+      $where[] = "FIND_IN_SET('$noflag', flag)<1";
+    }else{
+      $noflags = explode(',', $noflag);
+      foreach($noflags as $noflag) {
+        if(trim($noflag)=='') continue;
+        $where[] = "FIND_IN_SET('$noflag', flag)<1";
+      }
+    }
+  }
+  if (isset($params['orderby'])){
+    $orderby = $params['orderby'];
+  }
+  if (isset($params['orderway'])){
+    if($orderby!="") $orderby .= " ".$params['orderway'];
+  }
+  if (isset($params['limit'])){
+    $limit = $params['limit'];
+  }
+  if (isset($params['tagname'])){
+    $ids = getIdsByTagname($params["tagname"],"*",$db->typeid);
+    #print_r($ids);
+    $ids = join(",", $ids);
+    $where[] = "id in ($ids)";
+  }
+  $where = join(" and ", $where);
+  $data = $db->select($where, '*', $limit, $orderby);
+  if (isset($params['assign'])) {
+  	$template->assign($params['assign'], $data);
+  }
+}
+register_template_plugin("function", "get_articles_byTagName", "get_articles_byTagName");
 
 function get_gallery_list($params, $template){
   $db = zq_core::load_model("gallery_model");
