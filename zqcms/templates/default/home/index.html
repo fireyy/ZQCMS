@@ -136,7 +136,7 @@
             {$kaifu_days=["today","yesterday","tomorrow"]}
             {foreach $kaifu_days as $kaifu_day}
   				  <div id="slist_{$kaifu_day@index + 2}_content"{if $kaifu_day@index > 0} style="display: none;"{/if}>
-              {get_kaifu_list assign='items' flag='c' limit='0,19' orderby='test_date' day="$kaifu_day"}
+              {get_kaifu_list assign='items' limit='0,19' orderby='test_date' day="$kaifu_day"}
               {foreach $items as $item}
               <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
               {/foreach}
@@ -155,7 +155,7 @@
 					    <li class="li_5">运营公司</li>
 					    <li class="li_6">礼包</li>
 					</ul>
-          {get_kaice_list assign='items' flag='c' limit='0,19' orderby='test_date' day="today"}
+          {get_kaice_list assign='items' limit='0,19' orderby='test_date' day="today"}
           {foreach $items as $item}
           <ul>
     		    <li class="li_1 red "><span class="">{date("m日d日", $item.test_date)}</span></li>
@@ -248,7 +248,7 @@
         </div>
 
         <div class="mt ml fl boder_blue" id="NumberCenter">
-        	<h2 class="h2_yb1 h2_28"><span class="fl p14 strong black lh28">发号中心</span>dede:type typeid="11"}<a target="_blank" href="[field:typelink function=GetRealTypeUrl(@me)/]" class="fr org p12 lighter">dede:type} 共有count['dd']个礼包正在发放";</a></h2>
+        	<h2 class="h2_yb1 h2_28"><span class="fl p14 strong black lh28">发号中心</span><a target="_blank" href="{getTypeLink('gift')}" class="fr org p12 lighter">共有{get_gift_count()}个礼包正在发放</a></h2>
         	<ul class="table titlecolor">
 		    	<li class="t1">日期</li>
 		    	<li class="t2">游戏名称</li>
@@ -257,15 +257,16 @@
 		    	<li class="t4">领取</li>
 		    </ul>
 		    <div class="table">
-				dede:arclist typeid=11 row=13 channelid='21' orderby='send_date' orderway='desc' date_by="send_date" _where='~~do-test_date-date~~' _where_value="today" _where_format="#action# >= '#value#'" }
+        {get_gift_list assign='items' limit='0,13' orderby='send_date' orderway='desc' day="today"}
+        {foreach $items as $item}
 				<ul>
-				    <li class="t1">[field:send_date function="MyDate('m-d',@me)" /]</li>
-				    <li class="t2"><a href="[field:id function="GetGameUrl(@me)" /]" title="[field:game_name /]" target="_blank">[field:game_name/]</a></li>
-				    <li class="t3">[field:gift_title/]</li>
-				    <li class="t3">[field:oper_short_name/]</li>
-				    <li class="t4"><a class="white lq_bt ling" href="[field:id function='GetGameUrl(@me)' /]" target="_blank">领</a></li>
+				    <li class="t1">{date('m-d',$item.send_date)}</li>
+				    <li class="t2"><a href="{getGameURL({$item.game_id})}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li>
+				    <li class="t3">{$item.gift_title}</li>
+				    <li class="t3">{$item.oper_short_name}</li>
+				    <li class="t4"><a class="white lq_bt ling" href="{getGameURL({$item.game_id})}" target="_blank">领</a></li>
 				</ul>
-				dede:arclist}
+				{/foreach}
 			</div>
         </div>
 
@@ -281,17 +282,18 @@
 		</div>
 
 		<div class="fr mt boder_base developers padding_10">
-	    	<h2 class="p14 black strong lh28 nomal_h2back">
-	            <a class=" changebt_on  p14 org strong" id="gp_top_1" href="javascript:void(0);" onclick="shift_choose(1,'gp_top_',2,['changebt_up','black'],['changebt_on','org'])">开服排行</a>
-	    	</h2>
+    	<h2 class="p14 black strong lh28 nomal_h2back">
+        <a class=" changebt_on  p14 org strong" id="gp_top_1" href="javascript:void(0);" onclick="shift_choose(1,'gp_top_',2,['changebt_up','black'],['changebt_on','org'])">开服排行</a>
+    	</h2>
 	    	<div id="gp_top_1_content" class="fl">
-				<div class="more fr">dede:type typeid=6}<a class="blue" href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank">更多&gt;&gt;</a>dede:type}</div>
+				<div class="more fr"><a class="blue" href="{getTypeLink('kaifu')}" target="_blank">更多&gt;&gt;</a></div>
 				<ul>
 	    			<li class="lh24 t5 fl">游戏名称</li>  <li class="lh24 t6 fl"> 开服总量</li>
 				</ul>
 	    	</div>
 	    	<ul id="g_top_1_content" class="bang_kaifu">
 				<li>
+          
 	  				<span class="numBer_red">[field:global.autoindex /]</span>
 	    			<a href="[field:aid function='GetGameUrl(@me)' /]" title="[field:game_name /]" target="_blank">[field:game_name /]</a>
 	    			<label>[field:dd /]</label>
@@ -433,34 +435,26 @@
   		<div style=" clear:both"></div>
 
   		<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
-	  		<h2 class="p14 strong lh28 yb_1" >本周最热门</h2>
+	  		<h2 class="p14 strong lh28 yb_1">本周最热门</h2>
 	  		<ul class="lh24 t8 fl num_top">
+          {get_game_list assign='items' limit='0,10' orderby='goodpost' orderway='desc'}
+          {foreach $items as $item}
+          <li{if $item@iteration lte 3} class="num_top_red"{/if}><div class="wd fl"><span>{$item@iteration}</span><a href="{$item|zqurl}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></div></li>
+          {/foreach}
 	  		</ul>
 	  	</div>
-
-	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
-  			<h2 class="p14 strong lh28 yb_2" >角色扮演页游前十位</h2>
-			<ul class="lh24 t8 fl num_top">
-			</ul>
-	  	</div>
-
-	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
-  			<h2 class="p14 strong lh28 yb_3" >战争策略页游前十位</h2>
-			<ul class="lh24 t8 fl num_top">
-			</ul>
-	  	</div>
-
-	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt mr">
-  			<h2 class="p14 strong lh28 yb_4" >模拟经营页游前十位</h2>
+      {$game_top10s=["角色扮演","战争策略","模拟经营","社区养成"]}
+      {foreach $game_top10s as $game_top10}
+	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt{if $game_top10@index lt 3} mr{/if}">
+  			<h2 class="p14 strong lh28 yb_{$game_top10@index + 2}">{$game_top10}页游前十位</h2>
   			<ul class="lh24 t8 fl num_top">
+          {get_game_list assign='items' limit='0,10' tag="$game_top10" orderby='goodpost' orderway='desc'}
+          {foreach $items as $item}
+          <li{if $item@iteration lte 3} class="num_top_red"{/if}><span>{$item@iteration}</span><a href="{$item|zqurl}" title="{$item.game_name}" target="_blank">{$item.game_name}</a><label>{$item.goodpost}</label></li>
+          {/foreach}
   			</ul>
 	  	</div>
-
-	  	<div class="Ranking nomal_h2back_ranking boder_base fl mt">
-  			<h2 class="p14 strong lh28 yb_5" >社区养成页游前十位</h2>
-			<ul class="lh24 t8 fl num_top">
-			</ul>
-	  	</div>
+      {/foreach}
 	  	<div style=" clear:both"></div>
     </div>
 
