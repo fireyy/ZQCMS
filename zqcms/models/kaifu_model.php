@@ -15,6 +15,36 @@ class kaifu_model extends model {
 	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
 
+    public function getYearAndMonthKaifuCount($year, $month) {
+	$maxday_list = array(
+	    1 => 31,
+	    2 => ((($y % 400 == 0) || (($y % 4 == 0) && ($y % 100 != 0))) ? 29 : 28),
+	    3 => 31,
+	    4 => 30,
+	    5 => 31,
+	    6 => 30,
+	    7 => 31,
+	    8 => 31,
+	    9 => 30,
+	    10 => 31,
+	    11 => 30,
+	    12 => 31
+	);
+	$max_day = $maxday_list[$month];
+	$r = $this->select(
+	    "DATE_FORMAT(FROM_UNIXTIME(test_date), '%c')  = $month",
+	    "COUNT(id) as num, DATE_FORMAT(FROM_UNIXTIME(test_date), '%c') as m, DATE_FORMAT(FROM_UNIXTIME(test_date), '%e') as d",
+	    '',
+	    '',
+	    'd',
+	    '',
+	    false
+	);
+
+	print_r($r);
+
+    }
+
     public function addKaifu($data) {
 	$info = $this->get_one(array('guid' => $data->guid));
 	if (is_array($info) && !empty($info)) {

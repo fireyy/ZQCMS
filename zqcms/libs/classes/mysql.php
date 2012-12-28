@@ -52,16 +52,19 @@ final class mysql {
 	return $this->lastqueryid;
     }
 
-    public function select($data, $table, $where = '', $limit = '', $order = '', $group = '', $key = '') {
+    public function select($data, $table, $where = '', $limit = '', $order = '', $group = '', $key = '', $safe=true) {
 	$where = $where == '' ? '' : ' WHERE '.$where; 
 	$order = $order == '' ? '' : ' ORDER BY '.$order;
 	$group = $group == '' ? '' : ' GROUP BY '.$group;
 	$limit = $limit == '' ? '' : ' LIMIT '.$limit;
 	$field = explode(",", $data);
-	array_walk($field, array($this, 'add_special_char'));
+	if ($safe) {
+	    array_walk($field, array($this, 'add_special_char'));
+	}
 	$data = join(",", $field);
 
 	$sql = "SELECT ".$data.' FROM `'.$this->config['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
+	echo $sql;
 	$this->execute($sql);
 	if (!is_resource($this->lastqueryid)) {
 	    return $this->lastqueryid;

@@ -11,6 +11,7 @@ class index {
 	ShowMsg("404","-1");
     }
 
+
     //列表页面
     public function lists() {
 	$now = time();
@@ -21,7 +22,8 @@ class index {
 	$year = isset($_GET['year']) ? $_GET['year'] : date('Y', $now);
 	$month = isset($_GET['month']) ? $_GET['month'] : date('m', $now);
 	$day = isset($_GET['day']) ? $_GET['day'] : date('d', $now);
-	
+
+	echo $this->db->getYearAndMonthKaifuCount($year, $month);
 	/*
 	$time = empty($_GET['time']) ? '' : $_GET['time'];
 

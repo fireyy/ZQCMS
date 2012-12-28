@@ -636,23 +636,11 @@ function GetThumbsArray($body) {
 	return $imgs;
 }
 
-function getTimelineKaifu($y,$m) {
-  $html = "";
-  /*$maxday_list = array(
-    1 => 31,
-    2 => ((($y % 400 == 0) || (($y % 4 == 0) && ($y % 100 != 0))) ? 29 : 28),
-    3 => 31,
-    4 => 30,
-    5 => 31,
-    6 => 30,
-    7 => 31,
-    8 => 31,
-    9 => 30,
-    10 => 31,
-    11 => 30,
-    12 => 31
-  );
-  $max_day = $maxday_list[$m];
+function getTimelineKaifu() {
+    $year = isset($_GET['year']) ? $_GET['year'] : date('Y', $now);
+    $month = isset($_GET['month']) ? $_GET['month'] : date('m', $now);
+    
+  /*
   $sql = "SELECT COUNT(id) as dd, DATE_FORMAT(FROM_UNIXTIME(test_date), '%c') as m, DATE_FORMAT(FROM_UNIXTIME(test_date), '%e') as d FROM `#@__addonkaifu` WHERE DATE_FORMAT(FROM_UNIXTIME(test_date), '%c')  = $m GROUP BY d";
   $kaifu_data = array();
   $kaifu_count = 0;
@@ -662,6 +650,9 @@ function getTimelineKaifu($y,$m) {
     $kaifu_data[$data[d]] = $data['dd'];
     $kaifu_count+=$data['dd'];
   }
+
+
+
   $html .= '<div style=" width:100%; height:20px; line-height:20px;">开服总量：'.$kaifu_count.'服</div></div>';
   for ($c = 0; $c < $max_day; ++$c) {
     if ($kaifu_data[$c+1]) {
@@ -678,5 +669,6 @@ function getTimelineKaifu($y,$m) {
   }*/
   return $html;
 }
+register_template_plugin('function', 'getTimelineKaifu', 'getTimelineKaifu');
 
 ?>

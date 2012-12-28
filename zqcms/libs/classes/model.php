@@ -35,14 +35,14 @@ class model {
      *
      * @return array  返回查询结果集数组
      */
-    final public function select($where = '', $data = '*', $limit = '', $order = '', $group = '', $key = '') {
+    final public function select($where = '', $data = '*', $limit = '', $order = '', $group = '', $key = '', $safe=true) {
 	if (is_array($where)) {
 	    $where = $this->sqls($where);
 	}
 
-	$data = $this->db->select($data, $this->table_name, $where, $limit, $order, $group, $key);
-  if(empty($data)) $data = array();
-  return $data;
+	$data = $this->db->select($data, $this->table_name, $where, $limit, $order, $group, $key, $safe);
+	if(empty($data)) $data = array();
+	return $data;
     }
 
     /**
