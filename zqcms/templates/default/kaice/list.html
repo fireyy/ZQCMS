@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>{$title}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+<link href="{$style_dir}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{include "../scripts.html" caching}
+</head>
+<body>
+{include "../head.html"}
+
+	<div id="content">
+	    <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
+	    <div id="leftlist">
+		<ul class="listh1">
+		    <li class="list_li3">时间</li>
+		    <li class="list_li1" style="width:120px">游戏名称</li>
+		    <li class="list_li3" style="width:140px;">测试状态</li>
+		    <li class="list_li3" style="width: 90px;">游戏类型</li>
+		    <li class="list_li3" style="width: 100px;">运营平台</li>
+		    <li class="list_li3" style="width: 100px;">操作</li>
+		    <li class="list_li3" style="width: 50px;"></li>
+		</ul>
+    {foreach $lists as $item}
+	  <ul>
+      {if $today == date("Y-m-d", $item.test_date)}
+      <li class="list_li3 red">今日</li>
+      {else}
+      <li class="list_li3">{date("Y-m-d", $item['test_date'])}</li>
+      {/if}
+      <li class="list_li1" style="width:120px">{$item['game_name']}</li>
+      <li class="list_li3" style="width:140px;">{$item['test_status']}</li>
+      <li class="list_li3" style="width: 90px;">{$item['game_tag']}</li>
+      <li class="list_li3" style="width: 100px;">{$item['oper_short_name']}</li>
+      <li class="list_li3" style="width: 100px;"></li>
+      <li class="list_li3" style="width:50px;"></li>
+    </ul>
+    {/foreach}
+	    </div>
+	    <div id="rightlist">
+		<div class="list">
+		    <div class="list_top strong p14">优秀新游戏推荐</div>
+        {get_game_list assign='items' limit='0,6' orderby='pubdate' orderway='desc'}
+        {foreach $items as $item}
+		    <ul class="list_div">
+    			<li class="list_img"><a href="{$item|zqurl}" target="_blank"><img width="100" height="100" alt="{$item.game_name}" src="{$item.game_thumb}" /></a></li>
+    			<li class="list_li01"><a href="{$item|zqurl}" target="_blank">{$item.game_name}</a></li>
+    			<li class="list_li02">题材类型：{$item.game_theme}</li>
+    			<li class="list_li02">游戏类别：{$item.game_tag}</li>
+    			<li class="list_li02">收费模式：{$item.game_status}</li>
+    			<li class="list_li02">画面风格：<strong>{$item.game_effect}</strong></li>
+		    </ul>
+		   {/foreach}
+		</div>
+		<div style=" clear:both"></div>
+	 </div>
+</div>
+{include "../footer.html"}
+</body>
+</html>
