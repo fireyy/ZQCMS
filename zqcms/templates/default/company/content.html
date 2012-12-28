@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>{$title}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+{include "../scripts.html" caching}
+</head>
+<body>
+{include "../head.html"}
+<div id="content">
+    <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
+    {$company_id = $company.id}
+	<div class="ptsport">
+		<div class="leftdiv2"> 
+			<a href="{$company.offical_url}" target="_blank">
+				<img alt="{$company.short_name}" src="{$company.company_thumb}" width="200" height="100" />
+			</a>
+            <p><a href="{$company.offical_url}" target="_blank">进入平台官网>></a></p>
+		</div>
+		<div class="rightdiv">
+			<h2 class="p20 org">{$company.short_name}</h2>
+			<div class="morediv">
+				网页游戏：{dede:field name="game_count" /} 款 | 最新开服信息：{dede:field name="kaifu_today_count" /} 条
+			</div>
+			<div style="float:left;width:100%;">{$company.description}</div>
+		</div>
+	</div>
+	<div class="ptsportback"></div>
+		<div class="gamelist">
+			<ul>
+				<h2 class="p14 strong" style="padding-left: 10px;">
+				{$company.short_name}网页游戏>></h2>
+				<li>
+				    <a href="#" title="" class="p14" target="_blank">#TODO</a>
+				</li>
+			</ul>
+		</div>
+    {get_gift_list assign='items' limit='0,6' orderby='send_date' orderway='desc'}
+    {if !empty(items)}
+		<div id="gift">
+			<h1 class="h1yb p20">{$company.short_name}礼包/新手卡(共{get_gift_count(['oper_id'=>$company_id])}款)
+			</h1>
+			<ul>
+        {foreach $items as $item}
+				<li>
+					<a target="_blank" href="{$item.get_url}">
+						<img width="90" height="90" alt="{$item.title}" src="{$style_dir}/images/card_03-02">
+					</a>
+					<p style="height:40px;">
+						<a target="_blank" class="p14" href="{$item.get_url}">{$item.title}</a>
+					</p>
+					<p style="text-align:left;line-height: 20px">礼包类型：礼品卡</p>
+					<p style="text-align:left;line-height: 20px">所属游戏：<a target="_blank" href="{getGameURL($item.game_id)}">{$item.game_name}</a></p>
+					<!--
+					<p style="text-align:left;line-height: 20px">所属区服：删档封测服</p>
+					-->
+					<p><a target="_blank" rel="nofollow" href="{$item.get_url}"><img src="{$style_dir}/images/gw_01_3.gif"></a></p>
+				</li>	
+				{/foreach}
+						
+			</ul>
+		</div>
+    {/if}
+    {get_kaifu_list assign='items' limit='0,50' orderby='test_date' orderway='desc'}
+    {if !empty(items)}
+		<div id="kflist">
+			<h1 class="p20 h1yb" style="float:left">{$company.short_name}最新开服信息</h1>
+			<div style="float:left; line-height:40px; margin-left:15px; color:#ff6600;">开服总数：{get_kaifu_count(['oper_id'=>$company_id])}</div>
+			<!--
+			<div class="morediv"><a href="">更多&gt;&gt;</a></div>
+			-->
+			<div class="div_top">
+				<ul>
+					<li class="li_6">开服日期</li>
+					<li class="li_1">游戏名称</li>
+					<li class="li_3">新服/新区名称</li>
+					<li class="li_3">线路</li>
+					<li class="li_3">游戏模式</li>
+					<li class="li_3">运营状态</li>
+					<li class="li_3">快捷操作</li>
+				</ul>
+			</div>
+			{foreach $items as $item}
+			<ul>
+				<li class="li_6"><span class="p14">{date("m月d日h点",$item.test_date)}开服</span></li>
+				<li class="li_1"><a href="{getGameURL($item.game_id)}" class="p14 title" target="_blank">{$item.game_name}</a></li>
+				<li class="li_3">{$item.server_name}</li>
+				<li class="li_3">双线</li>
+				<li class="li_3"><a href="[field:game_tag_url /]" target="_blank" class='backa'>{$item.game_tag}</a></li>
+				<li class="li_3">{$item.game_status}</li>
+				<li class="li_3">
+					<a href="{$item.register_url}" rel="nofollow" target="_blank">开始游戏</a>
+				</li>
+			</ul>
+			{/foreach}
+		</div>
+    {/if}
+		<div style=" clear:both"></div>
+</div>
+
+{include "../footer.html"}
+</body>
+</html>
