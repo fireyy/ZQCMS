@@ -42,11 +42,13 @@ class kaifu_model extends model {
 	);
 
 	$kaifu_count = 0;
+	$kaifu_data = array();
 	for ($i = 0; $i < count($r); ++$i) {
+	    $kaifu_data[$r[$i]['d']] = $r[$i]['num'];
 	    $kaifu_count+=$r[$i]['num'];
 	}
 	
-	return $kaifu_count;
+	return array($kaifu_count, $kaifu_data);
     }
 
     public function addKaifu($data) {

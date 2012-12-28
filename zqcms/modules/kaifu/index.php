@@ -23,7 +23,7 @@ class index {
 	$month = isset($_GET['month']) ? $_GET['month'] : date('m', $now);
 	$day = isset($_GET['day']) ? $_GET['day'] : date('d', $now);
 
-	$month_kaifu_count = $this->db->getYearAndMonthKaifuCount($year, $month);
+	list($month_kaifu_count, $kaifu_data) = $this->db->getYearAndMonthKaifuCount($year, $month);
 	/*
 	$time = empty($_GET['time']) ? '' : $_GET['time'];
 
@@ -45,6 +45,24 @@ class index {
 	register_template_data('year', $year);
 	register_template_data('month', $month);
 	register_template_data('day', $day);
+	register_template_data('month_kaifu_count', $month_kaifu_count);
+	register_template_data('kaifu_data', $kaifu_data);
+	
+	$maxday_list = array(
+	    1 => 31,
+	    2 => ((($y % 400 == 0) || (($y % 4 == 0) && ($y % 100 != 0))) ? 29 : 28),
+	    3 => 31,
+	    4 => 30,
+	    5 => 31,
+	    6 => 30,
+	    7 => 31,
+	    8 => 31,
+	    9 => 30,
+	    10 => 31,
+	    11 => 30,
+	    12 => 31
+	);
+	register_template_data('maxday_list', $maxday_list);
 
 	return template('kaifu', 'list');
     }

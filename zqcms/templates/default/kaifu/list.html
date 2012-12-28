@@ -183,10 +183,37 @@
   <div id="timelist2">
       <div class="leftbox">
       <h2 class=" White p20">{$year}</h2>
-      <div><a title="上一月最新开服表" href=""><img width="10" height="11" alt="上一月最新开服表" src="{$style_dir}/images/gamelist__07.gif"></a></div>
+      <div>
+      	{assign var='prev_month' value=mktime(0, 0, 0, $month-1, 1, $year)}
+		{assign var='prev_month_year' value=date('Y', $prev_month)}
+		{assign var='prev_month_month' value=date('m', $prev_month)}
+		{assign var='prev_month_day' value=date('d', $prev_month)}
+      	<a title="上一月最新开服表" href="{getTypeLink('kaifu','',['{$year}'=>$prev_month_year, '{$month}'=>$prev_month_month, '{$day}'=>$prev_month_day])}"><img width="10" height="11" alt="上一月最新开服表" src="{$style_dir}/images/gamelist__07.gif"></a>
+      </div>
       <div class="p30" style=" width:70px;">{$month}</div>
-      <div><a title="下一月最新开服表" href=""><img width="10" height="11" alt="下一月最新开服表" src="{$style_dir}/images/gamelist_07-03.gif"></a></div>
-      {getTimelineKaifu}
+
+      	{assign var='next_month' value=mktime(0, 0, 0, $month+1, 1, $year)}
+		{assign var='next_month_year' value=date('Y', $next_month)}
+		{assign var='next_month_month' value=date('m', $next_month)}
+		{assign var='next_month_day' value=date('d', $next_month)}
+      <div>
+      	<a title="下一月最新开服表" href="{getTypeLink('kaifu','',['{$year}'=>$next_month_year, '{$month}'=>$next_month_month, '{$day}'=>$next_month_day])}"><img width="10" height="11" alt="下一月最新开服表" src="{$style_dir}/images/gamelist_07-03.gif"></a>
+      </div>
+
+      <div style=" width:100%; height:20px; line-height:20px;">开服总量{$month_kaifu_count}服</div></div>
+      {assign var='max_day' value=$maxday_list[$month]}
+
+      {for $d=1 to $max_day}
+      	<div class="righttimebox {if empty($kaifu_data[$d])} r_boxstyle2 strong hcolour{/if}">
+      		{if empty($kaifu_data[$d])}
+      			{$d}
+      		{else}
+      			<a id="{$year}{$month}{$d} " class="{if $d==$day}totalday org{else}backa otherday{/if}" href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$d])}">{$d}<br/>
+      			({$kaifu_data[$d]})
+      			</a>
+      		{/if}
+      	</div>
+      {/for}
   </div>
 
 
