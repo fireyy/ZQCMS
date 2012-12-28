@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>{$title}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+{include "../scripts.html" caching}
+</head>
+<body>
+{include "../head.html"}
+<div id="content">
+  <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
+  	<!--
+	<div class="gamelist bd_1">
+		<ul>
+			<h1><a href="javascript:void(0);" class="p14 strong backa">按拼音&gt;&gt;</a></h1>
+			<li><a href="javascript:void(0);" class="p14">全部</a><span class=" hcolour" title="1207 个游戏">(1207)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-1-0-1-0.html" class="p14">ABCD</a><span class=" hcolour" title="147 个游戏">(147)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-1-1-1-0.html" class="p14">EFGH</a><span class=" hcolour" title="148 个游戏">(148)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-1-2-1-0.html" class="p14">IJKL</a><span class=" hcolour" title="220 个游戏">(220)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-1-3-1-0.html" class="p14">MNOP</a><span class=" hcolour" title="69 个游戏">(69)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-1-4-1-0.html" class="p14">QRST</a><span class=" hcolour" title="248 个游戏">(248)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-1-5-1-0.html" class="p14">WXYZ</a><span class=" hcolour" title="375 个游戏">(375)</span></li>
+					</ul>
+		<ul>
+			<h1><a href="javascript:void(0);" class="p14 strong backa">按热度&gt;&gt;</a></h1>
+			<li><a href="javascript:void(0);" class="p14">全部</a><span class=" hcolour" title="1217 个游戏">(1217)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-2-0-1-0.html" class="p14">0-200</a><span class=" hcolour" title="542 个游戏">(542)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-2-1-1-0.html" class="p14">201-400</a><span class=" hcolour" title="296 个游戏">(296)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-2-2-1-0.html" class="p14">401-600</a><span class=" hcolour" title="60 个游戏">(60)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-2-3-1-0.html" class="p14">601-800</a><span class=" hcolour" title="39 个游戏">(39)</span></li>
+						<li><a href="http://www.kaifu.com/platformlist-2-4-1-0.html" class="p14">801以上</a><span class=" hcolour" title="280 个游戏">(280)</span></li>
+					</ul>
+	</div>
+	-->
+	<div class="boxmodel operator">
+       	<h1 class="p20 h1yb">所有运营商列表</h1>
+		<div class="linediv">
+			<a href="{getTypeLink('company','',['sort'=>1])}" class="{if $sort==1}enterpart_active{else}enterpart backa{/if}">按旗下运营的游戏数↓</a>&nbsp;
+			<a href="{getTypeLink('company','',['sort'=>2])}" class="{if $sort==2}enterpart_active{else}enterpart backa{/if}">按入驻时间排序↓</a>&nbsp;
+			<a href="{getTypeLink('company','',['sort'=>3])}" class="{if $sort==3}enterpart_active{else}enterpart backa{/if}">按活跃度排序↓</a></div>
+		<ul>
+      
+      {foreach $lists as $item}
+			<li style="height:150px"> <a href="{$item|zqurl}" target="_blank"><img src="[field:/]" alt="{$item.company_thumb}" width="180" height="90" /></a>
+				<p><a href="{$item|zqurl}" target="_blank">{$item.short_name}</a></p>
+				<p>旗下运营游戏：{$item.game_count} 款</p>
+			</li>
+      {/foreach}
+	  </ul>
+	</div>
+	<div style=" clear:both"></div>
+	<div class="qdiv">{$pages}</div>
+
+</div>
+{include "../footer.html"}
+</body>
+</html>

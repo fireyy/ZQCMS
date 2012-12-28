@@ -263,9 +263,29 @@ function get_today_kaice_count() {
   return $count;
 }
 
-function get_gift_count(){
+function get_kaifu_count($config=array()){
+  $db = zq_core::load_model("kaifu_model");
+  $where = array();
+  if(!empty($config)){
+    foreach ($config as $key => $value) {
+      $where[] = "$key = $value";
+    }
+  }
+  $where = join(" and ", $where);
+  $count = $db->count($where);
+  return $count;
+}
+
+function get_gift_count($config=array()){
   $db = zq_core::load_model("gift_model");
-  $count = $db->count();
+  $where = array();
+  if(!empty($config)){
+    foreach ($config as $key => $value) {
+      $where[] = "$key = $value";
+    }
+  }
+  $where = join(" and ", $where);
+  $count = $db->count($where);
   return $count;
 }
 
