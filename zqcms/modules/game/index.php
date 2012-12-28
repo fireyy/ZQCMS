@@ -22,26 +22,46 @@ class index {
 
     //列表页面
     public function lists() {
-	$page = $_GET['page'];
-  if(empty($page)) $page = 1;
-  $tag = $_GET['tag'];
+	$page = empty($_GET['page']) ? 1 : $_GET['page'];
+  $tag = empty($_GET['tag']) ? '' : $_GET['tag'];
+  $gamesort = empty($_GET['gamesort']) ? 1 : $_GET['gamesort'];
   $title = "";
+  $orderby = "";
   $where = array();
+  $title = getTypeName($this->db->typeid);
   if(isset($tag) && !empty($tag)){
     $ids = getIdsByTagname($params["tagname"],"*",$db->typeid);
     #print_r($ids);
     $ids = join(",", $ids);
     $where[] = "id in ($ids)";
-    $title = $tag;
-  }else{
-    #$title = $this->db->getTypeName();
+    #$title = $tag;
+  }
+  switch ($gamesort) {
+    case 1:
+      $orderby = "pubdate";
+      break;
+    case 2:
+    #TODO 按开服量排序
+      $orderby = "pubdate";
+      break;
+    case 3:
+      $orderby = "goodpost";
+      break;
+    case 4:
+      $orderby = "scores/scorecount";
+      break;
+    default:
+      $orderby = "pubdate";
+      break;
   }
   $where = join(" and ", $where);
-  $lists = $this->db->listinfo($where,'', $page);
+  $lists = $this->db->listinfo($where, $orderby, $page, 56);
   register_template_data('lists', $lists);
   register_template_data('pages', $this->db->pages);
   register_template_data('items', $this);
-	return template('article', 'list');
+  register_template_data('title', $title);
+  register_template_data('gamesort', $gamesort);
+	return template('game', 'list');
     }
 }
 ?>

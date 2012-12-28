@@ -116,6 +116,11 @@ function position($item) {
     return join(' &gt ', $u);
 }
 
+function getTypeName($typeid){
+  $typedb = zq_core::load_model('type_model');
+  return $typedb->getTypeName($typeid);
+}
+
 /**
  * 获得内容模型的url
  * 
@@ -124,7 +129,7 @@ function position($item) {
  *
  * @return string url
  */
-function getTypeLink($type,$tagname='') {
+function getTypeLink($type,$tagname='',$config=array()) {
     $where = array();
     if (is_numeric($type) && intval($type) ){ 
 	$where['id'] = $type;
@@ -628,6 +633,49 @@ function GetThumbsArray($body) {
 	}
 	    
 	return $imgs;
+}
+
+function getTimelineKaifu($y,$m) {
+  $html = "";
+  /*$maxday_list = array(
+    1 => 31,
+    2 => ((($y % 400 == 0) || (($y % 4 == 0) && ($y % 100 != 0))) ? 29 : 28),
+    3 => 31,
+    4 => 30,
+    5 => 31,
+    6 => 30,
+    7 => 31,
+    8 => 31,
+    9 => 30,
+    10 => 31,
+    11 => 30,
+    12 => 31
+  );
+  $max_day = $maxday_list[$m];
+  $sql = "SELECT COUNT(id) as dd, DATE_FORMAT(FROM_UNIXTIME(test_date), '%c') as m, DATE_FORMAT(FROM_UNIXTIME(test_date), '%e') as d FROM `#@__addonkaifu` WHERE DATE_FORMAT(FROM_UNIXTIME(test_date), '%c')  = $m GROUP BY d";
+  $kaifu_data = array();
+  $kaifu_count = 0;
+  $dsql->SetQuery($sql);
+  $dsql->Execute('z7');
+  while ($data = $dsql->GetArray('z7')) {
+    $kaifu_data[$data[d]] = $data['dd'];
+    $kaifu_count+=$data['dd'];
+  }
+  $html .= '<div style=" width:100%; height:20px; line-height:20px;">开服总量：'.$kaifu_count.'服</div></div>';
+  for ($c = 0; $c < $max_day; ++$c) {
+    if ($kaifu_data[$c+1]) {
+      $html .= '<div class="righttimebox">';
+      $html .= '<a id="'."$y$m".($c+1).'" class="'.((($c + 1) == $d) ? 'totalday org' : 'backa otherday').'" href="'.$basic_url.'&'.join('&', array('y='.$y, 'm='.$m, 'd='.($c+1))).'">';
+      $html .= ($c+1)."<br/>";
+      $html .= '('.$kaifu_data[$c+1]."服)";
+      $html .= '</a>';
+    }else{
+      $html .= '<div class="righttimebox r_boxstyle2 strong hcolour">';
+      $html .= ($c+1);
+    }
+    $html .= '</div>';
+  }*/
+  return $html;
 }
 
 ?>
