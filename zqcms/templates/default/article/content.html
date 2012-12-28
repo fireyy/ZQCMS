@@ -19,7 +19,7 @@
   </div>
 </div>
 <div id="content">
-  <div id="pathway"><strong>当前位置:</strong>{position($article)}</div>
+  <div id="pathway"><strong>当前位置:</strong> {position($article)}</div>
   <div class="fl newsinfo_topline boder_base newsinfo_left">
      {if !empty($game)}
         <div class="fl ml picbd "><a href="{$game.url}" title="{$game.game_name}" target="_blank"><img width="120" height="120" src="{$game.game_avatar}"></a></div><div class="fl ml tl news_title"><h6 class=" lh40">{$article.title}</h6><div class="lh24 gray">本文&nbsp;{date('Y-m-d',$article.pubdate)}&nbsp;发布&nbsp;来源：{$article.source}&nbsp;&nbsp;&nbsp;<br />浏览人次（{$article.click}人）</div>
