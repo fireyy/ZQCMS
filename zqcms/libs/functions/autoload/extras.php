@@ -231,9 +231,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
     echo $msg;
 }
 
-
-
-function getArticleThumb($item,$w,$h) {
+function getArticleThumb($item,$w=0,$h=0) {
   return "#";
 }
 #register_template_plugin("modifier", "zqthumb", "getArticleThumb");
@@ -432,6 +430,9 @@ function get_kaice_list($params, $template){
     #$end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
     $where[] = "test_date >= $begin_date";
   }
+  if(isset($params['game_id'])){
+    $where[] = "game_id = {$params['game_id']}";
+  }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
   if (isset($params['assign'])) {
@@ -471,6 +472,9 @@ function get_gift_list($params, $template){
     $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
     #$end_date   = mktime(0, 0, 0, date("m", $time), date("d", $time) + 1, date("Y", $time));
     $where[] = "send_date >= $begin_date";
+  }
+  if(isset($params['game_id'])){
+    $where[] = "game_id = {$params['game_id']}";
   }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
@@ -605,5 +609,25 @@ function get_gallery_list($params, $template){
   }
 }
 register_template_plugin("function", "get_gallery_list", "get_gallery_list");
+
+/*
+ * 获取游戏图库文章的所有图片,返回数组
+ *
+ * @access public
+ * @param string $body
+ * @return array $imgs
+ */
+
+function GetThumbsArray($body) {
+	preg_match_all("/(src)=[\"|'| ]{0,}([^>]*\.(gif|jpg|bmp|png))/isU",$body,$img_array);
+	$img_array = $img_array[2];
+	$imgs = array();
+	for ($c = 0; $c < count($img_array); $c++) {
+	    $pic = preg_replace("/[\"|'| ]{1,}/", '', $img_array[$c]);
+	    $imgs[] = $pic;   
+	}
+	    
+	return $imgs;
+}
 
 ?>
