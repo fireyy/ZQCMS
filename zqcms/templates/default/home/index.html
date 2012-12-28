@@ -82,7 +82,7 @@
                 <li>
                   <div class='slide_c_r'>
                 		<a target="_blank" class="fl slideimg" tilte="{$item.title}" href="{$item|zqurl}">
-                		    <img width="390" height="160" alt="{$item.title}" src="{$item|zqthumb}">
+                		    <img width="390" height="160" alt="{$item.title}" src="{getArticleThumb($item,390,160)}">
                 		</a>
                 	</div>
                 </li>
@@ -329,7 +329,7 @@
                 {if $item@iteration is not div by 2}<li>{/if}
           		    <div class='{if $item@iteration is div by 2}slide_c_r{else}slide_c{/if}'>
               			<a target="_blank" class="fl slideimg" tilte="{$item.title}" href="{$item|zqurl}">
-              			    <img width="150" height="65" alt="{$item.title}" src="{$item|zqthumb}">
+              			    <img width="150" height="65" alt="{$item.title}" src="{getArticleThumb($item,150,65)}">
               			</a>        
               			<a class="flashh1" target="_blank" tilte="{$item.title}" href="{$item|zqurl}">{$item.title}</a>
           		    </div>
@@ -356,7 +356,7 @@
   			{foreach $items as $item}
 				<li> 
 				    <a target="_blank" href="{$item|zqurl}" title="{$item.title}" class="fl">
-					<img src="{$item|zqthumb}" height="80" class=" picbd"/>
+					<img src="{getArticleThumb($item,'',80)}" height="80" class=" picbd"/>
 				    </a>
 				    <div class="fl lh20 mt wind_width">
 					<a target="_blank" href="{$item|zqurl}" class=" p14 blue">{str_cut($item.title,45,"")}</a>
@@ -376,14 +376,14 @@
   		<div class="newgames mt boder_base  fl">
     		<h2 class=" lh28 p14 strong h2_yb2 nomal_h2back">最新测试游戏</h2>
     		<div class="more">
-    			<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=战争策略')" /]" target="_blank">战争策略</a> | 
-				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=模拟经营')" /]" target="_blank">模拟经营</a> |
-				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=社区养成')" /]" target="_blank">社区养成</a> |
-				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=休闲竞技')" /]" target="_blank">休闲竞技</a> |
-				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=儿童游戏')" /]" target="_blank">儿童游戏</a> |
-				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=角色扮演')" /]" target="_blank">角色扮演</a> |
-				<a href="[field:typelink function="GetRealTypeUrl(@me, 'tag=社区游戏')" /]" target="_blank">社区游戏</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="[field:typelink function=GetRealTypeUrl(@me)/]" target="_blank" class="blue">更多&gt;&gt;</a>
+    		<a href="{getTypeLink('game','战争策略')}" target="_blank">战争策略</a> | 
+				<a href="{getTypeLink('game','模拟经营')}" target="_blank">模拟经营</a> |
+				<a href="{getTypeLink('game','社区养成')}" target="_blank">社区养成</a> |
+				<a href="{getTypeLink('game','休闲竞技')}" target="_blank">休闲竞技</a> |
+				<a href="{getTypeLink('game','儿童游戏')}" target="_blank">儿童游戏</a> |
+				<a href="{getTypeLink('game','角色扮演')}" target="_blank">角色扮演</a> |
+				<a href="{getTypeLink('game','社区游戏')}" target="_blank">社区游戏</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="{getTypeLink('game')}" target="_blank" class="blue">更多&gt;&gt;</a>
     		</div>
     		<ul>
           {get_game_list assign='items' limit='0,7' orderby='pubdate' orderway='desc'}
@@ -407,7 +407,7 @@
 				{foreach $items as $item}
 				<li>
 			    <a class="lh24" href="{$item|zqurl}" title="{$item.title}" target="_blank">
-    				<img width="140" height="110" class="picbd" src="{$item|zqthumb}">
+    				<img width="140" height="110" class="picbd" src="{getArticleThumb($item,140,110)}">
     				<center><p>{str_cut($item.title, 30, '')}</p></center>
 			    </a>
 				</li>

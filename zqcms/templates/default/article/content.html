@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>{$article.title}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+<link href="{$style_dir}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
+{include "../scripts.html" caching}
+</head>
+<body class="articleview">
+{include "../head.html"}
+<div id="main_nav">
+  <div class="secondary_menu boder_base">
+    <script type="text/javascript">
+      _loadAnalysis("navGameRecom");
+    </script>
+  </div>
+</div>
+<div id="content">
+  <div id="pathway"><strong>当前位置:</strong>{position($article)}</div>
+  <div class="fl newsinfo_topline boder_base newsinfo_left">
+     {if !empty($game)}
+        <div class="fl ml picbd "><a href="{$game.url}" title="{$game.game_name}" target="_blank"><img width="120" height="120" src="{$game.game_avatar}"></a></div><div class="fl ml tl news_title"><h6 class=" lh40">{$article.title}</h6><div class="lh24 gray">本文&nbsp;{date('Y-m-d',$article.pubdate)}&nbsp;发布&nbsp;来源：{$article.source}&nbsp;&nbsp;&nbsp;<br />浏览人次（{$article.click}人）</div>
+        <div class="news_tags"><strong class="newsinfo_barbg gray">标签:</strong><a class="gray decoration" target="_blank" href='{getTypeLink("game",$game.game_tag)}'>{$game['game_tag']}</a>/<a class="gray decoration" target="_blank" href="{getTypeLink("game",$game.game_theme)}">{$game['game_theme']}</a>/<a class="gray decoration" target="_blank" href="{getTypeLink("game",$game.game_effect)}">{$game['game_effect']}</a></div></div>
+    {else}
+        <h6 class=" lh40">{$article.title}</h6><div class=" lh24 gray">本文&nbsp;{date('Y-m-d',$article.pubdate)}&nbsp;发布&nbsp;来源：{$article.source}&nbsp;&nbsp;&nbsp;浏览人次（{$article.click}人）</div>
+    {/if}        
+    <div class="newsinfo_line"></div>
+    <div class="newsinfo_artical p14 lh24">
+      {$article.body}
+    </div>
+    <div id="newsinfo_share">
+      <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+        <a class="bds_qzone" title="分享到QQ空间" href="#">QQ空间</a>
+        <a class="bds_tsina" title="分享到新浪微博" href="#">新浪微博</a>
+        <a class="bds_tqq" title="分享到腾讯微博" href="#">腾讯微博</a>
+        <a class="bds_renren" title="分享到人人网" href="#">人人网</a>
+        <span class="bds_more">更多</span>
+    		<a class="shareCount" href="#" title="累计分享0次">0</a>
+      </div>
+    </div>
+    <div class="news_push">
+        <ul class="lh40">
+          <li class="fl news_width">{getPrevURL()}</li>
+          <li class="fl news_width">{getNextURL()}</li>
+        </ul>
+    </div>
+    <div class="news_date">
+      <div class="fl news_width adv">
+        <script type="text/javascript">
+          _loadAnalysis("innerfooterAD1");
+        </script>
+      </div>
+      <div class="fr news_width">
+          <h5 class="lh40">每日看点&gt;&gt;</h5>
+          <ul class="lh24 black news_push1">
+            {get_article_list assign='items' flag='c' limit='0,6'}
+            {foreach $items as $item}
+            <li><a target="_blank" href="{$item|zqurl}" title="{$item.title}">{$item.title}</a><span>{date('m-d', $item.pubdate)}</span></li>
+            {/foreach}
+          </ul>
+      </div>
+    </div>
+    <div class="player_comment">
+      {include "../comments.html"}
+    </div>
+  </div>
+  <div class="fr newsinfo_right">
+    <div class="fl boder_base r_box  padding_10" id="rel_srvlist" style="display: none;">
+          <h2 class="p14 black strong lh30 nomal_h2back">相关开服信息</h2>
+          <div class="more"><div class="more_index"><a href="{getTypeLink('kaifu')}" target="_blank" title="更多" class="blue">更多&gt;&gt;</a></div></div>
+          <ul class="titlecolor strong">
+          <li class="li_1">时间</li>
+          <li class="li_2">服务器</li>
+          <li class="li_3">平台 </li>
+          <li class="li_4">礼包</li>
+          <li class="li_5">操作</li>
+          </ul>
+    	<div id="rel_srvlist_con">
+        {get_kaifu_list assign='items' limit='0,10' orderby='test_date' game_id="$game.id"}
+        {foreach $items as $item}
+        <ul class="">
+          <li class="li_1">{date('m-d', $item.test_date)}</li>
+          <li class="li_2">{$item.server_name}</li>
+          <li class="li_3">{$item.oper_short_name}</li>
+          <li class="li_4">
+                            <a class="lq_bt nogift" href="javascript:void(0);" title="暂无礼包">领</a>
+                    </li>
+          <li class="li_5"><a href="{$item.register_url}" target="_blank">开始游戏</a></li>
+    </ul>
+    {/foreach}
+
+            </div>
+            <script type="text/javascript">
+                
+                    $("#rel_srvlist_con").find("ul").each(function(){
+                            $("#rel_srvlist").show();
+                            return false;
+                    });
+                          
+            </script>
+        </div>
+    <div class="picbd boder_base adv160">
+      <script type="text/javascript">
+        _loadAnalysis("contentRtPicAD");
+      </script>
+    </div>
+    <div class="fl boder_base r_box  padding_10 mt">
+       <h2 class="p14 black strong lh30 nomal_h2back">图片推荐</h2>
+      <div class="more"><a href="{getTypeLink('gallery')}" target="_blank" title="查看更多精彩图片" class="blue">更多&gt;&gt;</a></div>
+    	 <ul class="pic_push mt_5">
+        {get_gallery_list assign='items' limit='0,4'}
+ 				{foreach $items as $item}
+         <li class="">
+            <a class="lh24" href="{$item|zqurl}" title="{$item.title}" target="_blank">
+                    <img width="140" height="110" class="picbd" src="{getArticleThumb($item,140,110)}">
+                    <center><p>{$item.title}</p></center>
+            </a>
+          </li>
+        {/foreach}
+      </ul>
+    </div>
+  <div class="fl boder_base r_box  padding_10 Ranking mt">
+      <h2 class="p14 black strong lh30 nomal_h2back ">新闻点击榜</h2>
+      <div class="more"><a href='{getTypeLink("article")}' target="_blank" class="blue">更多&gt;&gt;</a></div>
+    <ul class="lh24 fl">
+    {get_article_list assign='items' orderby='click' limit='0,10'}
+    {foreach $items as $item}
+    <li>
+        <span class="">{$item@iteration}</span>
+        <a target="_blank" title="{$item.title}" href="{$item|zqurl}">{$item.title}</a>
+    </li>
+    {/foreach}
+    </ul>
+  </div>
+</div>
+</div>
+
+{include "../footer.html"}
+</body>
+</html>
