@@ -15,13 +15,8 @@ class article_model extends model {
 	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
 
-    public function addArticle($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (!empty($info) && is_array($info)) {
-	    return $this->updateArticle($data);
-	}
-
-	$insert_data = array(
+    private function getData($data) {
+	$data = array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
 	    'flag' => getFlags($data->isTop),
@@ -43,6 +38,16 @@ class article_model extends model {
 	    'game_id' => $data->gameId
 	);
 
+	return $data;
+    }
+
+    public function addArticle($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (!empty($info) && is_array($info)) {
+	    return $this->updateArticle($data);
+	}
+
+	$insert_data = $this->getData($data);
 	$aid = $this->insert($insert_data, true);
 	
 	$categoryId = $data->categoryId;
@@ -53,11 +58,29 @@ class article_model extends model {
     }
 
     public function deleteArticle($guid) {
-
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (!$info) {
+	    $aid = $info['id'];
+	    $this->delete(array(
+		'id' => $aid
+	    ));
+	    zq_tag(false, $aid, $this->typeid, 'category', 'delete');
+	}
     }
 
     public function updateArticle($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addArticle($data);
+	}
 
+	$update_data = $this->getData($data);
+	$this->update($update_data, array('id'=>$info['id']));
+	
+	//clean aid tag
+	zq_tag($categoryId, $aid, $this->typeid, 'category', 'update');
+
+	return $info['id'];
     }
 }
 ?>

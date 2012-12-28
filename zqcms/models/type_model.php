@@ -22,5 +22,14 @@ class type_model extends model {
 	    }
 	}
     }
+
+    public function getTypeName($typeid) {
+	$type = $this->get_one(array('id'=>$typeid));
+	if (!empty($type)) {
+	    return $type['title'];
+	}
+
+	return '';
+    }
 }
 ?>
