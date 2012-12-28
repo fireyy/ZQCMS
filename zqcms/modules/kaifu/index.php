@@ -23,7 +23,7 @@ class index {
 	$month = isset($_GET['month']) ? $_GET['month'] : date('m', $now);
 	$day = isset($_GET['day']) ? $_GET['day'] : date('d', $now);
 
-	echo $this->db->getYearAndMonthKaifuCount($year, $month);
+	$month_kaifu_count = $this->db->getYearAndMonthKaifuCount($year, $month);
 	/*
 	$time = empty($_GET['time']) ? '' : $_GET['time'];
 

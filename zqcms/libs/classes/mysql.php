@@ -64,7 +64,6 @@ final class mysql {
 	$data = join(",", $field);
 
 	$sql = "SELECT ".$data.' FROM `'.$this->config['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
-	echo $sql;
 	$this->execute($sql);
 	if (!is_resource($this->lastqueryid)) {
 	    return $this->lastqueryid;

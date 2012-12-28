@@ -41,8 +41,12 @@ class kaifu_model extends model {
 	    false
 	);
 
-	print_r($r);
-
+	$kaifu_count = 0;
+	for ($i = 0; $i < count($r); ++$i) {
+	    $kaifu_count+=$r[$i]['num'];
+	}
+	
+	return $kaifu_count;
     }
 
     public function addKaifu($data) {
