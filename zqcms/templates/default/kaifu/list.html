@@ -169,8 +169,8 @@
 
   {foreach $lists as $item}
 	  <ul>
-      <li class="li_6">{date('m-d H:i', $item['test_date'])}</li>
-	    <li class="li_1"><a href="{getGameURL($item.game_id)}" class="p14 title" target="_blank">{$data['game_name']}</a></li>
+      <li class="li_6">{$item['test_date']|date_format:'m-d H:i'}</li>
+	    <li class="li_1"><a href="{getGameURL($item.game_id)}" class="p14 title" target="_blank">{$item['game_name']}</a></li>
       <li class="li_4">{$item['server_name']}</li>
       <li class="li_2">{$item['oper_short_name']}</li>
       <li class="li_7">{$item['dev_short_name']}</li>

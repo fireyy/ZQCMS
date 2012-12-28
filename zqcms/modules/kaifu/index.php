@@ -22,26 +22,73 @@ class index {
 	$year = isset($_GET['year']) ? $_GET['year'] : date('Y', $now);
 	$month = isset($_GET['month']) ? $_GET['month'] : date('m', $now);
 	$day = isset($_GET['day']) ? $_GET['day'] : date('d', $now);
+	$t = isset($_GET['t']) ? $_GET['t'] : 0;
 
 	list($month_kaifu_count, $kaifu_data) = $this->db->getYearAndMonthKaifuCount($year, $month);
-	/*
-	$time = empty($_GET['time']) ? '' : $_GET['time'];
+
+	//if ($t > 0) {
+	//    $today = false;
+	//}
+
+	switch ($t) {
+	    case 1:
+		$begin_date = mktime(9, 0, 0, $month, $day, $year);
+		$end_date   = mktime(12, 59, 0, $month, $day, $year);
+		break;
+	    case 3:
+		$begin_date = mktime(9, 0, 0, $month, $day, $year);
+		$end_date   = mktime(10, 59, 0, $month, $day, $year);
+		break;
+	    case 4:
+		$begin_date = mktime(11, 0, 0, $month, $day, $year);
+		$end_date   = mktime(12, 59, 0, $month, $day, $year);
+		break;
+	    case 5:
+		$begin_date = mktime(13, 0, 0, $month, $day, $year);
+		$end_date   = mktime(18, 59, 0, $month, $day, $year);
+		break;
+	    case 6:
+		$begin_date = mktime(13, 0, 0, $month, $day, $year);
+		$end_date   = mktime(14, 59, 0, $month, $day, $year);
+		break;
+	    case 7:
+		$begin_date = mktime(15, 0, 0, $month, $day, $year);
+		$end_date   = mktime(16, 59, 0, $month, $day, $year);
+		break;
+	    case 8:
+		$begin_date = mktime(16, 0, 0, $month, $day, $year);
+		$end_date   = mktime(18, 59, 0, $month, $day, $year);
+		break;
+	    case 9:
+		$begin_date = mktime(19, 0, 0, $month, $day, $year);
+		$end_date   = mktime(22, 59, 0, $month, $day, $year);
+		break;
+	    case 10:
+		$begin_date = mktime(19, 0, 0, $month, $day, $year);
+		$end_date   = mktime(20, 59, 0, $month, $day, $year);
+		break;
+	    case 11:
+		$begin_date = mktime(21, 0, 0, $month, $day, $year);
+		$end_date   = mktime(22, 59, 0, $month, $day, $year);
+		break;
+	    case 0:
+	    default:
+		$begin_date = mktime(0, 0, 0, $month, $day, $year);
+		$end_date   = mktime(0, 0, 0, $month, $day+1, $year);
+	}
 
 	$title = "";
 	$where = array();
 	$title = getTypeName($this->db->typeid);
-	if(isset($date) && !empty($date)){
-	    $begin_date = mktime(0, 0, 0, date("m", $date), date("d", $date), date("Y", $date));
-	    $end_date   = mktime(0, 0, 0, date("m", $date), date("d", $date) + 1, date("Y", $date));
+	if(isset($begin_date) && !empty($end_date)){
 	    $where[] = "test_date >= $begin_date AND test_date < $end_date";
 	}
 	$where = join(" and ", $where);
-	$lists = $this->db->select($where);
-	*/
+	$lists = $this->db->select($where, '*', '', 'test_date DESC');
 
-	//register_template_data('lists', $lists);
-	//register_template_data('items', $this);
-	//register_template_data('title', $title);
+	register_template_data('lists', $lists);
+	register_template_data('items', $this);
+	register_template_data('title', $title);
 	register_template_data('year', $year);
 	register_template_data('month', $month);
 	register_template_data('day', $day);
