@@ -588,6 +588,14 @@ function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=arra
     return $html;
 }
 
+/**
+ * 返回页面路径
+ * @param $urlrule 分页规则
+ * @param $currentPage 当前页
+ * @param $array 需要传递的数据
+ *
+ * @return 完成的url
+ */
 function pageurl($urlrule, $currentPage, $array=array()) {
     return "";
 }
