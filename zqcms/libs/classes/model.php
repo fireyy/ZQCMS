@@ -61,29 +61,13 @@ class model {
 	$this->number = $this->count($where);
 	$page = max(intval($page), 1);
 	$offset = $pagesize * ($page - 1);
-	//total, current, $pagesize, $urlrule, $array, $setpages
-	$this->pages = $this->getPages($this->number, $page, $pagesize, $urlrule);
-
+	$this->pages = pages($this->number, $page, $pagesize, $urlrule, $array, $setpages);
 	$array = array();
 	if ($this->number > 0) {
 	    return $this->select($where, '*', "$offset, $pagesize", $order, '', $key);
 	}else{
-	    return $array;
+	    return array();
 	}
-    }
-
-    private function getPages($totalCount, $currentPage, $pagesize, $urlrule) {
-	$totalPages = ceil($totalCount / $pagesize);
-  $html = '<div class="pages"><span class="page_count">当前第 '. $currentPage .' 页 / 共 '. $totalPages .' 页</span>';
-	for ($i = 1; $i <= $totalPages; $i++) {
-	    if ($i == $currentPage) {
-		$html .= '<strong>'.$i.'</strong>';
-	    }else{
-		$html .= '<a href="'.$urlrule."&page=$i".'">'.$i.'</a>';
-	    }
-	}
-	$html .= "</div>";
-	return $html;
     }
 
 

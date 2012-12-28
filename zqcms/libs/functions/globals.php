@@ -514,5 +514,81 @@ function getFlags($flags) {
     return join(",", $f);
 }
 
+/**
+ * 分页函数
+ *
+ * @param $totalCount 数据总数
+ * @param $currentPage 当前页数
+ * @param $pagesize 每页显示数量
+ * @param $urlrule URL规则
+ * @param $array 需要传递的数据 
+ *
+ * @return 
+ */
+function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=array(), $setpages=10) {
+    //加载URL rule
+    $html = "";
+    if ($totalCount > $pagesize) {
+	$page = $setpages + 1;
+	$offset = ceil($setpages / 2 - 1);
+	$totalPages = ceil($totalCount / $pagesize);
+	
+	$from = $currentPage - $offset;
+	$to = $currentPage + $offset;
+	$more = 0;
+	if ($page >= $totalPages) {
+	    $from = 2;
+	    $to = $totalPages - 1;
+	} else {
+	    if ($from <= 1) {
+		$to = $page - 1;
+		$from = 2;
+	    } elseif ($to >= $totalPages) {
+		$from = $totalPages - ($page - 2);
+		$to = $totalPages - 1;
+	    }
+	    $more = 1;
+	}
+	$html = '<div class="pages"><span class="page_count">当前第 '. $currentPage .' 页 / 共 '. $totalPages .' 页</span>';
 
+	if ($currentPage > 0) {
+	    if ($currentPage == $totalPages) {
+	        $html .= '<span class="first"><a href="'.pageurl($urlrule, 1, $array).'">到首页</a></span>';
+	    }
+	    if ($currentPage > 1) {
+		$html .= '<span class="prev"><a href="'.pageurl($urlrule, $currentPage-1, $array).'">上一页</a></span>';
+	    }
+
+	    if ($currentPage == 1) {
+	        $html .= '<strong>1</strong>';
+	    } elseif ($currentPage <= 6) {
+	        $html .= '<span class="prev"><a href="'.pageurl($urlrule, 1, $array).'">1</a></span>';
+	    }
+	}
+	for ($i = $from; $i <= $to; $i++) {
+	    if ($i == $currentPage) {
+	        $html .= '<strong>'.$i.'</strong>';
+	    }else{
+	        $html .= '<a href="'.pageurl($urlrule, $i, $array).'">'.$i.'</a>';
+	    }
+	
+	}
+	if ($currentPage < $totalPages) {
+	    $html .= '<span class="next"><a href="'.pageurl($urlrule, $currentPage+1, $array).'">下一页</a></span>';
+
+	    if ($currentPage < $totalPages && $more) {
+	        $html .= '<span class="last"><a href="'.pageurl($urlrule, $totalPages, $array).'">到末页</a></span>';
+	    }
+
+	} elseif ($currentPage == $totalPages) {
+	    $html .= '<strong>'.$totalPages.'</strong>';
+	}
+	$html .= "</div>";
+    }
+    return $html;
+}
+
+function pageurl($urlrule, $currentPage, $array=array()) {
+    return "";
+}
 ?>
