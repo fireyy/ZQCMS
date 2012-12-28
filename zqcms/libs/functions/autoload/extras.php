@@ -44,7 +44,7 @@ function getNextURL($article_id) {
 	$db = zq_core::load_model('article_model');
 	if ($r = $db->get_one("id > $article_id")) {
 	    $str = '<span class="gray">下一篇</span>&nbsp;&nbsp;';
-	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.$r['title'].'</a>';
+	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
 	    return $str;
 	}
     }
@@ -58,7 +58,7 @@ function getPrevURL($article_id) {
 	$db = zq_core::load_model('article_model');
 	if ($r = $db->get_one("id < $article_id")) {
 	    $str = '<span class="gray">上一篇</span>&nbsp;&nbsp;';
-	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.$r['title'].'</a>';
+	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
 	    return $str;
 	}
     }
@@ -237,7 +237,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
 }
 
 function getArticleThumb($item,$w=0,$h=0) {
-  return "#";
+  return "#.".$w."x".$h.".jpg";
 }
 #register_template_plugin("modifier", "zqthumb", "getArticleThumb");
 
@@ -653,6 +653,18 @@ function GetThumbsArray($body) {
 	}
 	    
 	return $imgs;
+}
+
+function GetThumbsList($body) {
+	preg_match_all("/(src)=[\"|'| ]{0,}([^>]*\.(gif|jpg|bmp|png))/isU",$body,$img_array);
+	$img_array = $img_array[2];
+	$imgs = array();
+	for ($c = 0; $c < count($img_array); $c++) {
+	    $pic = preg_replace("/[\"|'| ]{1,}/", '', $img_array[$c]);
+	    $imgs[] = "<dl><dt></dt><dd>".$pic."</dd><dd>$pic</dd><dd>$pic</dd><dd><dd><dd></dd><dd></dd><dd><dd>".($c+1)."</dd>";   
+	}
+	    
+	return join("", $imgs);
 }
 
 function getTimelineKaifu($y,$m) {
