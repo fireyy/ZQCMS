@@ -25,17 +25,7 @@ class game_model extends model {
 	return $result;
     }
 
-    /**
-     * 增加一个游戏
-     *
-     * @param object $data
-     */
-    public function addGame($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (is_array($info) && !empty($info)) {
-	    return $this->updateGame($data);
-	}
-
+    private function getData($data) {
 	$insert_data = array(
 	    'guid' => $data->guid,
 	    'typeid'=>$this->typeid,
@@ -67,7 +57,22 @@ class game_model extends model {
 	    'pinyin' => $data->pinyin,
 	    "game_id" => $data->id
 	);
-	    
+
+	return $insert_data;
+    }
+
+    /**
+     * 增加一个游戏
+     *
+     * @param object $data
+     */
+    public function addGame($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateGame($data);
+	}
+
+	$insert_data = $this->getData($data);
 	$aid = $this->insert($insert_data, true);
 
 	$game_tag = $data->gameTag;
@@ -107,10 +112,10 @@ class game_model extends model {
 	$info = $this->get_one(array('guid' => $guid));
 	if (is_array($info) && !empty($info)) {
 	    $id = $info["id"];
-
 	    $this->delete(array('id'=>$id));
 
 	    //delete tag
+	    zq_tag(false, $aid, $this->typeid, 'tag', 'delete');
 	}
     }
 

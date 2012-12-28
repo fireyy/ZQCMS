@@ -14,9 +14,13 @@
  * @param string $action tag的操作动作 add / delete
  */
 function zq_tag($tagname, $aid, $typeid, $type = 'tag', $action='add') {
-    $tagid = getTagIdByName($tagname);
-    //新增没有的话 尝试加入
-    $taxonomyId = getTaxonomyId($tagid, $type);
+    if (empty($tagname)) {
+	$taxonomyId = false;
+    } else {
+	$tagid = getTagIdByName($tagname);
+	//新增没有的话 尝试加入
+	$taxonomyId = getTaxonomyId($tagid, $type);
+    }
 
     if ($taxonomyId) {
 	if ($action == 'add') {
@@ -130,6 +134,9 @@ function updateTaxonomyCount($taxonomyId, $isaddication) {
  */
 function addTagRelationship($aid, $taxonomyId, $typeid) {
     $db = zq_core::load_model('tag_relationship_model');
+    if (!$taxonomyId) {
+	return;
+    }
 
     $r = $db->get_one(
 	array(
