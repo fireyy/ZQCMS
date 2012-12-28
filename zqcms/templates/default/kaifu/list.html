@@ -14,6 +14,7 @@
 
     <div id="content">
 	  <script language="JavaScript">
+	  {literal}
 		var time=new Date();
 		var localtime = new Array();
 		var hours = 0;
@@ -71,28 +72,44 @@
 		function reflresh() {
 			window.location.reload();
 		}
-
+		{/literal}
 	    </script>
     <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
 
     <div id="kflist">
 	<div class="listmenu" style="margin-top:0px;">
-	    <h1 class="p20">{date("y年m月d日",$date)}开服表</h1>
+	    <h1 class="p20">{$year}年{$month}月{$day}日开服表</h1>
 	    <div style=" line-height:36px;float: left;height: 35px;width: 1000px; margin-top: 5px;">
 		<div style="float:left">
 		    时间：
-		    <a href="{getTypeLink('kaifu','',['date'=>$yesterday])}" rel="nofollow" class="{if $date==$yesterday}enterpart_active{else}backa{/if}">昨天</a>
-		    <a href="{getTypeLink('kaifu','',['date'=>$today])}" rel="nofollow" class="{if $date==$today}enterpart_active{else}backa{/if}">今天</a>
-		    <a href="{getTypeLink('kaifu','',['date'=>$tomorrow])}" rel="nofollow" class="{if $date==$tomorrow}enterpart_active{else}backa{/if}">明天</a>
+		    {assign var='yesterday' value=strtotime('yesterday')}
+		    {assign var='yesterday_year' value=date('Y', $yesterday)}
+		    {assign var='yesterday_month' value=date('m', $yesterday)}
+		    {assign var='yesterday_day' value=date('d', $yesterday)}
+
+		    {assign var='today' value=strtotime('today')}
+		    {assign var='today_year' value=date('Y', $today)}
+		    {assign var='today_month' value=date('m', $today)}
+		    {assign var='today_day' value=date('d', $today)}
+
+		    {assign var='tomorrow' value=strtotime('tomorrow')}
+		   	{assign var='tomorrow_year' value=date('Y', $tomorrow)}
+		    {assign var='tomorrow_month' value=date('m', $tomorrow)}
+		    {assign var='tomorrow_day' value=date('d', $tomorrow)}
+
+		    <a href="{getTypeLink('kaifu','',['{$year}'=>$yesterday_year, '{$month}'=>$yesterday_month, '{$day}'=>$yesterday_day])}" rel="nofollow" class="{if ($smarty.get.year == $yesterday_year and $smarty.get.month == $yesterday_month and $smarty.get.day == $yesterday_day)}enterpart_active{else}backa{/if}">昨天</a>
+
+		    <a href="{getTypeLink('kaifu','',['{$year}'=>$today_year, '{$month}'=>$today_month, '{$day}'=>$today_day])}" rel="nofollow" class="{if ($smarty.get.year == $today_year and $smarty.get.month == $today_month and $smarty.get.day == $today_day)} enterpart_active{else}backa{/if}">今天</a>
+		    
+		    <a href="{getTypeLink('kaifu','',['{$year}'=>$tomorrow_year, '{$month}'=>$tomorrow_month, '{$day}'=>$tomorrow_day])}" rel="nofollow" class="{if ($smarty.get.year == $tomorrow_year and $smarty.get.month == $tomorrow_month and $smarty.get.day == $tomorrow_day)} enterpart_active{else}backa{/if}">明天</a>
 		    <a href="#timelist2"time rel="nofollow" class="backa">更多></a>
 		</div>
 		<div style="float:left">
 		    <form method="get">
 		    <label style="float:left">&nbsp;|&nbsp;指定游戏：</label>
-		    <input name="game_name" type="text" class="inputbox" style="width:70px;" id="game_name" value="{$game_name}" />
-		    <label style="float:left">指定平台：</label>
-		    <input name="oper_name" type="text" class="inputbox" style="width:70px;" id="oper_name" value="{$oper_name}" />
-		    <input type="hidden" name='date' value="{$date}" />
+		    <input name="game_name" type="text" class="inputbox" style="width:70px;" id="game_name" value="{$smarty.get.game_name}" />
+		    <label style="float:left">&nbsp;&nbsp;指定平台：</label>
+		    <input name="oper_name" type="text" class="inputbox" style="width:70px;" id="oper_name" value="{$smarty.get.oper_name}" />
 		    <input type="submit" value="搜索" class="dybutton_sty6" style=" *padding:0;margin-left:5px;*margin-left:5px;*margin-top:-1px;_margin-top:5px; height:26px; line-height:26px;"/>
 		    </form>
 		</div>
@@ -100,45 +117,27 @@
 	</div>
 
 	<div class="time">
-	    dede:php
-	      $now = time();
-	      $y = intval($_GET["y"]) ? intval($_GET["y"]) : date("Y", $now);
-	      $m = intval($_GET["m"]) ? intval($_GET["m"]) : date("m", $now);
-	      $d = intval($_GET["d"]) ? intval($_GET["d"]) : date("d", $now);
-	      $from = $_GET['from'];
-	      if (!empty($from)) {
-		  $time = strtotime($from);
-		  $y = date("Y", $time);
-		  $m = date("m", $time);
-		  $d = date("d", $time);
-	      }
-	      $basic_url = "/plus/list.php?tid=6";
-	      $date = array(
-		  "y=".$y,
-		  "m=".$m,
-		  "d=".$d
-	      );
-
-	    echo '<dl>';
-	    echo '    <dt style="border-left: 1px solid #ccc;  color: #000;" class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=0'))).'" style="color: #333; font-weight: bold;">全部</a></dt>';
-	    echo '</dl>';
-	    echo '<dl>';
-	    echo '    <dt style="border-left: 1px solid #ccc;" class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=1'))).'">上午</a></dt>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=3'))).'">9:00~10:59</a></dd>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=4'))).'">11:00~12:59</a></dd>';
-	    echo '</dl>';
-	    echo '<dl>';
-	    echo '    <dt class="bg"><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=5'))).'">下午</a></dt>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=6'))).'">13:00~14:59</a></dd>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=7'))).'">15:00~16:59</a></dd>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=8'))).'">17:00~18:59</a></dd>';
-	    echo '</dl>';
-	    echo '<dl>';
-	    echo '    <dt class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=9'))).'">晚上</a></dt>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=10'))).'">19:00~20:59</a></dd>';
-	    echo '    <dd class=""><a href="'.$basic_url.'&'.join('&', array_merge($date, array('t=11'))).'">21:00~22:59</a></dd>';
-	    echo '</dl>';
-	    /dede:php
+		<dl>
+	    	<dt style="border-left: 1px solid #ccc;  color: #000;" class="">
+	    		<a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>0])}" style="color: #333; font-weight: bold;">全部</a>
+	    	</dt>
+	    </dl>
+	    <dl>
+	    	<dt style="border-left: 1px solid #ccc;" class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>1])}">上午</a></dt>
+	    	<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>3])}">9:00~10:59</a></dd>
+	    	<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>4])}">11:00~12:59</a></dd>
+	    </dl>
+	    <dl>
+	    	<dt class="bg"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>5])}">下午</a></dt>
+	   		<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>6])}">13:00~14:59</a></dd>
+	    	<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>7])}">15:00~16:59</a></dd>
+	    	<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>8])}">17:00~18:59</a></dd>
+	    </dl>
+	    <dl>
+	    	<dt class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>9])}">晚上</a></dt>
+	    	<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>10])}">19:00~20:59</a></dd>
+	    	<dd class=""><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>11])}">21:00~22:59</a></dd>
+	    </dl>
 	</div>
 
 	<div class="div_top">
@@ -166,7 +165,6 @@
 	    <li class="li_3 org"><script language="JavaScript">getstatus("{date('Y-m-d', $item['test_date'])}", "{date('H', $item['test_date'])}");</script></li>
       </ul>
 	    </div>
-	}
 	{/foreach}
 
   {foreach $lists as $item}
@@ -184,9 +182,9 @@
 
   <div id="timelist2">
       <div class="leftbox">
-      <h2 class=" White p20">{date("y",$date)}</h2>
+      <h2 class=" White p20">{$year}</h2>
       <div><a title="上一月最新开服表" href=""><img width="10" height="11" alt="上一月最新开服表" src="{$style_dir}/images/gamelist__07.gif"></a></div>
-      <div class="p30" style=" width:70px;">{date("m月",$date)}</div>
+      <div class="p30" style=" width:70px;">{$month}</div>
       <div><a title="下一月最新开服表" href=""><img width="10" height="11" alt="下一月最新开服表" src="{$style_dir}/images/gamelist_07-03.gif"></a></div>
       {getTimelineKaifu()}
   </div>
