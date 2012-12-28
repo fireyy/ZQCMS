@@ -40,7 +40,9 @@ class model {
 	    $where = $this->sqls($where);
 	}
 
-	return $this->db->select($data, $this->table_name, $where, $limit, $order, $group, $key);
+	$data = $this->db->select($data, $this->table_name, $where, $limit, $order, $group, $key);
+  if(empty($data)) $data = array();
+  return $data;
     }
 
     /**

@@ -1,6 +1,16 @@
 <div id="tools"><div class="tminmenu ">
 	<ul class="fl tminmenu_l">
 		<li><a class="bhome black" href="/">首页</a></li>
+    <li id="sitemap">
+      <a class="black menu" href="#">站内导航</a>
+      <div id="navlist" class="downlist" style="display: none;">
+        <a href="{$site_config.site_indexurl}">返回首页</a>
+    		{zq_typelist current_class='hover'}
+    		<a href="~link~" target="_blank">~title~</a>
+    		{/zq_typelist}
+      </div>
+    </li>
+    <li><a class="black" href="http://bbs.zqcms.com" target="_blank">问题反馈</a></li>
 	</ul>
 </div>
 </div>

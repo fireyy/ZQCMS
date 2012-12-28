@@ -33,6 +33,12 @@ $(function(){
 			self.addClass('input1_06');
 		});
 	});
+  
+  $("#sitemap").hover(function(){
+  			$("#navlist").show();
+  		},function(){
+  			$("#navlist").hide();
+  		});
 
 	$('#header .searchlistbutton').each(function(){
 		var self = $(this);
