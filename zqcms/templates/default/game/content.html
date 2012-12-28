@@ -168,7 +168,7 @@ $(function(){
 <div class="news_push fl mt">
     <div class="news_push1 fl comment_bg  bt">
 	<h5 class="lh24 fl">相关内容推荐&gt;&gt;</h5>
-	<span class="fr lh24 strong gray"><a class="gray decoration" href="{getTypeLink("article","游戏资讯",['game_id'=>$game_id])}" target="_blank">新闻</a> | <a class="gray decoration" href="{getTypeLink("article","游戏攻略",['game_id'=>$game_id])}" target="_blank">攻略</a></span>
+	<span class="fr lh24 strong gray"><a class="gray decoration" href="{getTypeLink("article","游戏资讯",['{$game_id}'=>$game_id])}" target="_blank">新闻</a> | <a class="gray decoration" href="{getTypeLink("article","游戏攻略",['{$game_id}'=>$game_id])}" target="_blank">攻略</a></span>
     </div>
     <ul class="lh24 news_push1  black">
 	{foreach $items as $item}

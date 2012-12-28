@@ -4,20 +4,11 @@
  */
 function getURL($item, $config=array()) {
     if ($item && $item["typeid"]) {
-	$typedb = zq_core::load_model('type_model');
-	$typeinfo = $typedb->get_one(array('id'=>$item["typeid"]));
-	$model_name = $typeinfo['name'];
-	// article show id page
+	$url = zq_core::load_sys_class('url');
+	//$url_arr = $url->show($item['id'], 0, $item['typeid'], 0, '', '', array('{$mode}' => 2, '{$text}'=>31231));
+	$url_arr = $url->show($item['id'], 0, $item['typeid']);
 
-	//m c a
-	$url = array();
-	$url['m'] = $model_name;
-	$url['c'] = 'index';
-	$url['a'] = 'show';
-	$url['id'] = $item['id'];
-
-	$url = http_build_query($url);
-	return 'index.php?' . $url;
+	return $url_arr[1];
     }
     return '';
 }
@@ -129,7 +120,7 @@ function getTypeName($typeid){
  *
  * @return string url
  */
-function getTypeLink($type,$tagname='',$config=array()) {
+function getTypeLink($type, $tagname='', $array=array()) {
     $where = array();
     if (is_numeric($type) && intval($type) ){ 
 	$where['id'] = $type;
@@ -141,26 +132,16 @@ function getTypeLink($type,$tagname='',$config=array()) {
 	$db = zq_core::load_model('type_model');
 	$r = $db->get_one($where);
 	if ($r) {
-	    $url = array();
-	    $url['m'] = $r['name'];
-	    $url['c'] = 'index';
-	    $url['a'] = 'lists';
-
-	    $page = intval($_GET['page']);
-	    $page = $page == 0 ? 1 : $page;
-
-	    $url['page'] = $page;
-
-	    if (!empty($tagname)) {
-		$url['tag'] = $tagname;
+	    $url = zq_core::load_sys_class('url');
+	    if ($tagname) {
+		$array['{$tag}'] = $tagname;
 	    }
-
-	    $url = http_build_query($url);
-	    return 'index.php?' . $url;
+	    $url_arr = $url->typeurl($r['id'], 1, $array);
+	    return $url_arr[1];
 	}
     }
 
-    return '#';
+    return '';
 }
 
 /**

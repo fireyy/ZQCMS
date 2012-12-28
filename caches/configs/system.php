@@ -17,7 +17,8 @@ return array(
     'site_basehost' => 'http://cms.dev',
     'site_indexurl' => '/',
     'site_logo'  => '/uploads/logo.gif',
-    'site_beian' => ''
+    'site_beian' => '',
+    'html_root' => '/html', //静态页面路径
 );
 
 ?>

@@ -527,6 +527,9 @@ function getFlags($flags) {
  */
 function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=array(), $setpages=10) {
     //加载URL rule
+    if ($urlrule == '') {
+	$urlrule = page_url_par('page={$page}');
+    }
     $html = "";
     if ($totalCount > $pagesize) {
 	$page = $setpages + 1;
@@ -562,7 +565,7 @@ function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=arra
 	    if ($currentPage == 1) {
 	        $html .= '<strong>1</strong>';
 	    } elseif ($currentPage <= 6) {
-	        $html .= '<span class="prev"><a href="'.pageurl($urlrule, 1, $array).'">1</a></span>';
+	        $html .= '<a href="'.pageurl($urlrule, 1, $array).'">1</a>';
 	    }
 	}
 	for ($i = $from; $i <= $to; $i++) {
@@ -588,7 +591,49 @@ function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=arra
     return $html;
 }
 
+/**
+ * 返回页面路径
+ * @param $urlrule 分页规则
+ * @param $currentPage 当前页
+ * @param $array 需要传递的数据
+ *
+ * @return 完成的url
+ */
 function pageurl($urlrule, $currentPage, $array=array()) {
-    return "";
+    $findme = array('{$page}');
+    $replaceme = array($currentPage);
+
+    if (is_array($array)) {
+	foreach ($array as $k => $v) {
+	    $findme[] = $k;
+	    $replaceme[] = $v;
+	}
+    }
+    $url = str_replace($findme, $replaceme, $urlrule);
+
+    return $url;
+}
+
+function page_url_par($par, $url = '') {
+    if ($url == '') {
+	$url = get_url();
+    }
+    $pos = strpos($url, '?');
+
+    if ($pos === false) {
+	$url .= '?'.$par;
+    } else {
+	$querystring = substr(strstr($url, '?'), 1);
+	parse_str($querystring, $pars);
+	$query_array = array();
+	foreach ($pars as $k => $v) {
+	    if ($k != 'page') {
+		$query_array[$k] = $v;
+	    }
+	}
+	$querystring = http_build_query($query_array).'&'.$par;
+	$url = substr($url, 0, $pos) . '?' . $querystring;
+    }
+    return $url;
 }
 ?>
