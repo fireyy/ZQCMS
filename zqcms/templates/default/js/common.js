@@ -1288,8 +1288,12 @@ function shift_choose(index,prefix,total,normalCss,selectCss){
 	for(var j=0;j<selectCss.length;++j){
 		$("#"+prefix+index).addClass(selectCss[j]);
 	}
-
-	$("#"+prefix+index+"_content").show();
+  if(prefix=="slist_" && index==1){
+    $("#"+prefix+"1_content").show();
+    $("#"+prefix+"2_content").show();
+  }else{
+    $("#"+prefix+index+"_content").show();
+  }
 }
 
 String.prototype.trim = function() 

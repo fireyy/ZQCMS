@@ -350,10 +350,11 @@ function get_recomm_kaifu_list($params, $template){
   if (isset($params['limit'])){
     $limit = $params['limit'];
   }
-  $where = join(" and ", $where);
   $time = strtotime('today');
   $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
-  $where .= " and test_date >= $begin_date";
+  $where[] = "test_date >= $begin_date";
+  
+  $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
   if (isset($params['assign'])) {
   	$template->assign($params['assign'], $data);
@@ -452,6 +453,7 @@ function get_gift_list($params, $template){
   $where = array();
   $limit = "";
   $orderby = "";
+  $num = 0;
   if (isset($params['flag'])){
     $flag = $params['flag'];
     if(!preg_match('#,#', $flag)){
@@ -472,6 +474,8 @@ function get_gift_list($params, $template){
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
+    $num = explode(',', $limit);
+    $num = $num[1];
   }
   if(isset($params['day'])){
     $time = strtotime($params['day']);
@@ -484,6 +488,12 @@ function get_gift_list($params, $template){
   }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
+  $count = count($data);
+  if($count < $num){
+    $lm2 = $count.",".($num - $count);
+    $data2 = $db->select("", '*', $lm2, $orderby);
+    $data = array_merge($data,$data2);
+  }
   if (isset($params['assign'])) {
   	$template->assign($params['assign'], $data);
   }
