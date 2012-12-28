@@ -1,6 +1,8 @@
 <?php
-
-function getURL($item) {
+/**
+ * 获得某个页面上的URL链接
+ */
+function getURL($item, $config=array()) {
     if ($item && $item["typeid"]) {
 	$typedb = zq_core::load_model('type_model');
 	$typeinfo = $typedb->get_one(array('id'=>$item["typeid"]));
@@ -12,15 +14,149 @@ function getURL($item) {
 	$url['m'] = $model_name;
 	$url['c'] = 'index';
 	$url['a'] = 'show';
-
 	$url['id'] = $item['id'];
 
 	$url = http_build_query($url);
 	return 'index.php?' . $url;
     }
-    return '#';
+    return '';
 }
 register_template_plugin("modifier", "zqurl", "getURL");
+
+/**
+ * 根据GameId获得真实URL地址
+ * 
+ */
+function getGameURL($game_id) {
+    $game_id = intval($game_id);
+    if ($game_id) {
+	$db = zq_core::load_model('game_model');
+	if ($r = $db->get_one(array('id'=>$game_id))) {
+	    return getURL($r);
+	}
+    }
+    return '';
+}
+
+function getNextURL($article_id) {
+    $article_id = intval($article_id);
+    if ($article_id) {
+	$db = zq_core::load_model('article_model');
+	if ($r = $db->get_one("id > $article_id")) {
+	    $str = '<span class="gray">下一篇</span>&nbsp;&nbsp;';
+	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.$r['title'].'</a>';
+	    return $str;
+	}
+    }
+
+    return;
+}
+
+function getPrevURL($article_id) {
+    $article_id = intval($article_id);
+    if ($article_id) {
+	$db = zq_core::load_model('article_model');
+	if ($r = $db->get_one("id < $article_id")) {
+	    $str = '<span class="gray">上一篇</span>&nbsp;&nbsp;';
+	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.$r['title'].'</a>';
+	    return $str;
+	}
+    }
+
+    return;
+}
+
+/**
+ * 当前位置导航
+ *
+ * @param array|object $item 
+ *  When $item is array,  $item need include title
+ *  When $item is object, this item is Controller. need inclde model 
+ */
+function position($item) {
+    //一个详细内容数组
+    $webroot = zq_core::load_config('system', 'site_basehost') . zq_core::load_config('system', 'site_indexurl');
+    $u = array(
+	"<a href='$webroot' target='_blank'>首页</a>"
+    );
+    
+    $typedb = zq_core::load_model('type_model');
+    if (is_array($item) && $item['typeid']) {
+	$typeid = $item['typeid'];
+	$title = $typedb->getTypeName($typeid);
+	$u[] = "<a href='".getTypeLink($typeid)."' target='_blank'>$title</a>";
+
+	//get tag
+	$tag_names = getTagNamesByAid($item['id'], $typeid);
+	if ($tag_names) {
+	    $tag_links = array();
+	    for ($i = 0; $i < count($tag_names); $i++) {
+		$tag_name = $tag_names[$i];
+		$tag_links[] = "<a href='".getTypeLink($typeid, $tag_name)."' target='_blank'>$tag_name</a>";
+	    }
+	    
+	    $u[] = join(", ", $tag_links);
+	}
+
+	if (!empty($item['title'])) {
+	    $u[] = $item['title'];
+	}
+
+    }else{
+	if (is_object($item) && $item->db && $item->db->typeid) {
+	    $title = $typedb->getTypeName($item->db->typeid);
+	    $u[] = "<a href='".getTypeLink($item->db->typeid)."' target='_blank'>$title</a>";
+
+	    if ($_GET['tag']) {
+		$tag = $_GET['tag'];
+		$u[] = "<a href='".getTypeLink($item->db->typeid, $tag)."' target='_blank'>$tag</a>";
+	    }
+	}
+    }
+    return join(' &gt ', $u);
+}
+
+/**
+ * 获得内容模型的url
+ * 
+ * @param string|integer $type
+ * @param string $tagname
+ *
+ * @return string url
+ */
+function getTypeLink($type,$tagname='') {
+    $where = array();
+    if (is_numeric($type) && intval($type) ){ 
+	$where['id'] = $type;
+    }elseif (is_string($type) && !empty($type)){
+	$where['name'] = $type;
+    }
+
+    if (!empty($where)) {
+	$db = zq_core::load_model('type_model');
+	$r = $db->get_one($where);
+	if ($r) {
+	    $url = array();
+	    $url['m'] = $r['name'];
+	    $url['c'] = 'index';
+	    $url['a'] = 'lists';
+
+	    $page = intval($_GET['page']);
+	    $page = $page == 0 ? 1 : $page;
+
+	    $url['page'] = $page;
+
+	    if (!empty($tagname)) {
+		$url['tag'] = $tagname;
+	    }
+
+	    $url = http_build_query($url);
+	    return 'index.php?' . $url;
+	}
+    }
+
+    return '#';
+}
 
 /**
  *  短消息函数,可以在某个动作处理后友好的提示信息
@@ -95,74 +231,12 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
     echo $msg;
 }
 
-function getGameURL($game_id) {
-  return "#";
-}
-
-function getNextURL($article_id) {
-  return "#";
-}
-
-function getPrevURL($article_id) {
-  return "#";
-}
-
-function position($item) {
-  return "<a href='/'>首页</a> &gt <a href='#'>资讯</a> &gt <a href='#'>游戏攻略</a>";
-}
-
-/**
- * 获得内容模型的url
- * 
- * @param string|integer $type
- * @param string $tagname
- *
- * @return string url
- */
-function getTypeLink($type,$tagname='') {
-    $where = array();
-    if (is_numeric($type) && intval($type) ){ 
-	$where['id'] = $type;
-    }elseif (is_string($type) && !empty($type)){
-	$where['name'] = $type;
-    }
-
-    if (!empty($where)) {
-	$db = zq_core::load_model('type_model');
-	$r = $db->get_one($where);
-	if ($r) {
-	    $url = array();
-	    $url['m'] = $r['name'];
-	    $url['c'] = 'index';
-	    $url['a'] = 'lists';
-
-	    $page = intval($_GET['page']);
-	    $page = $page == 0 ? 1 : $page;
-
-	    $url['page'] = $page;
-
-	    if (!empty($tagname)) {
-		$url['tag'] = $tagname;
-	    }
-
-	    $url = http_build_query($url);
-	    return 'index.php?' . $url;
-	}
-    }
-
-    return '#';
-}
 
 
 function getArticleThumb($item,$w,$h) {
   return "#";
 }
 #register_template_plugin("modifier", "zqthumb", "getArticleThumb");
-
-
-
-
-
 
 function get_today_kaifu_count() {
   $db = zq_core::load_model("kaifu_model");

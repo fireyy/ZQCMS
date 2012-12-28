@@ -163,6 +163,33 @@ function addTagRelationship($aid, $taxonomyId, $typeid) {
     }
 }
 
+function getTagNamesByAid($aid, $typeid) {
+    $db = zq_core::load_model('tag_relationship_model');
+    $taxonomy_db = zq_core::load_model('tag_taxonomy_model');
+
+    $data = $db->select(array(
+	'aid' => $aid,
+	'typeid' => $typeid
+    ));
+
+    if (!empty($data) && is_array($data)) {
+        $names = array();
+        for ($i = 0; $i < count($data); ++$i) {
+            $tag_relationship = $data[$i];
+            $r = $taxonomy_db->get_one(
+                array('id'=>$tag_relationship['tag_taxonomy_id']), 'tag_id');
+            if (!empty($r)) {
+		if ($tag = getTagInfoById($r['tag_id'])) {
+		    $names[] = $tag['name'];
+		}
+            }
+	}
+	return $names;
+    }
+
+    return false;
+}
+
 /**
  * 删除关系数据id
  *
