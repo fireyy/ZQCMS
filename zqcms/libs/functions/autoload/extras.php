@@ -35,7 +35,7 @@ function getNextURL($article_id) {
 	$db = zq_core::load_model('article_model');
 	if ($r = $db->get_one("id > $article_id")) {
 	    $str = '<span class="gray">下一篇</span>&nbsp;&nbsp;';
-	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.$r['title'].'</a>';
+	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
 	    return $str;
 	}
     }
@@ -49,7 +49,7 @@ function getPrevURL($article_id) {
 	$db = zq_core::load_model('article_model');
 	if ($r = $db->get_one("id < $article_id")) {
 	    $str = '<span class="gray">上一篇</span>&nbsp;&nbsp;';
-	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.$r['title'].'</a>';
+	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
 	    return $str;
 	}
     }
@@ -218,7 +218,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
 }
 
 function getArticleThumb($item,$w=0,$h=0) {
-  return "#";
+  return "#.".$w."x".$h.".jpg";
 }
 #register_template_plugin("modifier", "zqthumb", "getArticleThumb");
 
@@ -350,10 +350,11 @@ function get_recomm_kaifu_list($params, $template){
   if (isset($params['limit'])){
     $limit = $params['limit'];
   }
-  $where = join(" and ", $where);
   $time = strtotime('today');
   $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
-  $where .= " and test_date >= $begin_date";
+  $where[] = "test_date >= $begin_date";
+  
+  $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
   if (isset($params['assign'])) {
   	$template->assign($params['assign'], $data);
@@ -452,6 +453,7 @@ function get_gift_list($params, $template){
   $where = array();
   $limit = "";
   $orderby = "";
+  $num = 0;
   if (isset($params['flag'])){
     $flag = $params['flag'];
     if(!preg_match('#,#', $flag)){
@@ -472,6 +474,8 @@ function get_gift_list($params, $template){
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
+    $num = explode(',', $limit);
+    $num = $num[1];
   }
   if(isset($params['day'])){
     $time = strtotime($params['day']);
@@ -484,6 +488,12 @@ function get_gift_list($params, $template){
   }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
+  $count = count($data);
+  if($count < $num){
+    $lm2 = $count.",".($num - $count);
+    $data2 = $db->select("", '*', $lm2, $orderby);
+    $data = array_merge($data,$data2);
+  }
   if (isset($params['assign'])) {
   	$template->assign($params['assign'], $data);
   }
@@ -634,5 +644,17 @@ function GetThumbsArray($body) {
 	}
 	    
 	return $imgs;
+}
+
+function GetThumbsList($body) {
+	preg_match_all("/(src)=[\"|'| ]{0,}([^>]*\.(gif|jpg|bmp|png))/isU",$body,$img_array);
+	$img_array = $img_array[2];
+	$imgs = array();
+	for ($c = 0; $c < count($img_array); $c++) {
+	    $pic = preg_replace("/[\"|'| ]{1,}/", '', $img_array[$c]);
+	    $imgs[] = "<dl><dt></dt><dd>".$pic."</dd><dd>$pic</dd><dd>$pic</dd><dd><dd><dd></dd><dd></dd><dd><dd>".($c+1)."</dd>";   
+	}
+	    
+	return join("", $imgs);
 }
 ?>

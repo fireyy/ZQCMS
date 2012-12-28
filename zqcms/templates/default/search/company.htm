@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>搜索运营平台{$keys}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+<link href="{$style_dir}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{include "../scripts.html" caching}
+</head>
+<body class="articleview">
+{include "../head.html"}
+<div id="content">
+
+	<div style="margin-top:15px;" class="boxmodel operator">
+		<h1 class="p20 h1yb">找到 <span class="red">{$keys}</span> 相关信息共 <span class="red">{$totalResult}</span> 条：</h1>
+		<ul>
+		{foreach $lists as $item}
+			<li>
+				<a href="{$item|zqurl}">
+					<img width="180" height="90" src="{$item.company_thumb}">
+				</a>
+				<p><a href="{$item|zqurl}">{$item.short_name}</a></p>
+				<p>旗下运营游戏：{$item.game_count} 款</p>
+			</li>
+		{/foreach}	
+		</ul>
+		<div class="qdiv">{$pages}</div>
+	</div>
+	<div style="clear:both"></div>
+</div>
+{include "../footer.html"}
+</body>
+</html>

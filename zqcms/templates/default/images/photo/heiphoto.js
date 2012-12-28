@@ -250,7 +250,7 @@ var epidiascope = {
 		};
 		//设置下一图集
 		var nextPics = sina.$('efpNextGroup').getElementsByTagName('a');
-		sina.$('nextPicsBut').href = nextPics[0].href;
+		if(nextPics.length > 0) sina.$('nextPicsBut').href = nextPics[0].href;
 		
 		if(this.autoPlay){this.play()}else{this.stop()};
 		
@@ -313,7 +313,7 @@ var epidiascope = {
 	
 		this.createImg();
 		
-		this.ImgObj1.style.opacity = 0;
+		//this.ImgObj1.style.opacity = 0;
 		
 		if(this._timeOut){
 			for(i=0;i<this._timeOut.length;i++){

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>搜索游戏{$keys}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+<link href="{$style_dir}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{include "../scripts.html" caching}
+</head>
+<body class="articleview">
+{include "../head.html"}
+<div id="content">
+
+<div style="margin-top:15px;" class="gamelist bd_1">
+	<h1 class="p14">搜索结果</h1>
+	<h1 class="p14">找到 <span class="red">{$keys}</span> 共 <span class="red">{$keys}</span> 条相关信息：</h1>
+</div>
+
+<div class="box_line picbox">
+	<div style="width:98%; padding:10px; float:left;">
+		{foreach $lists as $item}
+		<ul class="position_div fl">
+			<li style="height:150px;">
+			<p>
+				<a target="_blank" title="{$item.title}" href="{$item|zqurl}"><img src="{$item.game_thumb}"/></a>
+			</p>
+			<p><a target="_blank" title="{$item.title}" href="{$item|zqurl}">{$item.title}</a></p>
+			<p class="gray">已开服{$kaifu_count}组</p>
+			</li>
+		</ul>
+		{/foreach}
+	</div>
+</div>
+
+<div class="qdiv">{$pages}</div>
+<div style="clear:both"></div>
+</div>
+{include "../footer.html"}
+</body>
+</html>
