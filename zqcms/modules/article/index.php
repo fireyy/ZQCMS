@@ -33,6 +33,7 @@ class index {
 	$page = $_GET['page'];
   if(empty($page)) $page = 1;
   $tag = $_GET['tag'];
+  $game_id = $_GET['game_id'];
   $title = "";
   $where = array();
   if(isset($tag) && !empty($tag)){
@@ -43,6 +44,9 @@ class index {
     $title = $tag;
   }else{
     #$title = $this->db->getTypeName();
+  }
+  if(isset($game_id) && !empty($game_id)){
+    $where[] = "game_id = $game_id";
   }
   $where = join(" and ", $where);
   $lists = $this->db->listinfo($where,'', $page);

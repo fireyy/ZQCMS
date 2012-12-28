@@ -356,7 +356,7 @@
   			{foreach $items as $item}
 				<li> 
 				    <a target="_blank" href="{$item|zqurl}" title="{$item.title}" class="fl">
-					<img src="{getArticleThumb($item,'',80)}" height="80" class=" picbd"/>
+					<img src="{getArticleThumb($item,0,80)}" height="80" class=" picbd"/>
 				    </a>
 				    <div class="fl lh20 mt wind_width">
 					<a target="_blank" href="{$item|zqurl}" class=" p14 blue">{str_cut($item.title,45,"")}</a>
