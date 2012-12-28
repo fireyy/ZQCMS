@@ -134,7 +134,7 @@ function getTypeLink($type,$tagname='') {
 	    $url = array();
 	    $url['m'] = $r['name'];
 	    $url['c'] = 'index';
-	    $url['a'] = 'list';
+	    $url['a'] = 'lists';
 
 	    $page = intval($_GET['page']);
 	    $page = $page == 0 ? 1 : $page;
@@ -432,6 +432,9 @@ function get_article_list($params, $template){
   if (isset($params['limit'])){
     $limit = $params['limit'];
   }
+  if(isset($params['game_id'])){
+    $where[] = "game_id = {$params['game_id']}";
+  }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
   if (isset($params['assign'])) {
@@ -517,6 +520,9 @@ function get_gallery_list($params, $template){
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
+  }
+  if(isset($params['game_id'])){
+    $where[] = "game_id = {$params['game_id']}";
   }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);

@@ -73,16 +73,16 @@ class model {
     }
 
     private function getPages($totalCount, $currentPage, $pagesize, $urlrule) {
-	$html = '<ul class="pages">';
 	$totalPages = ceil($totalCount / $pagesize);
+  $html = '<div class="pages"><span class="page_count">当前第 '. $currentPage .' 页 / 共 '. $totalPages .' 页</span>';
 	for ($i = 1; $i <= $totalPages; $i++) {
 	    if ($i == $currentPage) {
-		$html .= '<li><b>'.$i.'</b></li>';
+		$html .= '<strong>'.$i.'</strong>';
 	    }else{
-		$html .= '<li><a href="'.$urlrule."&page=$i".'">'.$i.'</a></li>';
+		$html .= '<a href="'.$urlrule."&page=$i".'">'.$i.'</a>';
 	    }
 	}
-	$html .= "</ul>";
+	$html .= "</div>";
 	return $html;
     }
 
