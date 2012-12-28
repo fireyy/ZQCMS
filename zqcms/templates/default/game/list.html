@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -93,10 +94,10 @@
       -->
       <div class="bq_div">
 	  <div class="bottom_line" id="hotGameNav">
-	      <a class="{if $gamesort == 1}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['gamesort'=>1])}">最新入库</a>
-	      <a class="{if $gamesort == 2}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['gamesort'=>2])}">开服量最多</a>
-	      <a class="{if $gamesort == 3}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['gamesort'=>3])}">最多人赞</a>
-	      <a class="{if $gamesort == 4}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['gamesort'=>4])}">评分最高</a>
+	      <a class="{if $gamesort == 1}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>1])}">最新入库</a>
+	      <a class="{if $gamesort == 2}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>2])}">开服量最多</a>
+	      <a class="{if $gamesort == 3}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>3])}">最多人赞</a>
+	      <a class="{if $gamesort == 4}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>4])}">评分最高</a>
 	  </div>
       </div>
       <div style="width:100%; padding-right:5px;  float:left;">

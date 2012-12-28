@@ -565,7 +565,7 @@ function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=arra
 	    if ($currentPage == 1) {
 	        $html .= '<strong>1</strong>';
 	    } elseif ($currentPage <= 6) {
-	        $html .= '<span class="prev"><a href="'.pageurl($urlrule, 1, $array).'">1</a></span>';
+	        $html .= '<a href="'.pageurl($urlrule, 1, $array).'">1</a>';
 	    }
 	}
 	for ($i = $from; $i <= $to; $i++) {
