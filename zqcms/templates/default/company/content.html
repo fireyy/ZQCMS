@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
-<title>{$title}_{$site_config.site_name}</title>
+<title>{$company.short_name}_{$site_config.site_name}</title>
 <meta name="keywords" content="{$site_config.site_keywords}" />
 <meta name="description" content="{$site_config.site_description}" />
 {include "../styles.html" caching}
@@ -23,7 +23,7 @@
 		<div class="rightdiv">
 			<h2 class="p20 org">{$company.short_name}</h2>
 			<div class="morediv">
-				网页游戏：{dede:field name="game_count" /} 款 | 最新开服信息：{dede:field name="kaifu_today_count" /} 条
+				网页游戏：0 款 | 最新开服信息：0 条
 			</div>
 			<div style="float:left;width:100%;">{$company.description}</div>
 		</div>
@@ -39,7 +39,7 @@
 			</ul>
 		</div>
     {get_gift_list assign='items' limit='0,6' orderby='send_date' orderway='desc'}
-    {if !empty(items)}
+    {if !empty($items)}
 		<div id="gift">
 			<h1 class="h1yb p20">{$company.short_name}礼包/新手卡(共{get_gift_count(['oper_id'=>$company_id])}款)
 			</h1>
@@ -47,7 +47,7 @@
         {foreach $items as $item}
 				<li>
 					<a target="_blank" href="{$item.get_url}">
-						<img width="90" height="90" alt="{$item.title}" src="{$style_dir}/images/card_03-02">
+						<img width="90" height="90" alt="{$item.title}" src="{$style_dir}/images/card_03-02.gif">
 					</a>
 					<p style="height:40px;">
 						<a target="_blank" class="p14" href="{$item.get_url}">{$item.title}</a>
@@ -65,7 +65,7 @@
 		</div>
     {/if}
     {get_kaifu_list assign='items' limit='0,50' orderby='test_date' orderway='desc'}
-    {if !empty(items)}
+    {if !empty($items)}
 		<div id="kflist">
 			<h1 class="p20 h1yb" style="float:left">{$company.short_name}最新开服信息</h1>
 			<div style="float:left; line-height:40px; margin-left:15px; color:#ff6600;">开服总数：{get_kaifu_count(['oper_id'=>$company_id])}</div>
@@ -89,8 +89,8 @@
 				<li class="li_1"><a href="{getGameURL($item.game_id)}" class="p14 title" target="_blank">{$item.game_name}</a></li>
 				<li class="li_3">{$item.server_name}</li>
 				<li class="li_3">双线</li>
-				<li class="li_3"><a href="[field:game_tag_url /]" target="_blank" class='backa'>{$item.game_tag}</a></li>
-				<li class="li_3">{$item.game_status}</li>
+				<li class="li_3"><a href="#" target="_blank" class='backa'>{$item.game_tag}</a></li>
+				<li class="li_3"></li>
 				<li class="li_3">
 					<a href="{$item.register_url}" rel="nofollow" target="_blank">开始游戏</a>
 				</li>

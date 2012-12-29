@@ -14,7 +14,7 @@ class Installer {
 			$compat[] = '<strong>Anchor requires PHP 5.2 or newer.</strong><br>
 				<em>Your current environment is running PHP ' . PHP_VERSION . '</em>';
 		}
-    
+    #TODO 环境检测
     $sp_testdirs = array(
         '/',
         '/caches/*',

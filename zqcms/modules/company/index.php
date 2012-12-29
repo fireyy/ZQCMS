@@ -24,7 +24,7 @@ class index {
     public function lists() {
   $page = empty($_GET['page']) ? 1 : $_GET['page'];
   $sort = empty($_GET['sort']) ? 1 : $_GET['sort'];
-  $title = "";
+  $title = getTypeName($this->db->typeid);
   $orderby = "";
   $where = array();
   switch ($sort) {
