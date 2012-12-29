@@ -1,25 +1,13 @@
 <?php render('layout/header'); ?>
 
-<section class="content">
-	<nav>
-		<div class="logo">
-			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/assets/img/logo.png">
-		</div>
+<div class="content">
+	<?php render('layout/nav'); ?>
 
-		<ul>
-			<li><i class="icon-spanner"></i>Database information</li>
-			<li class="selected"><i class="icon-pencil"></i>Site metadata</li>
-			<li><i class="icon-user"></i>Your first account</li>
-		</ul>
+	<div class="article">
+		<h1>设置您的站点</h1>
 
-		<p>You're installing Anchor <?php echo ANCHOR_VERSION; ?>. Hooray!</p>
-	</nav>
-
-	<article>
-		<h1>Site metadata</h1>
-
-		<p>In order to personalise your Anchor blog, it's recommended you add some metadata about your site. This can all be changed at any time, though.</p>
-	</article>
+		<p>自定义站点信息，建议您输入站点简介。当然之后也可以通过后台来更改。</p>
+	</div>
 
 	<form method="post" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php?action=stage3" autocomplete="off">
 		<fieldset>
@@ -28,46 +16,46 @@
 
 			<p>
 				<label>
-					<strong>Site Name</strong>
-					<span>Used in the <code>&lt;title&gt;</code>.</span>
+					<strong>站点名称</strong>
+					<span>在页面 <code>&lt;title&gt;</code> 里显示.</span>
 				</label>
 
-				<input name="site_name" value="<?php echo post('site_name', 'My First Anchor Blog'); ?>">
+				<input name="site_name" value="<?php echo post('site_name', 'ZQCMS'); ?>">
 			</p>
 
 			<p>
 				<label>
-					<strong>Site Description</strong>
-					<span>A short bio of the site.</span>
+					<strong>站点简介</strong>
+					<span>简短的介绍您的站点.</span>
 				</label>
 
-				<textarea name="site_description"><?php echo post('site_description', 'It&rsquo;s not just any blog. It&rsquo;s an Anchor blog.'); ?></textarea>
+				<textarea name="site_description"><?php echo post('site_description', 'ZQCMS, 为游戏玩家提供网游新服表、网游开服表、网页游戏开服表、网页游戏大全、游戏激活码等服务。'); ?></textarea>
 			</p>
 
 			<p>
 				<label>
-					<strong>Site Path</strong>
-					<span>The path to Anchor.</span>
+					<strong>安装目录</strong>
+					<span>在根目录安装时不必理会.</span>
 				</label>
 
-				<input name="site_path" value="<?php echo post('site_path', dirname(dirname($_SERVER['REQUEST_URI']))); ?>">
+				<input name="site_indexurl" value="<?php echo post('site_indexurl', dirname(dirname($_SERVER['REQUEST_URI']))); ?>">
 			</p>
 
 			<p>
 				<label>
-					<strong>Theme</strong>
-					<span>Your Anchor theme.</span>
+					<strong>网站主题</strong>
+					<span>选择网站主题.</span>
 				</label>
 			<select name="theme">
 				<option value="default">Default</option>
 			</select></p>
 		</fieldset>
 
-		<section class="options">
-			<button type="submit">Next Step &raquo;</button>
+		<div class="options">
+			<button type="submit">下一步 &raquo;</button>
 			<div class="test"></div>
-		</section>
+		</div>
 	</form>
-</section>
+</div>
 
 <?php render('layout/footer'); ?>
