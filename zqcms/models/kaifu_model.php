@@ -89,7 +89,7 @@ class kaifu_model extends model {
 
 	if ($oper_id && $game_id) {
 	    $gamedb->update(array('kaifu_count'=>'+=1'), array('game_id'=>$game_id));
-	    $companydb->update(array('kaifu_count'=>'+=1', array('company_id'=>$oper_id)));
+	    $companydb->update(array('kaifu_count'=>'+=1'), array('company_id'=>$oper_id));
 
 	    $rdb->update(array('kaifu_count'=>'+=1'), array('game_id'=>$game_id, 'company_id'=>$oper_id));
 	}

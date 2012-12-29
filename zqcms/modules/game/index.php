@@ -20,6 +20,11 @@ class index {
 	    $company_count = $rdb->count(array('game_id' => $game['game_id']));
 	    $game['company_count'] = $company_count;
 
+	    //获取开服信息
+	    $kaifu_db = zq_core::load_model('kaifu_model');
+	    $company_db = zq_core::load_model('company_model');
+	    
+
 	    register_template_data('game', $game);
 	    return template('game', 'content');
 	}else{
