@@ -166,6 +166,7 @@ $(function(){
 #TODO
 #开服调用
 -->
+{if !empty($kaifus)}
 <div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
 	<h5>{$game.title} 开服表 >> 
 		<span class="p12 text_span">官网全部{$game.company_count} | 开服表全部{$game.kaifu_count}</span>
@@ -179,9 +180,10 @@ $(function(){
 		    <li class="list_04 strong">操作</li>
 		</ul>
 
+		{foreach $kaifus as $kaifu}
 		<ul>
-		    <li class="list_01 lh40">'.$data['oper_short_name'].'</li>
-		    <li class="list_02">'.$company[$data['oper_short_name']].'服</li>
+		    <li class="list_01 lh40">{$kaifu['oper_short_name']}</li>
+		    <li class="list_02">{$kaifu['company']['kaifu_count']}服</li>
 		    <li class="list_03">
 		    </li>
 
@@ -189,10 +191,10 @@ $(function(){
 		    	<a class="blue play_game" href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a>
 		    </li>
 	    </ul>
-
+	    {/foreach}
 	</div>
 </div>
-
+{/if}
 
 {get_kaice_list assign='items' limit='0,10' orderby='test_date' game_id="$game_id"}
 {if !empty($items) }

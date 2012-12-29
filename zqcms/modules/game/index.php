@@ -23,7 +23,65 @@ class index {
 	    //获取开服信息
 	    $kaifu_db = zq_core::load_model('kaifu_model');
 	    $company_db = zq_core::load_model('company_model');
+
+	    $data = $kaifu_db->select(
+		array('game_id'=>$game['game_id']),
+		'*',
+		'0, 20',
+		'test_date DESC'
+	    );
 	    
+	    $kaifus = array();
+	    for ($i = 0; $i < count($data); $i++) {
+		$company_id = $data[$i]['oper_id'];
+		if ($company_id) {
+		    if (empty($kaifus[$company_id])) {
+			$company = $company_db->get_one(array('company_id'=>$company_id));
+			$company['url'] = getURL($company);
+
+			if (!empty($company)) {
+			    $kaifus[$company_id] = array(
+				'company' => $company,
+				'oper_short_name' => $data[$i]['oper_short_name'],
+				'url' => $data[$i]['register_url'],
+				'kaifu' => array(
+				    'y' => array(),
+				    'n' => array(),
+				    't' => array()
+				)   
+			    );
+			}
+		    }
+
+		    if (!empty($kaifus[$company_id])) {
+			//开始插入数据
+			$kaifus[$company_id]['kaifu']['n'][] = $data[$i];
+
+			//最近的一条
+			if (empty($kaifus[$company_id]['kaifu']['y'])) {
+			    $r = $kaifu_db->get_one(
+				"game_id={$game['game_id']} AND test_date < {$data[$i]['test_date']}", '*', 'test_date DESC'
+			    );
+			    if (!empty($r)) {
+				$kaifus[$company_id]['kaifu']['y'][] = $r;
+			    }
+			}
+
+			//后一条
+			if (empty($kaifus[$company_id]['kaifu']['t'])) {
+			    $r = $kaifu_db->get_one(
+				"game_id={$game['game_id']} AND test_date > {$data[$i]['test_date']}", '*', 'test_date ASC'
+			    );
+			    if (!empty($r)) {
+				$kaifus[$company_id]['kaifu']['t'][] = $r;
+			    }
+			}
+		    }
+		}
+	    }
+
+
+	    register_template_data('kaifus', $kaifus);
 
 	    register_template_data('game', $game);
 	    return template('game', 'content');
