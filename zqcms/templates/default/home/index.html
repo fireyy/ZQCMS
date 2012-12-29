@@ -275,14 +275,16 @@
 	    			<li class="lh24 t5 fl">游戏名称</li>  <li class="lh24 t6 fl"> 开服总量</li>
 				</ul>
 	    	</div>
-	    	<ul id="g_top_1_content" class="bang_kaifu">
-				<li>
-          
-	  				<span class="numBer_red">[field:global.autoindex /]</span>
-	    			<a href="[field:aid function='GetGameUrl(@me)' /]" title="[field:game_name /]" target="_blank">[field:game_name /]</a>
-	    			<label>[field:dd /]</label>
-				</li>
-    		</ul>
+        {foreach $game_kaifu as $item}
+        <ul id="g_top_1_content" class="bang_kaifu">
+        <li>
+            <span class="numBer_red">{$item@iteration}</span>
+            <a href="{$item|zqurl}" title="{$item.game_name}" target="_blank">{$item.game_name}</a>
+            <label>{$item.kaifu_count}</label>
+        </li>
+        </ul>
+        {/foreach}
+
    		</div>
 
    		<div class="newsnav_2 boder_base mt fl">
