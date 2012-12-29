@@ -93,6 +93,10 @@ function position($item) {
 	    $u[] = $item['title'];
 	}
 
+	if ($typeid == 1) {
+	    $u[] = $item['game_name'];
+	}
+
     }else{
 	if (is_object($item) && $item->db && $item->db->typeid) {
 	    $title = $typedb->getTypeName($item->db->typeid);

@@ -13,6 +13,13 @@ class index {
 	    $game = $this->db->get_one(array(
 		"id" => $id
 	    ));
+	    
+	    $rdb = zq_core::load_model('game_company_model');
+
+	    //获得游戏的运营商数量
+	    $company_count = $rdb->count(array('game_id' => $game['game_id']));
+	    $game['company_count'] = $company_count;
+
 	    register_template_data('game', $game);
 	    return template('game', 'content');
 	}else{
@@ -23,36 +30,35 @@ class index {
     //列表页面
     public function lists() {
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
-  $filters = array("game_tag", "game_theme", "game_status", "game_effect");
+	$filters = array("game_tag", "game_theme", "game_status", "game_effect");
 	$gamesort = isset($_GET['gamesort']) ? $_GET['gamesort'] : 1;
 	$title = "";
 	$orderby = "";
 	$where = array();
 	$title = getTypeName($this->db->typeid);
-  foreach ($filters as $key => $value) {
-    $tag = $_GET[$value];
-  	if(isset($tag) && !empty($tag)){
-  	  $where[] = "$value = '".$tag."'";
-  	  $title = $tag."_".$title;
-  	}
-  }
+	foreach ($filters as $key => $value) {
+	    $tag = $_GET[$value];
+	    if(isset($tag) && !empty($tag)){
+		$where[] = "$value = '".$tag."'";
+		$title = $tag."_".$title;
+	    }
+	}
 	switch ($gamesort) {
-	    case 1:
-		$orderby = "pubdate";
-		break;
-	    case 2:
-		#TODO 按开服量排序
-		$orderby = "kaifu_count";
-		break;
-	    case 3:
-		$orderby = "goodpost";
-		break;
-	    case 4:
-		$orderby = "scores/scorecount";
-		break;
-	    default:
-		$orderby = "pubdate";
-		break;
+	case 1:
+	    $orderby = "pubdate";
+	    break;
+	case 2:
+	    $orderby = "kaifu_count";
+	    break;
+	case 3:
+	    $orderby = "goodpost";
+	    break;
+	case 4:
+	    $orderby = "scores/scorecount";
+	    break;
+	default:
+	    $orderby = "pubdate";
+	    break;
 	}
 
 	$where = join(" and ", $where);
