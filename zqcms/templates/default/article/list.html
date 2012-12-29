@@ -21,11 +21,16 @@
 <div id="content">
   <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
   <div class="fl newsinfo_topline boder_base newsinfo_left">
+  {if $keys}
+  <h5>
+    共找到关于“<span class="org">{$keys}</span>”的资讯<span class="org">{$totalResult}</span>篇
+  </h5>
+  {/if}
   <ul>
     {foreach $lists as $item}
     <li class="b_line">
       <div class="fl p14 blue news_detailliset lh40">
-          <a href="{$item|zqurl}" class="blue" target="_blank">{$item.title}</a></div>
+          {if $item.game_name}<span class="gray"><a href="{$item.game_url}" title="{$item.game_name}" tartet="_blank">[{$item.game_name}]</a></span>{/if}<a href="{$item|zqurl}" class="blue" target="_blank">{$item.title}</a></div>
       <br>
       <div class="fl hcolour gray news_detailliset">
           发布日期：{date('Y-m-d',$item.pubdate)}

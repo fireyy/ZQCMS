@@ -29,11 +29,21 @@
         </div>
     </div>
     <div id="searchnav" class="fl gray">
-		<form name="formsearch" method="get" action="dede:global.cfg_cmsurl/plus/searchv1.php">
-			<input type="hidden" id="searchtype_val" name="stype" value="game">
+		<form name="formsearch" method="get" action="/search.php">
+      {if empty($smarty.get["keys"])}
+      {$ssskeys = "请在此输入要查找的内容"}
+      {else}
+      {$ssskeys = $smarty.get["keys"]}
+      {/if}
+      {if empty($smarty.get["stype"])}
+      {$ssstype = "game"}
+      {else}
+      {$ssstype = $smarty.get["stype"]}
+      {/if}
+			<input type="hidden" id="searchtype_val" name="stype" value="{$ssstype}">
 		    <div class="searchbar_5">
 			    <div class="searchinputbox fl">
-			     	<input type="text" value="请在此输入要查找的内容" class="hcolour" id="keys" name="keys">
+			     	<input type="text" value="{$ssskeys}" class="hcolour" id="keys" name="keys">
 			    </div>
 			    <script type="text/javascript">
 					$('#keys').focus(
@@ -53,7 +63,15 @@
 					    });
 				</script>
 				<div class="selectbox_5 fl searchlistbutton">
-				    <div id="search_txt">游戏</div>
+				    <div id="search_txt">
+              {if $ssstype == "game"}
+              游戏
+              {else if $ssstype == "article"}
+              资讯
+              {else}
+              运营商
+              {/if}
+            </div>
 				    <div style="display: none;" id="searchType" class="downlist changelist">
 						<a href="javascript:void(0);">游戏</a>
 						<a href="javascript:void(0);">运营商</a>

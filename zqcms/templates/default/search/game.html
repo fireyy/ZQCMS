@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
-<title>搜索游戏{$keys}_{$site_config.site_name}</title>
+<title>搜索游戏 {$keys}_{$site_config.site_name}</title>
 <meta name="keywords" content="{$site_config.site_keywords}" />
 <meta name="description" content="{$site_config.site_description}" />
 {include "../styles.html" caching}
@@ -15,7 +15,7 @@
 
 <div style="margin-top:15px;" class="gamelist bd_1">
 	<h1 class="p14">搜索结果</h1>
-	<h1 class="p14">找到 <span class="red">{$keys}</span> 共 <span class="red">{$keys}</span> 条相关信息：</h1>
+	<h1 class="p14">找到 <span class="red">{$keys}</span> 共 <span class="red">{$totalResult}</span> 条相关信息：</h1>
 </div>
 
 <div class="box_line picbox">
@@ -24,10 +24,10 @@
 		<ul class="position_div fl">
 			<li style="height:150px;">
 			<p>
-				<a target="_blank" title="{$item.title}" href="{$item|zqurl}"><img src="{$item.game_thumb}"/></a>
+				<a target="_blank" title="{$item.game_name}" href="{$item|zqurl}"><img src="{$item.game_thumb}"/></a>
 			</p>
-			<p><a target="_blank" title="{$item.title}" href="{$item|zqurl}">{$item.title}</a></p>
-			<p class="gray">已开服{$kaifu_count}组</p>
+			<p><a target="_blank" title="{$item.game_name}" href="{$item|zqurl}">{$item.game_name}</a></p>
+			<p class="gray">已开服{$item.kaifu_count}组</p>
 			</li>
 		</ul>
 		{/foreach}
