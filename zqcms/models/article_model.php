@@ -59,7 +59,7 @@ class article_model extends model {
 
     public function deleteArticle($guid) {
 	$info = $this->get_one(array('guid' => $data->guid));
-	if (!$info) {
+	if ($info) {
 	    $aid = $info['id'];
 	    $this->delete(array(
 		'id' => $aid
@@ -78,7 +78,8 @@ class article_model extends model {
 	$this->update($update_data, array('id'=>$info['id']));
 	
 	//clean aid tag
-	zq_tag($categoryId, $aid, $this->typeid, 'category', 'update');
+	$categoryId = $data->categoryId;
+	zq_tag($categoryId, $info['id'], $this->typeid, 'category', 'update');
 
 	return $info['id'];
     }

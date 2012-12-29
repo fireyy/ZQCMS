@@ -30,6 +30,7 @@ class kaifu_model extends model {
 	    11 => 30,
 	    12 => 31
 	);
+
 	$max_day = $maxday_list[$month];
 	$r = $this->select(
 	    "DATE_FORMAT(FROM_UNIXTIME(test_date), '%c')  = $month",
@@ -47,17 +48,55 @@ class kaifu_model extends model {
 	    $kaifu_data[$r[$i]['d']] = $r[$i]['num'];
 	    $kaifu_count+=$r[$i]['num'];
 	}
-	
 	return array($kaifu_count, $kaifu_data);
     }
 
-    public function addKaifu($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (is_array($info) && !empty($info)) {
-	    return $this->updateKaifu($data);
-	}
+    public function updateGameCompanyRelationship($oper_id, $game_id) {
+	$rdb = zq_core::load_model("game_company_model");
+	$oper_id = intval($oper_id);
+	$game_id = intval($game_id);
+	if ($oper_id && $game_id) {
+	    if ($rdb->get_one(array('game_id'=>$game_id, 'company_id' => $oper_id))) {
+	    } else {
 
-	$insert_data = array(
+		//新增绑定
+		$rdb->insert(
+		    array(
+			'game_id' => $game_id,
+			'company_id' => $oper_id
+		    )
+		);
+
+		//厂商游戏数量
+		$companydb = zq_core::load_model("company_model");
+		$companydb->update(array('game_count'=>'+=1'), array('company_id'=>$oper_id));
+	    }
+
+	}
+    }
+
+    /**
+     * 更新开服数量 这里有可能会有数据差异。 需要一些测试才能知道
+     *
+     */
+    public function updateKaifuCount($oper_id, $game_id) {
+	$rdb = zq_core::load_model("game_company_model");
+	$oper_id = intval($oper_id);
+	$game_id = intval($game_id);
+	//更新 game的开服数量
+	$gamedb = zq_core::load_model("game_model");
+	$companydb = zq_core::load_model("company_model");
+
+	if ($oper_id && $game_id) {
+	    $gamedb->update(array('kaifu_count'=>'+=1'), array('game_id'=>$game_id));
+	    $companydb->update(array('kaifu_count'=>'+=1', array('company_id'=>$oper_id)));
+
+	    $rdb->update(array('kaifu_count'=>'+=1'), array('game_id'=>$game_id, 'company_id'=>$oper_id));
+	}
+    }
+
+    private function getData($data) {
+	return array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
 	    'title' => $data->gameName,
@@ -83,7 +122,18 @@ class kaifu_model extends model {
 	    'gift_id' => $data->giftId,
 	    'oper_id' => $data->operId
 	);
+    }
+
+    public function addKaifu($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateKaifu($data);
+	}
 	
+	$insert_data = $this->getData($data);
+
+	$this->updateGameCompanyRelationship($data->operId, $data->gameId);
+	$this->updateKaifuCount($data->operId, $data->gameId);
 	$aid = $this->insert($insert_data, true);
 
 	return $aid;
@@ -94,6 +144,17 @@ class kaifu_model extends model {
     }
 
     public function updateKaifu($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addKaifu($data);
+	}
+
+	$update_data = $this->getData($data);
+	$this->update($update_data, array('id'=>$info['id']));
+	
+	$this->updateGameCompanyRelationship($data->operId, $data->gameId);
+
+	return $info['id'];
 
     }
 }

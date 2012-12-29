@@ -127,7 +127,7 @@ class model {
 	return $this->db->delete($this->table_name, $where);
     }
 
-    final public function count($where) {
+    final public function count($where='') {
 	$r = $this->get_one($where, "COUNT(*) AS num");
 	return $r["num"];
     }

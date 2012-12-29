@@ -15,13 +15,8 @@ class gift_model extends model {
 	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
 
-    public function addGift($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (is_array($info) && !empty($info)) {
-	    return $this->updateGift($data);
-	}
-
-	$insert_data = array(
+    private function getData($data) {
+	return array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
 	    'title' => $data->giftTitle,
@@ -44,6 +39,15 @@ class gift_model extends model {
 	    'oper_id' => $data->operId,
 	    'gift_type' => $data->giftType
 	);
+    }
+
+    public function addGift($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateGift($data);
+	}
+	
+	$insert_data = $this->getData($data);
 
 	$aid = $this->insert($insert_data, true);
 
@@ -55,7 +59,15 @@ class gift_model extends model {
     }
 
     public function updateGift($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addGift($data);
+	}
 
+	$update_data = $this->getData($data);
+	$this->update($update_data, array('id'=>$info['id']));
+	
+	return $info['id'];
     }
 }
 

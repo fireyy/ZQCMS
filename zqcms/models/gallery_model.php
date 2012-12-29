@@ -53,10 +53,29 @@ class gallery_model extends model {
     }
 
     public function deleteGallery($guid) {
-
+	$info = $this->get_one(array('guid' => $data->guid));
+	if ($info) {
+	    $aid = $info['id'];
+	    $this->delete(array(
+		'id' => $aid
+	    ));
+	    zq_tag(false, $aid, $this->typeid, 'category', 'delete');
+	}
     }
 
     public function updateGallery($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addGallery($data);
+	}
+
+	$update_data = $this->getData($data);
+	$this->update($update_data, array('id'=>$info['id']));
+	
+	$categoryId = $data->categoryId;
+	zq_tag($categoryId, $info['id'], $this->typeid, 'category', 'update');
+
+	return $info['id'];
 
     }
 }

@@ -42,7 +42,7 @@ class index {
 		break;
 	    case 2:
 		#TODO 按开服量排序
-		$orderby = "pubdate";
+		$orderby = "kaifu_count";
 		break;
 	    case 3:
 		$orderby = "goodpost";

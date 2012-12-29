@@ -52,13 +52,39 @@ class game_model extends model {
 	    'pub_short_name' => trim($data->pubShortName),
 	    'game_avatar' => trim($data->gameAvatar),
 	    'dev_id' => $data->devId,
-	    'oper_id' => $data->operId,
 	    'pub_id' => $data->pubId,
 	    'pinyin' => $data->pinyin,
 	    "game_id" => $data->id
 	);
 
 	return $insert_data;
+    }
+
+    public function updateGameCompanyRelationship($oper_id, $game_id) {
+	$rdb = zq_core::load_model("game_company_model");
+	$companydb = zq_core::load_model('company_model');
+
+	$opers = explode(",", $oper_id);
+	$game_id = intval($game_id);
+	if (!empty($opers) && $game_id) {
+	    for ($i = 0; $i < count($opers); $i++) {
+		$id = intval(trim($opers[$i]));
+		if ($id) {
+		    if ($rdb->get_one(array('game_id'=>$game_id, 'company_id' => $id))) {
+			continue;
+		    } else {
+			//绑定一个游戏与厂商
+			$rdb->insert(
+			    array(
+				'game_id' => $game_id,
+				'company_id' => $id
+			    )
+			);
+			$companydb->update(array('game_count'=>"+=1"), array('company_id' => $id));
+		    }
+		}
+	    }
+	}
     }
 
     /**
@@ -74,6 +100,8 @@ class game_model extends model {
 
 	$insert_data = $this->getData($data);
 	$aid = $this->insert($insert_data, true);
+
+	$this->updateGameCompanyRelationship($data->operId, $data->id);
 
 	$game_tag = $data->gameTag;
 	if ($game_tag && $aid) {
@@ -95,12 +123,6 @@ class game_model extends model {
 	    zq_tag($game_status, $aid, $this->typeid, 'tag');
 	}
 
-	/*
-	$test_status = $data->testStatus;
-	if ($test_status && $aid) {
-	    zq_tag($test_status, $aid, $this->typeid, 'tag');
-	}
-	*/
 
 	return $aid;
     }
@@ -109,20 +131,69 @@ class game_model extends model {
      * 删除一个游戏
      */
     public function deleteGame($guid) {
-	$info = $this->get_one(array('guid' => $guid));
-	if (is_array($info) && !empty($info)) {
-	    $id = $info["id"];
-	    $this->delete(array('id'=>$id));
+	//$info = $this->get_one(array('guid' => $guid));
+	//
+	//$rdb = zq_core::load_model("game_company_model");
 
-	    //delete tag
-	    zq_tag(false, $aid, $this->typeid, 'tag', 'delete');
-	}
+	//if (is_array($info) && !empty($info)) {
+	//    $id = $info["id"];
+	//    $this->delete(array('id'=>$id));
+
+	//    $companyids = $rdb->select(array('game_id' => $info['game_id']));
+	//    $companydb = zq_core::load_model('company_model');
+	//    //更新厂商游戏数量
+	//    for ($i = 0; $i < count($companyids); ++$i) {
+	//	$companyid = $companyids[$i]['company_id'];
+	//	$companydb->update(array('game_count' => '-=1'), array('company_id'=>$companyid));
+	//    }
+
+	//    //删除 游戏与厂商的绑定
+	//    $rdb->delete(array('game_id' => $info['game_id']));
+
+	//    //删除与之相关的游戏开服数据
+
+	//    //delete tag
+	//    zq_tag(false, $aid, $this->typeid, 'tag', 'delete');
+	//}
     }
 
     /**
      * 更新游戏
      */
     public function updateGame($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addGame($data);
+	}
+
+	$update_data = $this->getData($data);
+	$this->update($update_data, array('id'=>$info['id']));
+
+	$this->updateGameCompanyRelationship($data->operId, $data->id);
+
+	$aid = $info['id'];
+	
+	$game_tag = $data->gameTag;
+	if ($game_tag && $aid) {
+	    zq_tag($game_tag, $aid, $this->typeid, 'tag', 'update');
+	}
+
+	$game_theme = $data->gameTheme;
+	if ($game_theme && $aid) {
+	    zq_tag($game_theme, $aid, $this->typeid, 'tag', 'update');
+	}
+
+	$game_effect = $data->gameEffect;
+	if ($game_effect && $aid) {
+	    zq_tag($game_effect, $aid, $this->typeid, 'tag', 'update');
+	}
+
+	$game_status = $data->gameStatus;
+	if ($game_status && $aid) {
+	    zq_tag($game_status, $aid, $this->typeid, 'tag', 'update');
+	}
+
+	return $info['id'];
 
     }
 }
