@@ -1,25 +1,13 @@
 <?php render('layout/header'); ?>
 
-<section class="content">
-	<nav>
-		<div class="logo">
-			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/assets/img/logo.png">
-		</div>
+<div class="content">
+	<?php render('layout/nav'); ?>
 
-		<ul>
-			<li><i class="icon-spanner"></i>Database information</li>
-			<li><i class="icon-pencil"></i>Site metadata</li>
-			<li class="selected"><i class="icon-user"></i>Your first account</li>
-		</ul>
+	<div class="article">
+		<h1>管理员账号</h1>
 
-		<p>You're installing Anchor <?php echo ANCHOR_VERSION; ?>. Hooray!</p>
-	</nav>
-
-	<article>
-		<h1>Your first account</h1>
-
-		<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with. Just make sure you <a href="http://bash.org/?244321">pick a secure password</a>.</p>
-	</article>
+		<p>这里将注册一个站点的默认后台管理员账号，之后可以通过该账号登录您的网站后台，进行各种管理操作。</p>
+	</div>
 
 	<form method="post" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php?action=stage4" autocomplete="off">
 		<fieldset>
@@ -28,35 +16,43 @@
 
 			<p>
 				<label>
-					<strong>Username</strong>
-					<span>C'mon, you know this.</span>
+					<strong>用户名</strong>
+					<span>登录用户名.</span>
 				</label>
 				<input name="username" value="<?php echo post('username', 'admin'); ?>">
 			</p>
 
 			<p>
 				<label>
-					<strong>Email address</strong>
-					<span>If you forget your password.</span>
+					<strong>电子邮箱</strong>
+					<span>用于取回密码.</span>
 				</label>
 
-				<input name="email" value="<?php echo post('email'); ?>">
+				<input name="email" value="<?php echo post('email', 'admin@admin.com'); ?>">
 			</p>
 
 			<p>
 				<label>
-					<strong>Password</strong>
-					<span>Keep it safe, yo.</span>
+					<strong>密码</strong>
+					<span>默认密码 <code>admin</code></span>
 				</label>
-				<input name="password" type="password" value="<?php echo post('password'); ?>">
+				<input name="password" type="password" value="<?php echo post('password', 'admin'); ?>">
+			</p>
+      
+			<p>
+				<label>
+					<strong>确认密码</strong>
+					<span>请再次输入您的密码.</span>
+				</label>
+				<input name="confirm_password" type="password" value="<?php echo post('confirm_password', 'admin'); ?>">
 			</p>
 		</fieldset>
 
-		<section class="options">
-			<button type="submit">Complete</button>
+		<div class="options">
+			<button type="submit">完成</button>
 			<div class="test"></div>
-		</section>
+		</div>
 	</form>
-</section>
+</div>
 
 <?php render('layout/footer'); ?>

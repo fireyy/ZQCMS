@@ -1,7 +1,7 @@
 <?php
 return array(
     'default' => array(
-	'hostname' => '192.168.1.80',
+	'hostname' => '127.0.0.1',
 	'database' => 'zqcms',
 	'username' => 'root',
 	'password' => '',

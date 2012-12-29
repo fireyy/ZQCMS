@@ -60,3 +60,45 @@ function render($file, $data = array()) {
 function redirect($action) {
 	header('Location: index.php?' . http_build_query(array('action' => $action)));
 }
+
+function _sql_execute($sql,$r_tablepre = '',$s_tablepre = 'zq_') {
+    $sqls = _sql_split($sql,$r_tablepre,$s_tablepre);
+	if(is_array($sqls))
+    {
+		foreach($sqls as $sql)
+		{
+			if(trim($sql) != '')
+			{
+				mysql_query($sql);
+			}
+		}
+	}
+	else
+	{
+		mysql_query($sqls);
+	}
+	return true;
+}
+
+function _sql_split($sql,$r_tablepre = '',$s_tablepre='zq_') {
+	
+	if($r_tablepre != $s_tablepre) $sql = str_replace($s_tablepre, $r_tablepre, $sql);
+	$sql = str_replace("\r", "\n", $sql);
+	$ret = array();
+	$num = 0;
+	$queriesarray = explode(";\n", trim($sql));
+	unset($sql);
+	foreach($queriesarray as $query)
+	{
+		$ret[$num] = '';
+		$queries = explode("\n", trim($query));
+		$queries = array_filter($queries);
+		foreach($queries as $query)
+		{
+			$str1 = substr($query, 0, 1);
+			if($str1 != '#' && $str1 != '-') $ret[$num] .= $query;
+		}
+		$num++;
+	}
+	return $ret;
+}

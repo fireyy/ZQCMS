@@ -4,7 +4,7 @@
 define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 
 // Anchor version
-define('ANCHOR_VERSION', 0.7);
+define('ZQCMS_VERSION', 0.1);
 
 require PATH . 'functions.php';
 require PATH . 'models/messages.php';
