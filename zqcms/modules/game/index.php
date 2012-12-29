@@ -50,19 +50,19 @@ class index {
 	}
 	switch ($gamesort) {
 	case 1:
-	    $orderby = "pubdate";
+	    $orderby = "pubdate DESC";
 	    break;
 	case 2:
-	    $orderby = "kaifu_count";
+	    $orderby = "kaifu_count DESC";
 	    break;
 	case 3:
-	    $orderby = "goodpost";
+	    $orderby = "goodpost DESC";
 	    break;
 	case 4:
-	    $orderby = "scores/scorecount";
+	    $orderby = "scores/scorecount DESC";
 	    break;
 	default:
-	    $orderby = "pubdate";
+	    $orderby = "pubdate DESC";
 	    break;
 	}
 
