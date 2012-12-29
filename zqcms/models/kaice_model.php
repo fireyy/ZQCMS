@@ -15,13 +15,8 @@ class kaice_model extends model {
 	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
 
-    public function addKaice($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (is_array($info) && !empty($info)) {
-	    return $this->updateKaice($data);
-	}
-
-	$insert_data = array(
+    private function getData($data) {
+	return array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
 	    'title' => $data->gameName,
@@ -50,6 +45,15 @@ class kaice_model extends model {
 	    'gift_id' => $data->giftId,
 	    'oper_id' => $data->operId
 	);
+    }
+
+    public function addKaice($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateKaice($data);
+	}
+	
+	$insert_data = $this->getData($data);
 
 	$aid = $this->insert($insert_data, true);
 	return $aid;
@@ -60,7 +64,15 @@ class kaice_model extends model {
     }
 
     public function updateKaice($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addKaice($data);
+	}
 
+	$update_data = $this->getData($data);
+	$this->update($update_data, array('id'=>$info['id']));
+	
+	return $info['id'];
     }
 }
 

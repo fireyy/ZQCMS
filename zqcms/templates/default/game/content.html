@@ -9,6 +9,62 @@
 <link href="{$style_dir}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
 <link href="{$style_dir}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
 {include "../scripts.html" caching}
+
+<script type="text/javascript">
+function postDigg(aid) {
+    var saveid = GetCookie('diggid');
+    if(saveid != null) {
+        var saveids = saveid.split(',');
+        var hasid = false;
+        saveid = '';
+        j = 1;
+        for(i=saveids.length-1;i>=0;i--)
+        {
+            if(saveids[i]==aid && hasid) continue;
+            else {
+        	if(saveids[i]==aid && !hasid) hasid = true;
+        	saveid += (saveid=='' ? saveids[i] : ','+saveids[i]);
+        	j++;
+        	if(j==20 && hasid) break;
+        	if(j==19 && !hasid) break;
+            }
+        }
+        if(hasid) { alert("您已经顶过该帖，请不要重复顶帖 ！"); return; }
+        else saveid += ','+aid;
+        SetCookie('diggid',saveid,1);
+    } else {
+        SetCookie('diggid',aid,1);
+    }
+
+    $.ajax({
+        url : '',
+        data : {
+            action : 'good',
+            formurl: "caicai",
+            id: aid
+        },
+        type: "GET",
+        success: function(data) {
+	    	var score = ".vote-count-" + aid;
+	    	var $score = $(score);
+	    	if ($score.length) {
+				$score.each(function(index, el) {
+		   			$(el).text(data + "票");
+				});
+	    	}
+        }
+    });
+}
+
+function showServerList(el){
+    $(el).find('.tc_div').show();
+}
+function closeServerList(el){
+    $(el).find('.tc_div').hide();
+}
+</script>
+
+
 </head>
 <body>
 {include "../head.html"}
@@ -105,10 +161,39 @@ $(function(){
     {/foreach}
   </ul></div>
 {/if}
+
 <!--
 #TODO
 #开服调用
 -->
+<div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
+	<h5>{$game.title} 开服表 >> 
+		<span class="p12 text_span">官网全部{$game.company_count} | 开服表全部{$game.kaifu_count}</span>
+	</h5>
+
+	<div id="game_kaifu_list" class="div_top fl">
+		<ul class="top_ul">
+		    <li class="list_01 strong">官网名称</li>
+		    <li class="list_02 strong">开服总数</li>
+		    <li class="list_03_1 strong">最新开服</li>
+		    <li class="list_04 strong">操作</li>
+		</ul>
+
+		<ul>
+		    <li class="list_01 lh40">'.$data['oper_short_name'].'</li>
+		    <li class="list_02">'.$company[$data['oper_short_name']].'服</li>
+		    <li class="list_03">
+		    </li>
+
+		    <li class="list_04">  
+		    	<a class="blue play_game" href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a>
+		    </li>
+	    </ul>
+
+	</div>
+</div>
+
+
 {get_kaice_list assign='items' limit='0,10' orderby='test_date' game_id="$game_id"}
 {if !empty($items) }
 <div id="game_kaice" class="kaifu_table mt_5" style="margin-top: 5px;">
@@ -134,7 +219,6 @@ $(function(){
 	    </li>
 	</ul>
 	{/foreach}
-
     </div>
 </div>
 {/if}

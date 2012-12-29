@@ -15,17 +15,12 @@ class company_model extends model {
 	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
 
-    public function addCompany($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (is_array($info) && !empty($info)) {
-	    return $this->updateCompany($data);
-	}
-
+    private function getData($data) {
 	$insert_data = array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
-	    'title' => $data->fullName,
-	    'shorttitle' => $data->shortName,
+	    'full_name' => $data->fullName,
+	    'short_name' => $data->shortName,
 	    'description' => $data->companyDesc,
 	    'flag' => getFlags($data->isTop),
 	    'color' => $data->fontColor,
@@ -44,18 +39,38 @@ class company_model extends model {
 	    'company_thumb' => $data->logoPath,
 	    'pinyin' => $data->pinyin
 	);
-	
+
+	return $insert_data;
+    }
+
+    public function addCompany($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (is_array($info) && !empty($info)) {
+	    return $this->updateCompany($data);
+	}
+
+	$insert_data = $this->getData($data);
 	$aid = $this->insert($insert_data, true);
 
 	return $aid;
     }
 
     public function updateCompany($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (empty($info)) {
+	    return $this->addCompany($data);
+	}
 
+	$this->update($this->getData($data), array('id' => $info['id']));
+
+	return $info['id'];
     }
 
     public function deleteCompany($guid) {
-
+	$info = $this->get_one(array('guid' => $data->guid));
+	if ($info) {
+	    $this->delete(array('id' => $info['id']));
+	}
     }
 }
 

@@ -4,6 +4,7 @@
  */
 define("IN_ZQCMS", true);
 
+date_default_timezone_set("Asia/Shanghai");
 //zqcms path
 define("ZQ_PATH", dirname(__FILE__).DIRECTORY_SEPARATOR);
 if (!defined("ZQCMS_PATH")){

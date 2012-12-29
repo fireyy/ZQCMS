@@ -12,7 +12,16 @@ class index {
      *
      */
     public function init() {
-	
+	$gamedb = zq_core::load_model('game_model');
+	$game_kaifu = $gamedb->select(
+	    '',
+	    '*',
+	    '0, 11',
+	    'kaifu_count DESC'
+	);
+
+	register_template_data('game_kaifu', $game_kaifu);
+
 	return template('home', 'index');
     }
 }

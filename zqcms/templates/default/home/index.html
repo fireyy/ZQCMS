@@ -17,7 +17,7 @@
     			<span class="games_h2 white">玄幻仙侠</span>
           {get_game_list assign='items' flag='f' theme='玄幻,仙侠' limit='0,10'}
           {foreach $items as $item}
-  				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+  				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
           {/foreach}
     		</div>
     		
@@ -25,7 +25,7 @@
 				<span class="games_h2 white">三国战争</span>
         {get_game_list assign='items' flag='f' theme='三国,战争' limit='0,10'}
         {foreach $items as $item}
-				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
         {/foreach}
 			</div>
 
@@ -33,7 +33,7 @@
        			<span class="games_h2 white">热血武侠</span>
             {get_game_list assign='items' flag='f' theme='热血,武侠' limit='0,10'}
             {foreach $items as $item}
-    				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+    				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
             {/foreach}
        		</div>
 
@@ -41,7 +41,7 @@
 				<span class="games_h2 white">奇幻历史</span>
         {get_game_list assign='items' flag='f' theme='奇幻,历史' limit='0,10'}
         {foreach $items as $item}
-				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
+				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
         {/foreach}
 			</div>
 
@@ -275,14 +275,16 @@
 	    			<li class="lh24 t5 fl">游戏名称</li>  <li class="lh24 t6 fl"> 开服总量</li>
 				</ul>
 	    	</div>
-	    	<ul id="g_top_1_content" class="bang_kaifu">
-				<li>
-          
-	  				<span class="numBer_red">[field:global.autoindex /]</span>
-	    			<a href="[field:aid function='GetGameUrl(@me)' /]" title="[field:game_name /]" target="_blank">[field:game_name /]</a>
-	    			<label>[field:dd /]</label>
-				</li>
-    		</ul>
+        {foreach $game_kaifu as $item}
+        <ul id="g_top_1_content" class="bang_kaifu">
+        <li>
+            <span class="numBer_red">{$item@iteration}</span>
+            <a href="{$item|zqurl}" title="{$item.game_name}" target="_blank">{$item.game_name}</a>
+            <label>{$item.kaifu_count}</label>
+        </li>
+        </ul>
+        {/foreach}
+
    		</div>
 
    		<div class="newsnav_2 boder_base mt fl">

@@ -23,7 +23,7 @@ class vendor_controller {
 		if($guid) {
 		    switch ($method) {
         	        case "add":
-			    if ($this->model->addCompany($_data)){
+			    if ($aid = $this->model->addCompany($_data)){
 			    }else{
 				$errorids[] = $guid;
 				$status = -2;
