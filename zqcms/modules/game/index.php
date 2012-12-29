@@ -23,19 +23,19 @@ class index {
     //列表页面
     public function lists() {
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
-	$tag = isset($_GET['tag']) ? $_GET['tag'] : '';
+  $filters = array("game_tag", "game_theme", "game_status", "game_effect");
 	$gamesort = isset($_GET['gamesort']) ? $_GET['gamesort'] : 1;
 	$title = "";
 	$orderby = "";
 	$where = array();
 	$title = getTypeName($this->db->typeid);
-	if(isset($tag) && !empty($tag)){
-	    $ids = getIdsByTagname($tag, "*", $this->db->typeid);
-	    $ids = join(",", $ids);
-	    $where[] = "id in ($ids)";
-	    $title = $tag;
-	}
-	
+  foreach ($filters as $key => $value) {
+    $tag = $_GET[$value];
+  	if(isset($tag) && !empty($tag)){
+  	  $where[] = "$value = '".$tag."'";
+  	  $title = $tag."_".$title;
+  	}
+  }
 	switch ($gamesort) {
 	    case 1:
 		$orderby = "pubdate";

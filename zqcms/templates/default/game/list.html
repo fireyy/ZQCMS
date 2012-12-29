@@ -18,46 +18,46 @@
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">游戏分类：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-    <li><a {if $_GET['tag'] == '角色扮演'}class="p12 strong org"{/if} href="{getTypeLink('game','角色扮演')}">角色扮演</a></li>
-	  <li><a {if $_GET['tag'] == '战争策略'}class="p12 strong org"{/if} href="{getTypeLink('game','战争策略')}">战争策略</a></li>
-	  <li><a {if $_GET['tag'] == '模拟经营'}class="p12 strong org"{/if} href="{getTypeLink('game','模拟经营')}">模拟经营</a></li>
-	  <li><a {if $_GET['tag'] == '社区养成'}class="p12 strong org"{/if} href="{getTypeLink('game','社区养成')}">社区养成</a></li>
-	  <li><a {if $_GET['tag'] == '休闲竞技'}class="p12 strong org"{/if} href="{getTypeLink('game','休闲竞技')}">休闲竞技</a></li>
-	  <li><a {if $_GET['tag'] == '儿童游戏'}class="p12 strong org"{/if} href="{getTypeLink('game','儿童游戏')}">儿童游戏</a></li>
+    <li><a {if $smarty.get['tag'] == '角色扮演'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'角色扮演'])}">角色扮演</a></li>
+	  <li><a {if $smarty.get['tag'] == '战争策略'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'战争策略'])}">战争策略</a></li>
+	  <li><a {if $smarty.get['tag'] == '模拟经营'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'模拟经营'])}">模拟经营</a></li>
+	  <li><a {if $smarty.get['tag'] == '社区养成'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'社区养成'])}">社区养成</a></li>
+	  <li><a {if $smarty.get['tag'] == '休闲竞技'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'休闲竞技'])}">休闲竞技</a></li>
+	  <li><a {if $smarty.get['tag'] == '儿童游戏'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'儿童游戏'])}">儿童游戏</a></li>
       </ul>
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">题材分类：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-	  <li><a {if $_GET['theme'] == '三国'}class="p12 strong org"{/if} href="{getTypeLink('game','三国')}">三国</a></li>
-	  <li><a {if $_GET['theme'] == '仙侠'}class="p12 strong org"{/if} href="{getTypeLink('game','仙侠')}">仙侠</a></li>
-	  <li><a {if $_GET['theme'] == '体育'}class="p12 strong org"{/if} href="{getTypeLink('game','体育')}">体育</a></li>
-	  <li><a {if $_GET['theme'] == '修真'}class="p12 strong org"{/if} href="{getTypeLink('game','修真')}">修真</a></li>
-	  <li><a {if $_GET['theme'] == '军事'}class="p12 strong org"{/if} href="{getTypeLink('game','军事')}">军事</a></li>
-	  <li><a {if $_GET['theme'] == '历史'}class="p12 strong org"{/if} href="{getTypeLink('game','历史')}">历史</a></li>
-	  <li><a {if $_GET['theme'] == '奇幻'}class="p12 strong org"{/if} href="{getTypeLink('game','奇幻')}">奇幻</a></li>
-	  <li><a {if $_GET['theme'] == '宠物'}class="p12 strong org"{/if} href="{getTypeLink('game','宠物')}">宠物</a></li>
-	  <li><a {if $_GET['theme'] == '格斗'}class="p12 strong org"{/if} href="{getTypeLink('game','格斗')}">格斗</a></li>
-	  <li><a {if $_GET['theme'] == '武侠'}class="p12 strong org"{/if} href="{getTypeLink('game','武侠')}">武侠</a></li>
-	  <li><a {if $_GET['theme'] == '玄幻'}class="p12 strong org"{/if} href="{getTypeLink('game','玄幻')}">玄幻</a></li>
-	  <li><a {if $_GET['theme'] == '神话'}class="p12 strong org"{/if} href="{getTypeLink('game','神话')}">神话</a></li>
-	  <li><a {if $_GET['theme'] == '科幻'}class="p12 strong org"{/if} href="{getTypeLink('game','科幻')}">科幻</a></li>
-	  <li><a {if $_GET['theme'] == '竞速'}class="p12 strong org"{/if} href="{getTypeLink('game','竞速')}">竞速</a></li>
-	  <li><a {if $_GET['theme'] == '都市'}class="p12 strong org"{/if} href="{getTypeLink('game','都市')}">都市</a></li>
-	  <li><a {if $_GET['theme'] == '魔幻'}class="p12 strong org"{/if} href="{getTypeLink('game','魔幻')}">魔幻</a></li>
+	  <li><a {if $smarty.get['theme'] == '三国'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'三国'])}">三国</a></li>
+	  <li><a {if $smarty.get['theme'] == '仙侠'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'仙侠'])}">仙侠</a></li>
+	  <li><a {if $smarty.get['theme'] == '体育'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'体育'])}">体育</a></li>
+	  <li><a {if $smarty.get['theme'] == '修真'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'修真'])}">修真</a></li>
+	  <li><a {if $smarty.get['theme'] == '军事'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'军事'])}">军事</a></li>
+	  <li><a {if $smarty.get['theme'] == '历史'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'历史'])}">历史</a></li>
+	  <li><a {if $smarty.get['theme'] == '奇幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'奇幻'])}">奇幻</a></li>
+	  <li><a {if $smarty.get['theme'] == '宠物'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'宠物'])}">宠物</a></li>
+	  <li><a {if $smarty.get['theme'] == '格斗'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'格斗'])}">格斗</a></li>
+	  <li><a {if $smarty.get['theme'] == '武侠'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'武侠'])}">武侠</a></li>
+	  <li><a {if $smarty.get['theme'] == '玄幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'玄幻'])}">玄幻</a></li>
+	  <li><a {if $smarty.get['theme'] == '神话'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'神话'])}">神话</a></li>
+	  <li><a {if $smarty.get['theme'] == '科幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'科幻'])}">科幻</a></li>
+	  <li><a {if $smarty.get['theme'] == '竞速'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'竞速'])}">竞速</a></li>
+	  <li><a {if $smarty.get['theme'] == '都市'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'都市'])}">都市</a></li>
+	  <li><a {if $smarty.get['theme'] == '魔幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'魔幻'])}">魔幻</a></li>
       </ul>
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">状态：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-	  <li><a {if $_GET['status'] == '免费'}    class="p12 strong org"{/if} href="{getTypeLink('game','免费')}">免费</a></li>
-	  <li><a {if $_GET['status'] == '时间收费'}class="p12 strong org"{/if} href="{getTypeLink('game','时间收费')}">时间收费</a></li>
-	  <li><a {if $_GET['status'] == '道具收费'}class="p12 strong org"{/if} href="{getTypeLink('game','道具收费')}">道具收费</a></li>
+	  <li><a {if $smarty.get['status'] == '免费'}    class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>'免费'])}">免费</a></li>
+	  <li><a {if $smarty.get['status'] == '时间收费'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>'时间收费'])}">时间收费</a></li>
+	  <li><a {if $smarty.get['status'] == '道具收费'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>'道具收费'])}">道具收费</a></li>
       </ul>
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">画面：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-	  <li><a {if $_GET['effect'] == '3D'}       class="p12 strong org"{/if} href="{getTypeLink('game','3D')}">3D</a></li>
-	  <li><a {if $_GET['effect'] == '2.5/2.8D'} class="p12 strong org"{/if} href="{getTypeLink('game','2.5/2.8D')}">2.5/2.8D</a></li>
-	  <li><a {if $_GET['effect'] == '2D'}       class="p12 strong org"{/if} href="{getTypeLink('game','2D')}">2D</a></li>
+	  <li><a {if $smarty.get['effect'] == '3D'}       class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>'3D'])}">3D</a></li>
+	  <li><a {if $smarty.get['effect'] == '2.5/2.8D'} class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>'2.5/2.8D'])}">2.5/2.8D</a></li>
+	  <li><a {if $smarty.get['effect'] == '2D'}       class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>'2D'])}">2D</a></li>
       </ul>  
   </div>
   <div style="float:right; overflow:hidden; width:868px; margin-bottom:10px;">

@@ -22,7 +22,7 @@ function getGameURL($game_id) {
     $game_id = intval($game_id);
     if ($game_id) {
 	$db = zq_core::load_model('game_model');
-	if ($r = $db->get_one(array('id'=>$game_id))) {
+	if ($r = $db->get_one(array('game_id'=>$game_id))) {
 	    return getURL($r);
 	}
     }

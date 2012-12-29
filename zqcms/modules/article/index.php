@@ -17,7 +17,7 @@ class index {
     if(!empty($article['game_id'])){
       $game_db = zq_core::load_model('game_model');
       $game = $game_db->get_one(array(
-        "id" => $article['game_id']
+        "game_id" => $article['game_id']
       ));
       $game["url"] = getURL($game);
       register_template_data('game', $game);
@@ -32,7 +32,7 @@ class index {
     public function lists() {
   $page = empty($_GET['page']) ? 1 : $_GET['page'];
   $tag = empty($_GET['tag']) ? '' : $_GET['tag'];
-  $game_id = empty($_GET['game_id']) ? '' : $_GET['tag'];
+  $game_id = empty($_GET['game_id']) ? '' : $_GET['game_id'];
   $title = "";
   $where = array();
   if(isset($tag) && !empty($tag)){
@@ -49,6 +49,16 @@ class index {
   }
   $where = join(" and ", $where);
   $lists = $this->db->listinfo($where,'', $page);
+  $game_db = zq_core::load_model('game_model');
+  foreach ($lists as $key => $value) {
+    if(!empty($value["game_id"])){
+      $tmp = $game_db->get_one(array(
+ 		   "game_id" => $value["game_id"]
+ 	    ));
+      $lists[$key]["game_name"] = $tmp["game_name"];
+      $lists[$key]["game_url"] = getURL($tmp);
+    }
+  }
   register_template_data('lists', $lists);
   register_template_data('pages', $this->db->pages);
   register_template_data('items', $this);
