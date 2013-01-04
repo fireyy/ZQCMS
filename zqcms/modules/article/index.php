@@ -36,7 +36,6 @@ class index {
 	$title = "";
 	$where = array();
 	if(isset($tag) && !empty($tag)){
-	    
 	    $ids = getIdsByTagname($tag, '*', $this->db->typeid);
 
 	    $ids = join(",", $ids);
@@ -49,7 +48,7 @@ class index {
 	    $where[] = "game_id = $game_id";
 	}
 	$where = join(" and ", $where);
-	$lists = $this->db->listinfo($where,'', $page);
+	$lists = $this->db->listinfo($where,'id DESC', $page);
 	$game_db = zq_core::load_model('game_model');
 	foreach ($lists as $key => $value) {
 	    if(!empty($value["game_id"])){
