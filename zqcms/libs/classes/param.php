@@ -87,7 +87,7 @@ class param {
 		setcookie($var.'['.$k.']', sys_auth($v, 'ENCODE'), $time, zq_core::load_config('system','cookie_path'), zq_core::load_config('system','cookie_domain'), $s);
 	    }
 	} else {
-	    setcookie($var, sys_auth($value, 'ENCODE'), $time, pc_base::load_config('system','cookie_path'), zq_core::load_config('system','cookie_domain'), $s);
+	    setcookie($var, sys_auth($value, 'ENCODE'), $time, zq_core::load_config('system','cookie_path'), zq_core::load_config('system','cookie_domain'), $s);
 	}
     }
 
@@ -98,7 +98,7 @@ class param {
      * @return mixed 成功则返回cookie 值，否则返回 false
      */
     public static function get_cookie($var, $default = '') {
-	$var = pc_base::load_config('system','cookie_pre').$var;
+	$var = zq_core::load_config('system','cookie_pre').$var;
 	return isset($_COOKIE[$var]) ? sys_auth($_COOKIE[$var], 'DECODE') : $default;
     }
 
