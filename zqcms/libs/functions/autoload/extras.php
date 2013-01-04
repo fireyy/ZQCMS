@@ -163,7 +163,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
     if(empty($GLOBALS['cfg_plus_dir'])) $GLOBALS['cfg_plus_dir'] = '..';
 
     $htmlhead  = "<html>\r\n<head>\r\n<title>ZQCMS提示信息</title>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n";
-    $htmlhead .= "<base target='_self'/>\r\n<style>div{line-height:160%;}</style></head>\r\n<body leftmargin='0' topmargin='0' bgcolor='#FFFFFF'>\r\n<center>\r\n<script>\r\n";
+    $htmlhead .= "<base target='_self'/>\r\n<style>div{line-height:160%;}</style></head>\r\n<body leftmargin='0' topmargin='0' bgcolor='#efefef'>\r\n<center>\r\n<script>\r\n";
     $htmlfoot  = "</script>\r\n</center>\r\n</body>\r\n</html>\r\n";
 
     $litime = ($limittime==0 ? 1000 : $limittime);
@@ -194,9 +194,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
         if(pgo==0){ location='$gourl'; pgo=1; }
       }\r\n";
         $rmsg = $func;
-        $rmsg .= "document.write(\"<br /><div style='width:450px;padding:0px;border:1px solid #DADADA;'>";
-        $rmsg .= "<div style='padding:6px;font-size:12px;border-bottom:1px solid #DADADA;background:#DBEEBD url({$GLOBALS['cfg_plus_dir']}/img/wbg.gif)';'><b>ZQCMS 提示信息！</b></div>\");\r\n";
-        $rmsg .= "document.write(\"<div style='height:130px;font-size:10pt;background:#ffffff'><br />\");\r\n";
+        $rmsg .= "document.write(\"<br /><div style='width:450px;padding:0px;border-radius: 4px;font-size:16px;background:#ffffff;height:130px;'><br />\");\r\n";
         $rmsg .= "document.write(\"".str_replace("\"","“",$msg)."\");\r\n";
         $rmsg .= "document.write(\"";
         

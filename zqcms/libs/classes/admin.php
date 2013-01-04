@@ -57,7 +57,7 @@ class admin {
   			param::set_cookie('admin_username',$username,$cookie_time);
   			param::set_cookie('userid', $r['userid'],$cookie_time);
   			param::set_cookie('admin_email', $r['email'],$cookie_time);
-  			ShowMsg("登录成功",'?m=admin&c=index');
+        header("Location: ?m=admin&c=index");
       }else{
         include $this->admin_tpl('login');
       }
@@ -73,8 +73,7 @@ class admin {
 		$_SESSION['userid'] = 0;
 		param::set_cookie('admin_username','');
 		param::set_cookie('userid',0);
-		
-		ShowMsg("退出成功",'?m=admin&c=index&a=login');
+		header("Location: ?m=admin&c=index&a=login");
 	}
 	/**
 	 * 维持 session 登陆状态

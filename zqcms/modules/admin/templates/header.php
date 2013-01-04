@@ -15,7 +15,7 @@
 	<body>
 
 		<div id="top">
-			<a id="logo" href="#">
+			<a id="logo" href="/">
 				<img src="<?php echo ZQ_PATH_ADMIN.'assets/img/logo.png'; ?>" alt="ZQCMS">
 			</a>
 

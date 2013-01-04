@@ -17,8 +17,6 @@
 			<p>
     			<label for="pass">密码:</label>
     			<input type="password" name="password" id="pass">
-    			
-    			<em><a href="#">忘记密码？</a></em>
 			</p>
 
 			<p class="buttons">
