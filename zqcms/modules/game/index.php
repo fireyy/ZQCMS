@@ -9,7 +9,8 @@ class index {
     //内容页
     public function show() {
 	$id = intval($_GET['id']);
-	$now = time();
+	$now = mktime(0, 0, 0);
+
 	if(isset($id) && !empty($id)){
 	    $game = $this->db->get_one(array(
 		"id" => $id
@@ -28,7 +29,7 @@ class index {
 		"game_id = {$game['game_id']} AND test_date >= {$now}",
 		'*',
 		'0, 20',
-		'test_date DESC'
+		'test_date ASC'
 	    );
 	    
 	    $kaifus = array();

@@ -201,7 +201,7 @@
       </div>
 
       <div style=" width:100%; height:20px; line-height:20px;">开服总量{$month_kaifu_count}服</div></div>
-      {assign var='max_day' value=$maxday_list[$month]}
+      {assign var='max_day' value=$maxday_list[intval($month)]}
 
       {for $d=1 to $max_day}
       	<div class="righttimebox {if empty($kaifu_data[$d])} r_boxstyle2 strong hcolour{/if}">
