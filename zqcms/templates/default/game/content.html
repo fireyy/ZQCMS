@@ -182,13 +182,57 @@ $(function(){
 
 		{foreach $kaifus as $kaifu}
 		<ul>
-		    <li class="list_01 lh40">{$kaifu['oper_short_name']}</li>
+		    <li class="list_01 lh40"><a href="{$kaifu['company']['url']}" target="_blank">{$kaifu['oper_short_name']}</a></li>
 		    <li class="list_02">{$kaifu['company']['kaifu_count']}服</li>
 		    <li class="list_03">
-		    </li>
+          <div class="list_bg fl">
+            {if (empty($kaifu['kaifu']['y']) and count($kaifu['kaifu']['y']) == 0)}
+             / 
+            {else}
+            <span class="list_span mblack">{$kaifu['kaifu']['y'][0]['test_date']|getRelativeTime}</span><span class="list_span "><a href="{$kaifu['kaifu']['y'][0]['register_url']}">{$kaifu['kaifu']['y'][0]['server_name']}</a></span>
+            {/if}
+          </div>
 
+          {if count($kaifu['kaifu']['n']) > 1}
+          <div onmouseout="javascript:closeServerList(this);" onmouseover="javascript:showServerList(this);" class="list_bg fl">
+            <span class="list_span mblack"><b class="red">今日</b>开服{count($kaifu['kaifu']['n'])}组</span>
+
+            <span class="list_span"><img width="15" height="9" src="http://res.kaifu.com/isy/templates/front/images/xl_15.jpg">
+              <span style="display: none;" class="tc_div">
+
+                <ul class="topdiv"><li class="li001">开服时间</li><li class="li002">服务器</li><li class="li003">线路</li></ul>
+
+                {foreach $kaifu['kaifu']['n'] as $item}
+                  <ul><li class="li001">{$item['test_date']|date_format:'%H'}点</li><li class="li002"><a target="_blank" href="{$item['register_url']}">{$item["server_name"]}</a></li><li class="li003">双线</li></ul>
+                {/foreach}
+              </span>
+            </span>
+          </div>
+          {else}
+            <div class="list_bg fl">
+              <span class="list_span mblack">
+                {if date('d', $kaifu['kaifu']['t'][0]['test_date']) == date('d', $smarty.now)}
+                  <b class="red">今日</b>{$kaifu['kaifu']['t'][0]['test_date']|date_format:'%H'}点
+                {else}
+                  {$kaifu['kaifu']['t'][0]['test_date']|getRelativeTime}
+                {/if}
+              </span>
+              <span class="list_span "><a href="{$kaifu['kaifu']['n'][0]['register_url']}">{$kaifu['kaifu']['n'][0]['server_name']}</a>
+              </span>
+            </div>
+          {/if}
+
+          <div class="list_bg fl">
+            {if (empty($kaifu['kaifu']['t']) and count($kaifu['kaifu']['t']) == 0)}
+             / 
+            {else}
+            <span class="list_span mblack">{$kaifu['kaifu']['t'][0]['test_date']|getRelativeTime}</span><span class="list_span "><a href="{$kaifu['kaifu']['t'][0]['register_url']}">{$kaifu['kaifu']['t'][0]['server_name']}</a></span>
+            {/if}
+          </div>
+		    
+        </li>
 		    <li class="list_04">  
-		    	<a class="blue play_game" href="'.$data['register_url'].'" rel="nofollow" target="_blank">开始游戏</a>
+		    	<a class="blue play_game" href="{$kaifu['kaifu']['n'][0]['register_url']}" rel="nofollow" target="_blank">开始游戏</a>
 		    </li>
 	    </ul>
 	    {/foreach}
