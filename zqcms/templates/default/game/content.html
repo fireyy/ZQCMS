@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 function postDigg(aid) {
-    var saveid = GetCookie('diggid');
+    var saveid = $.cookie('diggid');
     if(saveid != null) {
         var saveids = saveid.split(',');
         var hasid = false;
@@ -31,16 +31,17 @@ function postDigg(aid) {
         }
         if(hasid) { alert("您已经顶过该帖，请不要重复顶帖 ！"); return; }
         else saveid += ','+aid;
-        SetCookie('diggid',saveid,1);
+        $.cookie('diggid',saveid,1);
     } else {
-        SetCookie('diggid',aid,1);
+        $.cookie('diggid',aid,1);
     }
 
     $.ajax({
-        url : '',
+        url : '/api.php?op=digg',
         data : {
             action : 'good',
             formurl: "caicai",
+            type: 'game',
             id: aid
         },
         type: "GET",
@@ -93,7 +94,7 @@ function closeServerList(el){
 	  <p>
 	  </p>
 	  <div class="star_bg left">
-	      <div game_id="{$game_id}" score="{trim(sprintf("%4.2f", $game.scores / $game.weight))}" id="score-items" class="star_bt">
+	      <div game_id="{$game_id}" score="{trim(sprintf("%4.2f", $game.scores / $game.scorecount))}" id="score-items" class="star_bt">
 		  <a title="一场噩梦" href="javascript:void(0);"></a>
 		  <a title="不怎么样" href="javascript:void(0);"></a>
 		  <a title="没有感觉" href="javascript:void(0);"></a>
@@ -107,7 +108,7 @@ function closeServerList(el){
 	      </div>
 	      <div id="score-num" class="star_bar8"></div>
 	  </div>
-	  <span id="score-value" class="text_hot">{trim(sprintf("%4.2f", $game.scores / $game.weight))}</span>
+	  <span id="score-value" class="text_hot">{trim(sprintf("%4.2f", $game.scores / $game.scorecount))}</span>
 	  <p></p>
       </div>
     <p class="lh30">
