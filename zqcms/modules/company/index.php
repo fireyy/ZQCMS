@@ -9,11 +9,14 @@ class index {
     //内容页
     public function show() {
 	$id = intval($_GET['id']);
+  $title = getTypeName($this->db->typeid);
   if(isset($id) && !empty($id)){
     $company = $this->db->get_one(array(
       "id" => $id
     ));
+    $title = $company["short_name"]."_".$title;
   	register_template_data('company', $company);
+    register_template_data('title', $title);
   	return template('company', 'content');
   }else{
     ShowMsg("未找到对应的厂商！","-1");
