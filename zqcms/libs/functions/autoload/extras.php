@@ -14,6 +14,7 @@ function getURL($item, $config=array()) {
 }
 register_template_plugin("modifier", "zqurl", "getURL");
 
+
 /**
  * 根据GameId获得真实URL地址
  * 
@@ -689,4 +690,60 @@ function GetThumbsList($body) {
 	    
 	return join("", $imgs);
 }
+
+/**
+ * 获得相对时间信息
+ */
+function getRelativeTime($date) {
+    $diff = time() - $date;
+    if ($diff < 0) {
+	//天后
+	$diff = abs($diff);
+	if ($diff < 60) {
+	    return $diff . " 秒后";
+	}
+	$diff = round($diff / 60);
+	if ($diff < 60) {
+	    return $diff . " 分后";
+	}
+	$diff = round($diff / 60);
+	if ($diff < 24) {
+	    return $diff . ' 小时后';
+	}
+	$diff = round($diff / 24);
+	if ($diff < 7) {
+	    return $diff . ' 天后';
+	}
+	$diff = round($diff / 7);
+	if ($diff < 4) {
+	    return $diff . " 周后";
+	}
+	$diff = round($diff / 4);
+	if ($diff >= 1) {
+	    return $diff . " 月后";
+	}
+    }
+
+    if ($diff < 60) {
+	return $diff . " 秒前";
+    }
+    $diff = round($diff / 60);
+    if ($diff < 60) {
+	return $diff . " 分前";
+    }
+    $diff = round($diff / 60);
+    if ($diff < 24) {
+	return $diff . ' 小时前';
+    }
+    $diff = round($diff / 24);
+    if ($diff < 7) {
+	return $diff . ' 天前';
+    }
+    $diff = round($diff / 7);
+    if ($diff < 4) {
+	return $diff . " 周前";
+    }
+}
+register_template_plugin("modifier", "getRelativeTime", "getRelativeTime");
+
 ?>

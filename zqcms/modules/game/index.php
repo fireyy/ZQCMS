@@ -9,14 +9,14 @@ class index {
     //内容页
     public function show() {
 	$id = intval($_GET['id']);
+	$now = time();
 	if(isset($id) && !empty($id)){
 	    $game = $this->db->get_one(array(
 		"id" => $id
 	    ));
 	    
-	    $rdb = zq_core::load_model('game_company_model');
-
 	    //获得游戏的运营商数量
+	    $rdb = zq_core::load_model('game_company_model');
 	    $company_count = $rdb->count(array('game_id' => $game['game_id']));
 	    $game['company_count'] = $company_count;
 
@@ -25,7 +25,7 @@ class index {
 	    $company_db = zq_core::load_model('company_model');
 
 	    $data = $kaifu_db->select(
-		array('game_id'=>$game['game_id']),
+		"game_id = {$game['game_id']} AND test_date >= {$now}",
 		'*',
 		'0, 20',
 		'test_date DESC'
@@ -37,9 +37,10 @@ class index {
 		if ($company_id) {
 		    if (empty($kaifus[$company_id])) {
 			$company = $company_db->get_one(array('company_id'=>$company_id));
-			$company['url'] = getURL($company);
 
 			if (!empty($company)) {
+			    $company['url'] = getURL($company);
+
 			    $kaifus[$company_id] = array(
 				'company' => $company,
 				'oper_short_name' => $data[$i]['oper_short_name'],
@@ -60,7 +61,7 @@ class index {
 			//最近的一条
 			if (empty($kaifus[$company_id]['kaifu']['y'])) {
 			    $r = $kaifu_db->get_one(
-				"game_id={$game['game_id']} AND test_date < {$data[$i]['test_date']}", '*', 'test_date DESC'
+				"oper_id={$company_id} AND game_id={$game['game_id']} AND test_date < {$data[$i]['test_date']}", '*', 'test_date DESC'
 			    );
 			    if (!empty($r)) {
 				$kaifus[$company_id]['kaifu']['y'][] = $r;
@@ -70,7 +71,7 @@ class index {
 			//后一条
 			if (empty($kaifus[$company_id]['kaifu']['t'])) {
 			    $r = $kaifu_db->get_one(
-				"game_id={$game['game_id']} AND test_date > {$data[$i]['test_date']}", '*', 'test_date ASC'
+				"oper_id={$company_id} AND game_id={$game['game_id']} AND test_date > {$data[$i]['test_date']}", '*', 'test_date ASC'
 			    );
 			    if (!empty($r)) {
 				$kaifus[$company_id]['kaifu']['t'][] = $r;
@@ -79,7 +80,6 @@ class index {
 		    }
 		}
 	    }
-
 
 	    register_template_data('kaifus', $kaifus);
 
