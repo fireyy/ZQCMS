@@ -10,6 +10,7 @@ class index {
     public function show() {
 	$id = intval($_GET['id']);
 	$now = mktime(0, 0, 0);
+	$last_now = mktime(23, 59, 59);
 
 	if(isset($id) && !empty($id)){
 	    $game = $this->db->get_one(array(
@@ -26,7 +27,7 @@ class index {
 	    $company_db = zq_core::load_model('company_model');
 
 	    $data = $kaifu_db->select(
-		"game_id = {$game['game_id']} AND test_date >= {$now}",
+		"game_id = {$game['game_id']} AND test_date >= {$now} AND test_date <= {$last_now}",
 		'*',
 		'0, 20',
 		'test_date ASC'
