@@ -261,6 +261,23 @@ function get_kaifu_count($config=array()){
   return $count;
 }
 
+function get_monthly_kaifu_count($config=array()){
+  $db = zq_core::load_model("kaifu_model");
+  $where = array();
+  if(!empty($config)){
+    foreach ($config as $key => $value) {
+      $where[] = "$key = $value";
+    }
+  }
+  $time = strtotime('today');
+  $begin_date = mktime(0, 0, 0, date("m", $time)-1, date("d", $time), date("Y", $time));
+  $where[] = "test_date >= $begin_date";
+  
+  $where = join(" and ", $where);
+  $count = $db->count($where);
+  return $count;
+}
+
 function get_gift_count($config=array()){
   $db = zq_core::load_model("gift_model");
   $where = array();
@@ -395,6 +412,9 @@ function get_kaifu_list($params, $template){
   if(isset($params['game_id'])){
     $where[] = "game_id = {$params['game_id']}";
   }
+  if(isset($params['oper_id'])){
+    $where[] = "oper_id = ".$params['oper_id'];
+  }
   if(isset($params['day'])){
     $time = strtotime($params['day']);
     $begin_date = mktime(0, 0, 0, date("m", $time), date("d", $time), date("Y", $time));
@@ -444,6 +464,9 @@ function get_kaice_list($params, $template){
   if(isset($params['game_id'])){
     $where[] = "game_id = {$params['game_id']}";
   }
+  if(isset($params['oper_id'])){
+    $where[] = "oper_id = ".$params['oper_id'];
+  }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
   if (isset($params['assign'])) {
@@ -490,13 +513,18 @@ function get_gift_list($params, $template){
   if(isset($params['game_id'])){
     $where[] = "game_id = {$params['game_id']}";
   }
+  if(isset($params['oper_id'])){
+    $where[] = "oper_id = ".$params['oper_id'];
+  }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
-  $count = count($data);
-  if($count < $num){
-    $lm2 = $count.",".($num - $count);
-    $data2 = $db->select("", '*', $lm2, $orderby);
-    $data = array_merge($data,$data2);
+  if(isset($params['full'])){
+    $count = count($data);
+    if($count < $num){
+      $lm2 = $count.",".($num - $count);
+      $data2 = $db->select("", '*', $lm2, $orderby);
+      $data = array_merge($data,$data2);
+    }
   }
   if (isset($params['assign'])) {
   	$template->assign($params['assign'], $data);

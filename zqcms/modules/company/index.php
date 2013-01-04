@@ -14,8 +14,25 @@ class index {
     $company = $this->db->get_one(array(
       "id" => $id
     ));
+    $game_company_db = zq_core::load_model('game_company_model');
+    $game_db = zq_core::load_model('game_model');
+    $games = $game_company_db->select(array(
+      "company_id" => $id
+    ));
+    foreach ($games as $key => $value) {
+      $row = $game_db->get_one(array(
+        "id" => $value["game_id"]
+      ));
+      if(!empty($row)) {
+        $games[$key]["game_name"] = $row["game_name"];
+        $games[$key]["game_url"] = getURL($row);
+      }
+    }
+    $games_count = count($games);
     $title = $company["short_name"]."_".$title;
   	register_template_data('company', $company);
+    register_template_data('games', $games);
+    register_template_data('games_count', $games_count);
     register_template_data('title', $title);
   	return template('company', 'content');
   }else{

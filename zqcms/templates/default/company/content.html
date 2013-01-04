@@ -23,7 +23,7 @@
 		<div class="rightdiv">
 			<h2 class="p20 org">{$company.short_name}</h2>
 			<div class="morediv">
-				网页游戏：0 款 | 最新开服信息：0 条
+				网页游戏：{$games_count} 款 | 最新开服信息：{get_monthly_kaifu_count(['oper_id'=>$company_id])} 条
 			</div>
 			<div style="float:left;width:100%;">{$company.description}</div>
 		</div>
@@ -33,12 +33,14 @@
 			<ul>
 				<h2 class="p14 strong" style="padding-left: 10px;">
 				{$company.short_name}网页游戏>></h2>
+        {foreach $games as $item}
 				<li>
-				    <a href="#" title="" class="p14" target="_blank">#TODO</a>
+				    <a href="{$item.game_url}" title="" class="p14" target="_blank">{$item.game_name}</a>
 				</li>
+        {/foreach}
 			</ul>
 		</div>
-    {get_gift_list assign='items' limit='0,6' orderby='send_date' orderway='desc'}
+    {get_gift_list assign='items' limit='0,6' orderby='send_date' orderway='desc' oper_id="$company_id"}
     {if !empty($items)}
 		<div id="gift">
 			<h1 class="h1yb p20">{$company.short_name}礼包/新手卡(共{get_gift_count(['oper_id'=>$company_id])}款)
@@ -64,7 +66,7 @@
 			</ul>
 		</div>
     {/if}
-    {get_kaifu_list assign='items' limit='0,50' orderby='test_date' orderway='desc'}
+    {get_kaifu_list assign='items' limit='0,50' orderby='test_date' orderway='desc' oper_id="$company_id"}
     {if !empty($items)}
 		<div id="kflist">
 			<h1 class="p20 h1yb" style="float:left">{$company.short_name}最新开服信息</h1>

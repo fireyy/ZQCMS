@@ -241,7 +241,7 @@
 		    	<li class="t4">领取</li>
 		    </ul>
 		    <div class="table">
-        {get_gift_list assign='items' limit='0,13' orderby='send_date' orderway='desc' day="today"}
+        {get_gift_list assign='items' limit='0,13' orderby='send_date' orderway='desc' day="today" full="1"}
         {foreach $items as $item}
 				<ul>
 				    <li class="t1">{date('m-d',$item.send_date)}</li>
