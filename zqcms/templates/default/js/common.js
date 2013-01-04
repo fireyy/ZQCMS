@@ -1219,8 +1219,8 @@ $(function(){
 	    return false;
 	}
 
-	$.post('/plus/score_ajax.php', {
-	    id:item.attr('game_id'), 
+	$.post('/api.php?op=score', {
+	    id:item.attr('game_id'),
 	    score:score
 	}, function(d){
 	    item.attr('score', score);
