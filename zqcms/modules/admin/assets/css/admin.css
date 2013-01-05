@@ -181,6 +181,7 @@ h1 {
             background-image: linear-gradient(top, #984447, #69171a);
             filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#984447', EndColorStr='#69171a');
         }
+        button[disabled] { opacity: 0.3; }
         
 button#create {
 	float: left;
@@ -589,6 +590,11 @@ ul#comments {
 .debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}
 .debug th {font-weight: bold; text-align: center;}
 .debug tfoot td:first-child {text-align: right;}
+.done { color: green; }
+.undone { color: red; }
+.table { width: 100%; border-collapse:collapse;background: #F5FAFA;border-radius: 4px; }
+.table th, .table td { text-align: left; padding: 3px 0 3px 5px; border-bottom: 1px solid #fff; }
+#download_progress .table, #download_progress h3 { margin-bottom: 10px; }
 
 /*!
  * print.css v1.0.0

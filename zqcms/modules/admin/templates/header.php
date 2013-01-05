@@ -5,11 +5,7 @@
 		<title>ZQCMS</title>
 
 		<link rel="stylesheet" href="<?php echo ZQ_PATH_ADMIN.'assets/css/admin.css'; ?>">
-		<link rel="stylesheet" href="<?php echo ZQ_PATH_ADMIN.'assets/css/popup.css'; ?>">
 
-		<script src="<?php echo ZQ_PATH_ADMIN.'assets/js/lib.js'; ?>"></script>
-		<script src="<?php echo ZQ_PATH_ADMIN.'assets/js/helpers.js'; ?>"></script>
-		<script src="<?php echo ZQ_PATH_ADMIN.'assets/js/popup.js'; ?>"></script>
 		<script>var Base_url = '';</script>
 	</head>
 	<body>

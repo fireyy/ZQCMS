@@ -1,219 +1,206 @@
 <?php
 defined('IN_ZQCMS') or exit('Permission deiened');
+zq_core::load_sys_class('http','',0);
+zq_core::load_sys_func('dir');	
 zq_core::load_sys_class('admin','',0);
+
+define('UPDATE_TMP', CACHE_PATH.'update/source');
 
 class update extends admin {
 	public function __construct() {
     parent::__construct();
+    $this->updateHost = "http://zqcms.site/update";
+    $this->verLockFile = CACHE_PATH.'update/ver.txt';
+    $this->lastVer = "";
+    $this->tmpdir = "source";
+    $this->cacheFiles = CACHE_PATH.'update/updatetmp.inc';
 	}
   
 	/**
 	 * 在线更新
 	 */
 	public function init() {
-	
-		#TODO
 		include $this->admin_tpl('update');
 	}
+  
+  private function TestWriteAble($d)
+  {
+      $tfile = '_dedet.txt';
+      $fp = @fopen($d.$tfile,'w');
+      if(!$fp) {
+          return false;
+      }
+      else {
+          fclose($fp);
+          $rs = @unlink($d.'/'.$tfile);
+          return true;
+      }
+  }
+
+  private function GetDirName($filename)
+  {
+      $dirname = '../'.preg_replace("#[\\\\\/]{1,}#", '/', $filename);
+      $dirname = preg_replace("#([^\/]*)$#", '', $dirname);
+      return $dirname;
+  }
+
+  private function TestIsFileDir($dirname)
+  {
+      $dirs = array('name'=>'', 'isdir'=>FALSE, 'writeable'=>FALSE);
+      $dirs['name'] =  $dirname;
+      if(is_dir($dirname))
+      {
+          $dirs['isdir'] = TRUE;
+          $dirs['writeable'] = self::TestWriteAble($dirname);
+      }
+      return $dirs;
+  }
+
+  private function MkTmpDir($filename)
+  {
+      $basedir = UPDATE_TMP;
+      $dirname = trim(preg_replace("#[\\\\\/]{1,}#", '/', $filename));
+      $dirname = preg_replace("#([^\/]*)$#","",$dirname);
+      if(!is_dir($basedir)) 
+      {
+          mkdir($basedir,0777);
+      }
+      if($dirname=='') 
+      {
+          return TRUE;
+      }
+      $dirs = explode('/', $dirname);
+      $curdir = $basedir;
+      foreach($dirs as $d)
+      {
+          $d = trim($d);
+          if(empty($d)) continue;
+          $curdir = $curdir.'/'.$d;
+          if(!is_dir($curdir)) 
+          {
+              mkdir($curdir, 0777) or die($curdir);
+          }
+      }
+      return TRUE;
+  }
+  
 	/**
 	 * 检查新版本
 	 */
-  public function check() {
+  public function checkUpdate() {
+    $updateHost = $this->updateHost;
+    $verLockFile = $this->verLockFile;
+    //当前软件版本锁定文件
+    $fp = fopen($verLockFile,'r');
+    $currentVer = trim(fread($fp,64));
+    fclose($fp);
+
     //下载远程数据
-    $dhd = new DedeHttpDown();
-    $dhd->OpenUrl($updateHost.'/verinfo.txt');
-    $verlist = trim($dhd->GetHtml());
-    $dhd->Close();
-    if($cfg_soft_lang=='utf-8') 
-    {
-        $verlist = gb2utf8($verlist);
-    }
+    $dhd = new http();
+    $dhd->get($updateHost.'/verinfo.txt');
+    $verlist = trim($dhd->get_data());
+    //$dhd->Close();
     $verlist = preg_replace("#[\r\n]{1,}#", "\n", $verlist);
     $verlists = explode("\n", $verlist);
-    
+
     //分析数据
     $updateVers = array();
-    $upitems = $lastTime = '';
     $n = 0;
-    foreach($verlists as $verstr)
-    {
-        if( empty($verstr) || preg_match("#^\/\/#", $verstr) ) 
-        {
+    $upitems = '';
+    foreach($verlists as $verstr) {
+        if ( empty($verstr) || preg_match("#^\/\/#", $verstr)) {
             continue ;
         }
-        list($vtime, $vlang, $issafe, $vmsg) = explode(',', $verstr);
+        list($vtime, $ver, $vlang, $issafe, $vmsg) = explode(',', $verstr);
         $vtime = trim($vtime);
+	      $ver = trim($ver);
         $vlang = trim($vlang);
         $issafe = trim($issafe);
         $vmsg = trim($vmsg);
-        if($vtime > $upTime && $vlang==$cfg_soft_lang)
-        {
-            $updateVers[$n]['issafe'] = $issafe;
-            $updateVers[$n]['vmsg'] = $vmsg;
-            $upitems .= ($upitems=='' ? $vtime : ','.$vtime);
+      	if (version_compare($ver, $currentVer, ">")) {
+            $updateVers['issafe'] = $issafe;
+            $updateVers['vmsg'] = $vmsg;
+      	    $updateVers['updateVer'] = $ver;
+            $upitems .= ($upitems=='' ? $ver : ','.$ver);
             $lastTime = $vtime;
-            $updateVers[$n]['vtime'] = substr($vtime,0,4).'-'.substr($vtime,4,2).'-'.substr($vtime,6,2);
+            $updateVers['vtime'] = substr($vtime,0,4).'-'.substr($vtime,4,2).'-'.substr($vtime,6,2);
             $n++;
-        }
+      	}
     }
         
-    //echo "<xmp>";
-    //判断是否需要更新，并返回适合的结果
-    if($n==0)
-    {
-        $offUrl = SpGetNewInfo();
-        echo "<div class='updatedvt'><b>你系统版本最后更新时间为：{$oktime}，当前没有可用的更新</b></div>\r\n";
-        echo "<iframe name='stafrm' src='{$offUrl}&uptime={$oktime}' frameborder='0' id='stafrm' width='100%' height='50'></iframe>";
+    if($n==0) {
+      echo "error1";
+    } else {
+	    echo self::getList($lastTime, $upitems, $vtime, $updateVers);
     }
-    else
-    {
-        echo "<div style='width:98%'><form name='fup' action='update_guide.php' method='post' onsubmit='ShowWaitDiv()'>\r\n";
-        echo "<input type='hidden' name='dopost' value='getlist' />\r\n";
-        echo "<input type='hidden' name='vtime' value='$lastTime' />\r\n";
-        echo "<input type='hidden' name='upitems' value='$upitems' />\r\n";
-        echo "<div class='upinfotitle'>你系统版本最后更新时间为：{$oktime}，当前可用的更新有：</div>\r\n";
-        foreach($updateVers as $vers)
-        {
-            $style = '';
-            if($vers['issafe']==1) 
-            {
-                $style = "color:red;";
-            }
-            echo "<div style='{$style}' class='verline'>【".($vers['issafe']==1 ? "安全更新" : "普通更新")."】";
-            echo $vers['vtime']."，更新说明：{$vers['vmsg']}</div>\r\n";
-        }
-        echo "<div style='line-height:32px'><input type='submit' name='sb1' value=' 点击此获取所有更新文件，然后选择安装 ' class='np coolbg' style='cursor:pointer' />\r\n";
-        echo " &nbsp; <input type='button' name='sb2' value=' 忽略这些更新 ' onclick='SkipReload({$lastTime})' class='np coolbg'  style='cursor:pointer' /></div>\r\n";
-        echo "</form></div>";
-    }
-    //echo "</xmp>";
-    exit();
-  }
-  
-	/**
-	 * 忽略某个日期前的升级
-	 */
-  public function skip() {
-    
   }
   
 	/**
 	 * 获取升级文件列表
 	 */
-  public function getList() {
-    
-  }
-  
-	/**
-	 * 获取升级文件列表
-	 */
-  public function getList() {
+  private function getList($lastTime, $upitems, $vtime, $updateVers) {
+    $updateHost = $this->updateHost;
+    $lastVer = $this->lastVer;
     $upitemsArr = explode(',', $upitems);
-    rsort($upitemsArr);
-    
-    $tmpdir = substr(md5($cfg_cookie_encode), 0, 16);
-    
-    $dhd = new DedeHttpDown();
+        
+    $dhd = new http();
     $fileArr = array();
     $f = 0;
-    foreach($upitemsArr as $upitem)
-    {
-        $durl = $updateHost.$cfg_soft_lang.'/'.$upitem.'.file.txt';
-        $dhd->OpenUrl($durl);
-        $filelist = $dhd->GetHtml();
-        $filelist = trim( preg_replace("#[\r\n]{1,}#", "\n", $filelist) );
-        if(!empty($filelist))
-        {
-            $filelists = explode("\n", $filelist);
-            foreach($filelists as $filelist)
-            {
-                $filelist = trim($filelist);
-                if(empty($filelist)) continue;
-                $fs = explode(',', $filelist);
-                if( empty($fs[1]) ) 
-                {
-                    $fs[1] = $upitem." 常规功能更新文件";
-                }
-                if(!isset($fileArr[$fs[0]])) 
-                {
-                    $fileArr[$fs[0]] = $upitem." ".trim($fs[1]);
-                    $f++;
-                }
-            }
-        }
+    foreach($upitemsArr as $upitem) {
+      $lastVer = $upitem;
+      $durl = $updateHost.'/'.$upitem.'.file.txt';
+      $dhd->get($durl);
+      $filelist = $dhd->get_data();
+      $filelist = trim( preg_replace("#[\r\n]{1,}#", "\n", $filelist) );
+      if(!empty($filelist)) {
+          $filelists = explode("\n", $filelist);
+          foreach($filelists as $filelist)
+          {
+              $filelist = trim($filelist);
+              if(empty($filelist)) continue;
+              $fs = explode(',', $filelist);
+              if(!isset($fileArr[$fs[0]])) {
+                  $fileArr[$fs[0]] = $upitem." ".trim($fs[1]);
+                  $f++;
+              }
+          }
+      }
     }
-    $dhd->Close();
+    //$dhd->Close();
     
     $allFileList = '';
-    if($f==0)
-    {
-        $allFileList = "<font color='green'><b>没发现可用的文件列表信息，可能是官方服务器存在问题，请稍后再尝试！</b></font>";
+    if($f==0) {
+      return "error2";
+    } else {
+	    return self::getFiles($vtime, $upitems, $fileArr, $updateVers);
     }
-    else
-    {
-        $allFileList .= "<div style='width:98%'><form name='fup' action='update_guide.php' method='post'>\r\n";
-        $allFileList .= "<input type='hidden' name='vtime' value='$vtime' />\r\n";
-        $allFileList .= "<input type='hidden' name='dopost' value='getfiles' />\r\n";
-        $allFileList .= "<input type='hidden' name='upitems' value='$upitems' />\r\n";
-        $allFileList .= "<div class='upinfotitle'>以下是需要下载的更新文件（路径相对于DedeCMS的根目录）：</div>\r\n";
-        $filelists = explode("\n",$filelist);
-        foreach($fileArr as $k=>$v) 
-        {
-            $allFileList .= "<div class='verline'><input type='checkbox' name='files[]' value='{$k}'  checked='checked' /> $k({$v})</div>\r\n";
-        }
-        $allFileList .= "<div class='verline'>";
-        $allFileList .= "文件临时存放目录：../data/<input type='text' name='tmpdir' style='width:200px' value='$tmpdir' /><br />\r\n";
-        $allFileList .= "<input type='checkbox' name='skipnodir' value='1'  checked='checked' /> 跳过系统中没有的文件夹(通常是可选模块的补丁)</div>\r\n";
-        $allFileList .= "<div style='line-height:36px;background:#F8FEDA'>&nbsp;\r\n";
-        $allFileList .= "<input type='submit' name='sb1' value=' 下载并应用这些补丁 ' class='np coolbg' style='cursor:pointer' />\r\n";
-        $allFileList .="</form></div>";
-    }
-    
-    include DedeInclude('templets/update_guide_getlist.htm');
-    exit();
   }
   
   /**
-	 * 下载文件（保存需下载内容列表）
+	 * 保存需下载内容列表
 	 */
-  public function getFiles() {
-    //update_guide.php?dopost=down&curfile=0
-    $msg = "如果检测时发现你没安装模块的文件夹有错误，可不必理会<br />";
-    $msg .= "<a href=update_guide.php?dopost=down&curfile=0>确认目录状态都正常后，请点击开始下载文件&gt;&gt;</a><br />";
-    ShowMsg($msg,"javascript:;");
-    exit();
-}
-else if($dopost=='getfiles')
-{
-    $cacheFiles = DEDEDATA.'/cache/updatetmp.inc';
-    $skipnodir = (isset($skipnodir) ? 1 : 0);
+  private function getFiles($vtime, $upitems, $files, $updateVers) {
+    $cacheFiles = $this->cacheFiles;
     $adminDir = preg_replace("#(.*)[\/\\\\]#", "", dirname(__FILE__));
     
-    if(!isset($files))
-    {
-        $doneStr = "<p align='center' style='color:red'><br />你没有指定任何需要下载更新的文件，是否跳过这些更新？<br /><br />";
-        $doneStr .= "<a href='update_guide.php?dopost=skipback&vtime=$vtime' class='np coolbg'>[跳过这些更新]</a> &nbsp; ";
-        $doneStr .= "<a href='index_body.php'  class='np coolbg'>[保留提示以后再进行操作]</a></p>";
-    }
-    else
-    {
+    if(!isset($files)) {
+    } else {
         $fp = fopen($cacheFiles, 'w');
         fwrite($fp, '<'.'?php'."\r\n");
-        fwrite($fp, '$tmpdir = "'.$tmpdir.'";'."\r\n");
+        //fwrite($fp, '$tmpdir = "'.$tmpdir.'";'."\r\n");
+        fwrite($fp, '$updateVer = "'.$updateVers['vmsg'].'";'."\r\n");
         fwrite($fp, '$vtime = '.$vtime.';'."\r\n");
         $dirs = array();
-        $i = -1;
-        foreach($files as $filename)
-        {
+	      foreach($files as $filename => $t) {
             $tfilename = $filename;
-            if( preg_match("#^dede\/#i", $filename) ) 
-            {
-                $tfilename = preg_replace("#^dede\/#", $adminDir.'/', $filename);
-            }
-            $curdir = GetDirName($tfilename);
+            //if( preg_match("#^dede\/#i", $filename) ) 
+            //{
+            //    $tfilename = preg_replace("#^dede\/#", $adminDir.'/', $filename);
+            //}
+            $curdir = self::GetDirName($tfilename);
             if( !isset($dirs[$curdir]) ) 
             {
-                $dirs[$curdir] = TestIsFileDir($curdir);
+                $dirs[$curdir] = self::TestIsFileDir($curdir);
             }
             if($skipnodir==1 && $dirs[$curdir]['isdir'] == FALSE) 
             {
@@ -221,7 +208,7 @@ else if($dopost=='getfiles')
             }
             else {
                 @mkdir($curdir, 0777);
-                $dirs[$curdir] = TestIsFileDir($curdir);
+                $dirs[$curdir] = self::TestIsFileDir($curdir);
             }
             $i++;
             fwrite($fp, '$files['.$i.'] = "'.$filename.'";'."\r\n");
@@ -234,159 +221,228 @@ else if($dopost=='getfiles')
             fwrite($fp,'$sqls[] = "'.$sqlfile.'.sql";'."\r\n");
         }
         fwrite($fp, '?'.'>');
-        fclose($fp);
-        
-        $dirinfos = '';
-        if($i > -1)
-        {
-            $dirinfos = '<tr bgcolor="#ffffff"><td colspan="2">';
-            $dirinfos .= "本次升级需要在下面文件夹写入更新文件，请注意文件夹是否有写入权限：<br />\r\n";
-            foreach($dirs as $curdir)
-            {
-                $dirinfos .= $curdir['name']." 状态：".($curdir['writeable'] ? "[√正常]" : "<font color='red'>[×不可写]</font>")."<br />\r\n";
-            }
-            $dirinfos .= "</td></tr>\r\n";
-        }
-        
-        $doneStr = "<iframe name='stafrm' src='update_guide.php?dopost=getfilesstart' frameborder='0' id='stafrm' width='100%' height='100%'></iframe>\r\n";
+      	fclose($fp);
+
+      	$fs = array();
+
+      	foreach ($files as $f => $t) {
+      	    $fs[] = $f;
+      	}
+
+      	return json_encode(array($updateVers['vmsg'],$fs));
     }
-    include DedeInclude('templets/update_guide_getfiles.htm');
-    exit();
+  }
+  
+  private function _StartDownload() {
+    $updateHost = $this->updateHost;
+    $cacheFiles = $this->cacheFiles;
+    require_once($cacheFiles);
+    $curfile = 0;
+
+    echo "<div>";
+
+    echo "<p>开始开始下载文件</p>";
+    if ($fileConut > 0) {
+    	while ($curfile < $fileConut) {
+    	    //检查临时文件保存目录是否可用
+    	    self::MkTmpDir($files[$curfile]);
+    	    $downfile = $updateHost.'/source/'.$files[$curfile];
+
+    	    //自动循环
+    	    $dhd = new http();
+    	    //echo "<span>{$files[$curfile]}</span><br/>";
+    	    $dhd->get($downfile);
+    	    $dhd->save(UPDATE_TMP.'/'.$files[$curfile]);
+    	    //$dhd->Close();
+    	    $curfile++;
+    	}
+    }
+    
+    echo "<p>文件下载完成，开始下载SQL</p>";
+    self::MkTmpDir('sql.txt');
+    $dhd = new http();
+    $ct = '';
+    foreach($sqls as $sql)
+    {
+    	$downfile = $updateHost."/".$sql;
+    	$dhd->OpenUrl($downfile);
+    	$ct .= $dhd->GetHtml();
+    }
+    $dhd->Close();
+    $truefile = UPDATE_TMP.'/sql.txt';
+    $fp = fopen($truefile, 'w');
+    fwrite($fp, $ct);
+    fclose($fp);
+    
+    echo "</div>";
+    self::_ApplyUpdate();
   }
   
   /**
-	 * 下载文件（保存需下载内容列表）
+	 * 下载程序文件
 	 */
-  public function down() {
-    $cacheFiles = DEDEDATA.'/cache/updatetmp.inc';
+  public function downFile() {
+  	$filename = $_POST['filename'];
+  	$_tid = $_POST['_id'];
+    if (!empty($filename)) {
+      if (self::_download_file($filename)) {
+      	//return
+      	echo json_encode(array(
+      	    'tid' => $_tid,
+      	    'status' => 'success'
+      	));
+      	exit;
+          }else{
+      	echo json_encode(array(
+      	    'tid' => $_tid,
+      	    'status' => 'failure'
+      	));
+      	exit;
+      }
+    }
+  }
+  
+  /**
+	 * 下载文件，具体操作步骤
+	 */
+  private function _download_file($file) {
+    $updateHost = $this->updateHost;
+    $cacheFiles = $this->cacheFiles;
     require_once($cacheFiles);
-    
-    if(empty($startup))
-    {
-        if($fileConut==-1 || $curfile > $fileConut)
-        {
-            ShowMsg("已下载所有文件，开始下载数据库升级文件...","update_guide.php?dopost=down&startup=1");
-            exit();
-        }
-        
-        //检查临时文件保存目录是否可用
-        MkTmpDir($tmpdir, $files[$curfile]);
-        
-        $downfile = $updateHost.$cfg_soft_lang.'/source/'.$files[$curfile];
-        
-        $dhd = new DedeHttpDown();
-        $dhd->OpenUrl($downfile);
-        $dhd->SaveToBin(DEDEDATA.'/'.$tmpdir.'/'.$files[$curfile]);
-        $dhd->Close();
-        
-        ShowMsg("成功下载并保存文件：{$files[$curfile]}； 继续下载下一个文件。","update_guide.php?dopost=down&curfile=".($curfile+1));
-        exit();
-    }
-    else
-    {
-        MkTmpDir($tmpdir, 'sql.txt');
-        $dhd = new DedeHttpDown();
-        $ct = '';
-        foreach($sqls as $sql)
-        {
-            $downfile = $updateHost.$cfg_soft_lang.'/'.$sql;
-            $dhd->OpenUrl($downfile);
-            $ct .= $dhd->GetHtml();
-        }
-        $dhd->Close();
-        $truefile = DEDEDATA.'/'.$tmpdir.'/sql.txt';
-        $fp = fopen($truefile, 'w');
-        fwrite($fp, $ct);
-        fclose($fp);
 
-        ShowMsg("完成所有远程文件获取操作：<a href='update_guide.php?dopost=apply'>&lt;&lt;点击此开始直接升级&gt;&gt;</a><br />你也可以直接使用[../data/{$tmpdir}]目录的文件手动升级。","javascript:;");
-
-        exit();
+    if (file_exists(UPDATE_TMP.'/'.$file)) {
+	    return true;
     }
-    exit();
+
+    self::MkTmpDir($file);
+    $downfile = $updateHost.'/source/'.$file;
+    $dhd = new http();
+    $dhd->get($downfile);
+    $dhd->save(UPDATE_TMP.'/'.$file);
+    //$dhd->Close();
+
+
+    if (file_exists(UPDATE_TMP.'/'.$file)) {
+	    return true;
+    }else{
+	    //$dhd->printError();
+	    return false;
+    }
+  }
+  
+  /**
+	 * 下载SQL文件
+	 */
+  public function downSQL() {
+    $tm = 0;
+    $updateHost = $this->updateHost;
+    $cacheFiles = $this->cacheFiles;
+    require_once($cacheFiles);
+
+    self::MkTmpDir('sql.txt');
+    $dhd = new http();
+    $ct = '';
+    foreach($sqls as $sql){
+    	$downfile = $updateHost."/".$sql;
+    	if($dhd->get($downfile)){
+    	  $ct .= $dhd->get_data();
+        $tm++;
+    	}
+    }
+    //$dhd->Close();
+    if(!empty($ct)){
+      $truefile = UPDATE_TMP.'/sql.txt';
+      $fp = fopen($truefile, 'w');
+      fwrite($fp, $ct);
+      fclose($fp);
+    }
+    echo json_encode(array('status' => 'success', 'count' => $tm));
+    exit;
   }
   
   /**
 	 * 应用升级
 	 */
-  public function apply() {
-    $cacheFiles = DEDEDATA.'/cache/updatetmp.inc';
+  public function applyUpgrade(){
+    $cacheFiles = $this->cacheFiles;
     require_once($cacheFiles);
-    
-    if(empty($step))
-    {
-        $truefile = DEDEDATA.'/'.$tmpdir.'/sql.txt';
-        $fp = fopen($truefile, 'r');
-        $sql = @fread($fp, filesize($truefile));
-        fclose($fp);
-        if(!empty($sql))
-        {
-            $mysql_version = $dsql->GetVersion(true);
-            
-            $sql = preg_replace('#ENGINE=MyISAM#i', 'TYPE=MyISAM', $sql);
-            $sql41tmp = 'ENGINE=MyISAM DEFAULT CHARSET='.$cfg_db_language;
-            if($mysql_version >= 4.1) 
-            {
-                $sql = preg_replace('#TYPE=MyISAM#i', $sql41tmp, $sql);
-            }
-            
-            $sqls = explode(";\r\n", $sql);
-            foreach($sqls as $sql)
-            {
-                if(trim($sql)!='') 
-                {
-                    $dsql->ExecuteNoneQuery(trim($sql));
-                }
-            }
-        }
-        ShowMsg("完成数据库更新，现在开始复制文件。","update_guide.php?dopost=apply&step=1");
-        exit();
+    if(self::_ApplyUpdate()){
+      echo json_encode(array('status' => 'success', 'ver' => $updateVer));
+    }else{
+      echo json_encode(array('status' => 'error', 'ver' => $updateVer));
     }
-    else
-    {
-        $sDir = DEDEDATA."/$tmpdir";
-        $tDir = DEDEROOT;
-        
-        $badcp = 0;
-        $adminDir = preg_replace("#(.*)[\/\\\\]#", "", dirname(__FILE__));
-        
-        if(isset($files) && is_array($files))
-        {
-            foreach($files as $f)
-            {
-                if(preg_match('#^dede#', $f)) 
-                {
-                    $tf = preg_replace('#^dede#', $adminDir, $f);
-                }
-                else {
-                    $tf = $f;
-                }
-                if(file_exists($sDir.'/'.$f))
-                {
-                    $rs = @copy($sDir.'/'.$f, $tDir.'/'.$tf);
-                    if($rs) {
-                        unlink($sDir.'/'.$f);
-                    }
-                    else {
-                        $badcp++;
-                    }
-                }
-            }
+    exit;
+  }
+  
+  private function _ApplyUpdate() {
+    $verLockFile = $this->verLockFile;
+    $lastVer = $this->lastVer;
+    $cacheFiles = $this->cacheFiles;
+    require_once($cacheFiles);
+
+    //update database;
+    $truefile = UPDATE_TMP.'/sql.txt';
+    $fp = fopen($truefile, 'r');
+    $sql = @fread($fp, filesize($truefile));
+    fclose($fp);
+    if(!empty($sql)){
+        $sqls = explode(";\r\n", $sql);
+        zq_core::load_sys_class('crow','',0);
+        Crow::get_instance(zq_core::load_config('database'));
+        $dsql = Crow::get_database("default");
+        foreach($sqls as $sql){
+          if(trim($sql)!='') {
+      	    $dsql->query(trim($sql));
+          }
         }
-        
-        $fp = fopen($verLockFile,'w');
-        fwrite($fp,$vtime);
-        fclose($fp);
-        
-        $badmsg = '！';
-        if($badcp > 0)
-        {
-            $badmsg = "，其中失败 {$badcp} 个文件，<br />请从临时目录[../data/{$tmpdir}]中取出这几个文件手动升级。";
-        }
-        
-        ShowMsg("成功完成升级{$badmsg}","javascript:;");
-        exit();
     }
+
+
+    $sDir = UPDATE_TMP;
+    $tDir = ZQCMS_PATH;
+
+    $badcp = 0;
+    //$adminDir = preg_replace("#(.*)[\/\\\\]#", "", dirname(__FILE__));
+
+    if(isset($files) && is_array($files)) {
+    	foreach($files as $f) {
+    	    //if(preg_match('#^dede#', $f)) {
+    	    //    $tf = preg_replace('#^dede#', $adminDir, $f);
+    	    //} else {
+    	    //    $tf = $f;
+    	    //}
+          $tf = $f;
+          
+    	    if(file_exists($sDir.'/'.$f))
+    	    {
+    	        $rs = @copy($sDir.'/'.$f, $tDir.'/'.$tf);
+    	        if($rs) {
+    	            unlink($sDir.'/'.$f);
+    	        }
+    	        else {
+    	            $badcp++;
+    	        }
+    	    }
+      }
+    }
+
+    //_Test();
+    //$fp = fopen($verLockFile,'w');
+    //fwrite($fp,$lastVer);
+    //fclose($fp);
+
+    return true;
+  }
+  
+  /**
+	 * TODO 强制升级
+	 */
+  public function forceUpdate() {
+    //$data = check();
+    //if ($data && is_array($data)) {
+    //	list($tmpdir, $files) = $data;
+    //	self::_StartDownload($files);
+    //}
   }
 }
 ?>

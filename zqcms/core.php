@@ -22,6 +22,7 @@ define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER
 
 // load common func and class
 zq_core::load_sys_func("globals");
+zq_core::load_sys_func("globals");
 zq_core::auto_load_func();
 //设定网站配置
 
