@@ -292,7 +292,7 @@ class update extends admin {
       	    'status' => 'success'
       	));
       	exit;
-          }else{
+      }else{
       	echo json_encode(array(
       	    'tid' => $_tid,
       	    'status' => 'failure'
@@ -317,15 +317,13 @@ class update extends admin {
     self::MkTmpDir($file);
     $downfile = $updateHost.'/source/'.$file;
     $dhd = new http();
-    $dhd->get($downfile);
-    $dhd->save(UPDATE_TMP.'/'.$file);
-    //$dhd->Close();
-
+    if($dhd->get($downfile)){
+      $dhd->save(UPDATE_TMP.'/'.$file);
+    }
 
     if (file_exists(UPDATE_TMP.'/'.$file)) {
 	    return true;
     }else{
-	    //$dhd->printError();
 	    return false;
     }
   }
@@ -366,7 +364,8 @@ class update extends admin {
   public function applyUpgrade(){
     $cacheFiles = $this->cacheFiles;
     require_once($cacheFiles);
-    if(self::_ApplyUpdate()){
+    $fs = self::_ApplyUpdate($files);
+    if($fs == 0){
       echo json_encode(array('status' => 'success', 'ver' => $updateVer));
     }else{
       echo json_encode(array('status' => 'error', 'ver' => $updateVer));
@@ -374,11 +373,7 @@ class update extends admin {
     exit;
   }
   
-  private function _ApplyUpdate() {
-    $verLockFile = $this->verLockFile;
-    $lastVer = $this->lastVer;
-    $cacheFiles = $this->cacheFiles;
-    require_once($cacheFiles);
+  private function _ApplyUpdate($files) {
 
     //update database;
     $truefile = UPDATE_TMP.'/sql.txt';
@@ -402,27 +397,20 @@ class update extends admin {
     $tDir = ZQCMS_PATH;
 
     $badcp = 0;
-    //$adminDir = preg_replace("#(.*)[\/\\\\]#", "", dirname(__FILE__));
 
     if(isset($files) && is_array($files)) {
     	foreach($files as $f) {
-    	    //if(preg_match('#^dede#', $f)) {
-    	    //    $tf = preg_replace('#^dede#', $adminDir, $f);
-    	    //} else {
-    	    //    $tf = $f;
-    	    //}
-          $tf = $f;
+        $tf = $f;
           
-    	    if(file_exists($sDir.'/'.$f))
-    	    {
-    	        $rs = @copy($sDir.'/'.$f, $tDir.'/'.$tf);
-    	        if($rs) {
-    	            unlink($sDir.'/'.$f);
-    	        }
-    	        else {
-    	            $badcp++;
-    	        }
-    	    }
+  	    if(file_exists($sDir.'/'.$f)) {
+  	        $rs = @copy($sDir.'/'.$f, $tDir.'/'.$tf);
+  	        if($rs) {
+  	            unlink($sDir.'/'.$f);
+  	        }
+  	        else {
+  	            $badcp++;
+  	        }
+  	    }
       }
     }
 
@@ -431,7 +419,7 @@ class update extends admin {
     //fwrite($fp,$lastVer);
     //fclose($fp);
 
-    return true;
+    return $badcp;
   }
   
   /**

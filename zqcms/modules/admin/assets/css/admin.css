@@ -595,6 +595,7 @@ ul#comments {
 .table { width: 100%; border-collapse:collapse;background: #F5FAFA;border-radius: 4px; }
 .table th, .table td { text-align: left; padding: 3px 0 3px 5px; border-bottom: 1px solid #fff; }
 #download_progress .table, #download_progress h3 { margin-bottom: 10px; }
+.retry { cursor: pointer; }
 
 /*!
  * print.css v1.0.0
