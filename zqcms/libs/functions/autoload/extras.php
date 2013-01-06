@@ -221,7 +221,32 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
 }
 
 function getArticleThumb($item,$w=0,$h=0) {
-  return "#.".$w."x".$h.".jpg";
+  $imageUrl = "";
+  // $mode = 1 or 2
+  $mode = 1;
+  // 图片质量 = 1-100
+  $quality = 100;
+  $imageView = "imageView/".$mode;
+  if($w!=0){
+    $imageView .= "/w/".$w;
+  }
+  if($h!=0){
+    $imageView .= "/h/".$h;
+  }
+  $imageView .= "/q/".$quality;
+  if(is_string($item)){
+    $imageUrl = $item;
+  }else{
+    $item = GetThumbsArray($item["body"]);
+    if(!empty($item) && $item.length > 0){
+      $imageUrl = $item[0];
+    }
+  }
+  if(empty($imageUrl)){
+    return ZQCMS_PATH."uploads/nopic.gif";
+  }else{
+    return $imageUrl."?".$imageView;
+  }
 }
 #register_template_plugin("modifier", "zqthumb", "getArticleThumb");
 
