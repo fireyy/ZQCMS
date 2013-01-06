@@ -52,3 +52,5 @@ Desktop.ini
 
 # Mac crap
 .DS_Store
+/caches/configs/system.php
+/caches/configs/database.php
