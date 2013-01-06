@@ -156,7 +156,7 @@ class Installer {
       }
 
 			// 创建管理员
-      _sql_execute("INSERT INTO ".$tablepre."admin (`name`,`passwd`,`email`) VALUES ('".$data['user']['username']."','".md5($data['user']['passwd'])."','".$data['user']['email']."')", $tablepre);
+      _sql_execute("INSERT INTO ".$tablepre."admin (`name`,`passwd`,`email`) VALUES ('".$data['user']['username']."','".md5($data['user']['password'])."','".$data['user']['email']."')", $tablepre);
 
 		} catch(PDOException $e) {
 			Messages::add($e->getMessage());
@@ -196,7 +196,7 @@ class Installer {
 			"'site_indexurl' => '~site_indexurl~'",
 			"'site_basehost' => '~site_basehost~'",
 			"'auth_key' => '~auth_key~'",
-      'valid_key' => '~valid_key~',
+      "'valid_key' => '~valid_key~'",
       "'site_description' => '~site_description~'"
     );
 		$replace = array(
@@ -344,6 +344,16 @@ class Installer {
 
 		return true;
 	}
+  
+  private function fetch_salt($length = 4) {
+      $salt = '';
+      for ($i = 0; $i < $length; $i ++)
+      {
+         $salt .= chr(rand(97, 122));
+      }
+
+      return $salt;
+  }
 
 	public static function stage3() {
 		$post = post(array('site_name', 'site_description', 'site_indexurl', 'theme'));
@@ -361,7 +371,7 @@ class Installer {
 			return false;
 		}
     
-    $valid_key = substr(sha1(fetch_salt(16).md5(time())), 0, 32);
+    $valid_key = substr(sha1(self::fetch_salt(16).md5(time())), 0, 32);
     $post["valid_key"] = $valid_key;
     
 		// save and continue

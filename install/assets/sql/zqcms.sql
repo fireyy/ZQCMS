@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `zq_admin` (
   `logintime` int(10) NOT NULL,
   `loginip` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `zq_articles` (
   `external_links` varchar(255) NOT NULL,
   `game_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4647 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10046 ;
 
 -- --------------------------------------------------------
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `zq_companies` (
   `game_count` int(11) NOT NULL DEFAULT '0',
   `kaifu_count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=389 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=401 ;
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `zq_galleries` (
   `external_links` varchar(255) NOT NULL,
   `game_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=199 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=249 ;
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `zq_games` (
   `pinyin` char(32) NOT NULL,
   `kaifu_count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1686 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1722 ;
 
 -- --------------------------------------------------------
 
@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `zq_gifts` (
   `server_name` varchar(64) NOT NULL,
   `gift_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1393 ;
 
 -- --------------------------------------------------------
 
@@ -302,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `zq_kaices` (
   `gift_id` int(11) NOT NULL,
   `oper_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=246 ;
 
 -- --------------------------------------------------------
 
@@ -344,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `zq_kaifus` (
   `gift_id` int(11) NOT NULL,
   `oper_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=602 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8835 ;
 
 -- --------------------------------------------------------
 
@@ -384,7 +384,7 @@ CREATE TABLE IF NOT EXISTS `zq_options` (
   `type` tinyint(1) NOT NULL,
   `group` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `zq_tag_taxonomy` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag_id` (`tag_id`,`taxonomy`),
   KEY `taxonomy` (`taxonomy`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
 
 -- --------------------------------------------------------
 
@@ -453,33 +453,6 @@ CREATE TABLE IF NOT EXISTS `zq_types` (
   `order` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
---
--- 数据库: `zqcms`
---
-
---
--- 转存表中的数据 `zq_options`
---
-
-INSERT INTO `zq_options` (`id`, `name`, `value`, `description`, `type`, `group`) VALUES
-(1, 'cookie_pre', '', '', 0, 0),
-(2, 'cookie_domain', '', '', 0, 0),
-(3, 'cookie_path', '', '', 0, 0),
-(4, 'auth_key', '', '', 0, 0),
-(5, 'style', 'default', '', 0, 0),
-(6, 'charset', 'utf-8', '', 0, 0),
-(7, 'site_name', '内网测试站', '', 0, 0),
-(8, 'site_keywords', '', '', 0, 0),
-(9, 'site_description', '', '', 0, 0),
-(10, 'site_basehost', 'http://cms.dev', '', 0, 0),
-(11, 'site_indexurl', '/', '', 0, 0),
-(12, 'site_logo', '/uploads/logo.gif', '', 0, 0),
-(13, 'site_beian', '', '', 0, 0);
-
---
--- 转存表中的数据 `zq_types`
---
 
 INSERT INTO `zq_types` (`id`, `name`, `title`, `description`, `table_name`, `keywords`, `ishidden`, `order`) VALUES
 (1, 'game', '游戏', '', 'games', '', 0, 1),

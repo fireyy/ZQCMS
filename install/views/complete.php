@@ -10,7 +10,7 @@
 
 	<p class="options">
 	
-		<a href="../admin" class="button">登录网站后台 &raquo;</a> 
+		<a href="../admin.php" class="button">登录网站后台 &raquo;</a> 
 	
 		<a href="../" class="right">访问网站首页 &raquo;</a>
 	</p>
