@@ -3,10 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>ZQCMS</title>
-
 		<link rel="stylesheet" href="<?php echo ZQ_PATH_ADMIN.'assets/css/admin.css'; ?>">
-
-		<script>var Base_url = '';</script>
+    <script type="text/javascript"	src="<?php echo ZQ_PATH_ADMIN.'assets/js/jquery.js'; ?>"></script>
 	</head>
 	<body>
 

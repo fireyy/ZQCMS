@@ -292,17 +292,12 @@ button#create {
         .content ul.list li {
             position: relative;
             border-bottom: 1px solid #f5f7f8;
+            display: block;
+            padding: 15px 0;
         }
             .content ul.list li:last-child {
                 border-bottom: none;
             }
-        .content ul.list a {
-            display: block;
-            
-            padding: 15px 0;
-            
-            text-decoration: none;
-        }
             .content ul.list strong {
                 display: block;
                 padding-bottom: 3px;
@@ -319,8 +314,9 @@ button#create {
                 top: 18px;
             }
             
-p.notification {
+.notification {
     position: relative;
+    display: block;
     
     margin: 20px 0 -20px;
     padding: 10px 20px;
@@ -343,13 +339,14 @@ p.notification {
     background-image: -ms-linear-gradient(top, rgba(0,0,0,.15), transparent);
     background-image: linear-gradient(top, rgba(0,0,0,.15), transparent);
 }
-    p.notification.error {
+    a.notification { color:#fff; text-decoration: none; }
+    .notification.error {
     	background-color: #911;
     }
-    p.notification.success {
+    .notification.success {
     	background-color: #757e0e;
     }
-    p.notification.notice {
+    .notification.notice {
         background-color: #FFC800;
     }
     
@@ -590,11 +587,8 @@ ul#comments {
 .debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}
 .debug th {font-weight: bold; text-align: center;}
 .debug tfoot td:first-child {text-align: right;}
-.done { color: green; }
+.done { color: #00C700; font-style: normal; }
 .undone { color: red; }
-.table { width: 100%; border-collapse:collapse;background: #F5FAFA;border-radius: 4px; }
-.table th, .table td { text-align: left; padding: 3px 0 3px 5px; border-bottom: 1px solid #fff; }
-#download_progress .table, #download_progress h3 { margin-bottom: 10px; }
 .retry { cursor: pointer; }
 
 /*!

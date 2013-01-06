@@ -2,29 +2,31 @@
 
 <h1>在线更新 <button id="checkupdate" type="button">检测更新</button></h1>
 
-<p id="updateMsg" class="notification"></p>
-
 <div class="content">
-  <div id="download_progress"></div>
+  <ul class="list">
+	  <li>
+	    <strong>当前版本：</strong>
+      <i id="current_ver" class="status"><?php echo ZQCMS_VERSION; ?></i>
+	  </li>
+  </ul>
+  <ul id="download_progress" class="list"></ul>
 </div>
-<script type="text/javascript"	src="<?php echo ZQ_PATH_ADMIN.'assets/js/jquery.js'; ?>"></script>
 <script type="text/javascript">
 (function(window, $){
-  var progress_div = $('#download_progress'), files, files_length = 0, _count = 0, _successCount=0, _failureCount=0,list_table, errors={"error1":"当前没用可用的更新", "error2":"没发现可用的文件列表信息，可能是官方服务器存在问题，请稍后再尝试！"};
+  var progress_div = $('#download_progress'), files, files_length = 0, _count = 0, _successCount=0, _failureCount=0,list_table, errors={"error1":"您的已经是最新版本", "error2":"检测失败，请重试"}, autocheck='<?php echo $autocheck; ?>';
   $(document).ready(function(){
-      //checkUpdate();
       $("#checkupdate").click(checkUpdate);
       $(".retry").live("click", function(){
-        //$(this).hide();
+        $(this).hide();
         f = $(this).attr("data-files");
         download_file(f);
       });
+      if(autocheck == '1') $("#checkupdate").click();
   });
   
   function checkUpdate(){
     $("#checkupdate").attr("disabled",1).text("检测中...");
-    $("#updateMsg").addClass("notice").html("正在为您检测是否有新版本...");
-    $("#download_progress").html("");
+    $("#download_progress").html("").append("<li><strong>正在为您检测是否有新版本...</strong><i class='status'></i></li>");
     window.onbeforeunload = function(e) {
       return "系统正在更新中，请不要刷新或者关闭此页面";
     };
@@ -34,26 +36,24 @@
         error: function(){
           window.onbeforeunload = null;
           $("#checkupdate").removeAttr("disabled").text("检测更新");
-          $("#updateMsg").removeClass("notice").addClass("success").html(errors["error2"]);
+          $("#download_progress").append("<li><strong>"+errors["error2"]+"</strong><i class='status'></i></li>");
         },
         success: function(data){
           if(data == "error1" || data == "error2"){
             window.onbeforeunload = null;
             $("#checkupdate").removeAttr("disabled").text("检测更新");
-            $("#updateMsg").addClass("notice").html(errors[data]);
+            $("#download_progress").append("<li><strong>"+errors[data]+"</strong><i class='status'></i></li>");
           }else{
             $("#checkupdate").text("更新中...");
             arr = eval(data);
-            $("#updateMsg").html("发现新版本: "+arr[0]+"，正在更新中...");
+            $("#download_progress").append("<li><strong>发现新版本: "+arr[0]+"</strong><i class='status'>更新中...</i></li>");
             files = arr[1];
             files_length = files.length;
             _count = 0;
             _successCount=0;
             _failureCount=0;
             if (files_length > 0) {
-              progress_div.append("<h3>开始下载需要更新的文件</h3>");
-              list_table = $("<table class='table' cellspacing='0'/>").appendTo(progress_div);
-              $('<thead><tr><th width="80%">文件名</th><th width="20%">状态</th></tr></thead>').appendTo(list_table);
+              $("#download_progress").append("<li><strong>开始下载需要更新的文件</strong><i class='status'></i></li>");
               download_file(files.shift());
             }
           }
@@ -68,9 +68,7 @@
     if($("#tid_"+_successCount).length > 0){
       $("#tid_"+_successCount).removeClass('undone').html('正在下载');
     }else{
-      var tr = $('<tr/>').appendTo(list_table);
-      $('<td/>').html(f).appendTo(tr);
-      var td = $('<td/>').attr('id', 'tid_'+_successCount).html('正在下载').appendTo(tr);
+      $("#download_progress").append("<li><strong>"+f+"</strong><i id='tid_"+_successCount+"' class='status'>正在下载</i></li>");
     }
     $.ajax({
         url: '?m=admin&c=update&a=downFile',
@@ -85,7 +83,7 @@
         	    _successCount++;
               //_count++;
           }else if (data && data['status'] == 'failure'){
-        	    $("#"+tid).html('下载失败 <span class="retry" data-files="'+f+'">重试</span>').addClass('undone');
+        	    $("#"+tid).html('下载失败 <input type="button" class="retry" data-files="'+f+'" value="重试" />').addClass('undone');
         	    _failureCount++;
               
         	    //window.onbeforeunload = null;
@@ -108,7 +106,8 @@
   }
 		    
   function download_sqls(){
-    progress_div.append("<h3>开始下载需要更新的SQL</h3>");
+    $("#download_progress").append("<li><strong>检测需要更新的数据</strong><i id='sqlver' class='status done'></i></li>");
+    progress_div.append("<h3></h3>");
     $.ajax({
         url: '?m=admin&c=update&a=downSQL',
         type: 'POST',
@@ -116,9 +115,9 @@
         success: function(data){
         	if (data.status == "success") {
             if(data.count){
-              progress_div.append("<p class='done'>下载完成</p>");
+              $("#sqlver").html("下载完成");
             }else{
-              progress_div.append("<p class='done'>无需下载</p>");
+              $("#sqlver").html("无需下载");
             }
             _apply_update();
         	}
@@ -127,7 +126,7 @@
   }
 
   function _apply_update() {
-    progress_div.append("<h3>正在应用升级</h3>");
+    $("#download_progress").append("<li><strong>正在应用升级</strong><i class='status'></i></li>");
     $.ajax({
       url: '?m=admin&c=update&a=applyUpgrade',
       type: 'POST',
@@ -136,11 +135,11 @@
         window.onbeforeunload = null;
         $("#checkupdate").removeAttr("disabled").text("检测更新");
         if(data.status == "success"){
-          progress_div.append("<p class='done'>版本："+data["ver"]+" 更新成功</p>");
-          $("#updateMsg").removeClass("notice").addClass("success").html("成功更新到版本");
+          $("#download_progress").append("<li><strong>版本："+data["vmsg"]+"</strong><i class='status done'>更新成功</i></li>");
+          $("#current_ver").html(data["ver"]);
       	  //window.location="?m=admin&c=index";
         }else{
-          progress_div.append("<p class='undone'>版本："+data["ver"]+" 更新失败</p>");
+          $("#download_progress").append("<li><strong>版本："+data["vmsg"]+"</strong><i class='status undone'>更新失败</i></li>");
         }
       }
     })

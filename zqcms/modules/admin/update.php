@@ -4,8 +4,6 @@ zq_core::load_sys_class('http','',0);
 zq_core::load_sys_func('dir');	
 zq_core::load_sys_class('admin','',0);
 
-define('UPDATE_TMP', CACHE_PATH.'update/source');
-
 class update extends admin {
 	public function __construct() {
     parent::__construct();
@@ -20,12 +18,12 @@ class update extends admin {
 	 * 在线更新
 	 */
 	public function init() {
+    $autocheck = isset($_GET['autocheck']) ? $_GET['autocheck'] : 0;
 		include $this->admin_tpl('update');
 	}
   
-  private function TestWriteAble($d)
-  {
-      $tfile = '_dedet.txt';
+  private function TestWriteAble($d) {
+      $tfile = '_zq.txt';
       $fp = @fopen($d.$tfile,'w');
       if(!$fp) {
           return false;
@@ -37,15 +35,13 @@ class update extends admin {
       }
   }
 
-  private function GetDirName($filename)
-  {
+  private function GetDirName($filename) {
       $dirname = '../'.preg_replace("#[\\\\\/]{1,}#", '/', $filename);
       $dirname = preg_replace("#([^\/]*)$#", '', $dirname);
       return $dirname;
   }
 
-  private function TestIsFileDir($dirname)
-  {
+  private function TestIsFileDir($dirname) {
       $dirs = array('name'=>'', 'isdir'=>FALSE, 'writeable'=>FALSE);
       $dirs['name'] =  $dirname;
       if(is_dir($dirname))
@@ -56,8 +52,7 @@ class update extends admin {
       return $dirs;
   }
 
-  private function MkTmpDir($filename)
-  {
+  private function MkTmpDir($filename) {
       $basedir = UPDATE_TMP;
       $dirname = trim(preg_replace("#[\\\\\/]{1,}#", '/', $filename));
       $dirname = preg_replace("#([^\/]*)$#","",$dirname);
@@ -88,6 +83,7 @@ class update extends admin {
 	 * 检查新版本
 	 */
   public function checkUpdate() {
+    $chk = isset($_POST["chk"]) ? $_POST["chk"] : 0;
     $updateHost = $this->updateHost;
     $verLockFile = $this->verLockFile;
     //当前软件版本锁定文件
@@ -129,9 +125,23 @@ class update extends admin {
     }
         
     if($n==0) {
-      echo "error1";
+      if($chk){
+        echo json_encode(array(
+    	    'ver' => '',
+    	    'status' => 'failure'
+        ));
+      }else{
+        echo "error1";
+      }
     } else {
-	    echo self::getList($lastTime, $upitems, $vtime, $updateVers);
+      if($chk){
+        echo json_encode(array(
+    	    'ver' => $updateVers['vmsg'],
+    	    'status' => 'success'
+        ));
+      }else{
+        echo self::getList($lastTime, $upitems, $vtime, $updateVers);
+      }
     }
   }
   
@@ -188,7 +198,8 @@ class update extends admin {
         $fp = fopen($cacheFiles, 'w');
         fwrite($fp, '<'.'?php'."\r\n");
         //fwrite($fp, '$tmpdir = "'.$tmpdir.'";'."\r\n");
-        fwrite($fp, '$updateVer = "'.$updateVers['vmsg'].'";'."\r\n");
+        fwrite($fp, '$vmsg = "'.$updateVers['vmsg'].'";'."\r\n");
+        fwrite($fp, '$updateVer = "'.$updateVers['updateVer'].'";'."\r\n");
         fwrite($fp, '$vtime = '.$vtime.';'."\r\n");
         $dirs = array();
 	      foreach($files as $filename => $t) {
@@ -366,9 +377,9 @@ class update extends admin {
     require_once($cacheFiles);
     $fs = self::_ApplyUpdate($files);
     if($fs == 0){
-      echo json_encode(array('status' => 'success', 'ver' => $updateVer));
+      echo json_encode(array('status' => 'success', 'vmsg' => $vmsg, 'ver' => $updateVer));
     }else{
-      echo json_encode(array('status' => 'error', 'ver' => $updateVer));
+      echo json_encode(array('status' => 'error', 'vmsg' => $vmsg, 'ver' => $updateVer));
     }
     exit;
   }
