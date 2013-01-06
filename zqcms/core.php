@@ -20,6 +20,14 @@ define("SITE_URL", (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
 //define referer
 define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : ''));
 
+define('UPDATE_TMP', CACHE_PATH.'update/source');
+
+$ver = CACHE_PATH.'update/ver.txt';
+$fp = fopen($ver, 'r');
+$ver = @fread($fp, filesize($ver));
+fclose($fp);
+define('ZQCMS_VERSION', $ver);
+
 // load common func and class
 zq_core::load_sys_func("globals");
 zq_core::load_sys_func("globals");

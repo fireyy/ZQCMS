@@ -11,20 +11,110 @@ class Installer {
 		// php
     if(version_compare(PHP_VERSION, '5.3.0', '<')) set_magic_quotes_runtime(0);
 		if(version_compare(PHP_VERSION, '5.2.0', '<')) {
-			$compat[] = '<strong>Anchor requires PHP 5.2 or newer.</strong><br>
-				<em>Your current environment is running PHP ' . PHP_VERSION . '</em>';
+			$compat[] = '<strong>ZQCMS 需要 PHP 版本 >= 5.2</strong><br>
+				<em>您的服务器 PHP 版本是 ' . PHP_VERSION . '</em>';
 		}
-    #TODO 环境检测
-    $sp_testdirs = array(
-        '/',
-        '/caches/*',
-        '/html/*',
-        '/install',
-        '/uploads/*'
-    );
+    if(!extension_loaded('mysql')) {
+			$compat[] = '<strong>ZQCMS 需要开启 MYSQL 扩展</strong><br><em>这是必须的</em>';
+    }
+    if(!extension_loaded('iconv') && !extension_loaded('mbstring')) {
+			$compat[] = '<strong>ZQCMS 建议开启 ICONV 或 MB_STRING 扩展</strong><br><em>可以提高字符集转换效率</em>';
+    }
+    if(!extension_loaded('zlib')) {
+			$compat[] = '<strong>ZQCMS 建议开启 ZLIB 扩展</strong><br><em>支持Gzip功能</em></p>';
+    }
+    if(!ini_get('allow_url_fopen')){
+      $compat[] = '<strong>ZQCMS 建议打开 allow_url_fopen 函数<br><em>采集获取数据必需</em></strong>';
+    }
+		$chmod_file = 'chmod.txt';
+		$files = file(ZQCMS_PATH."install/".$chmod_file);		
+		foreach($files as $_k => $file) {
+			$file = str_replace('*','',$file);
+			$file = trim($file);
+			if(is_dir(ZQCMS_PATH.$file)) {
+				$is_dir = '1';
+				$cname = '目录';
+				//继续检查子目录权限，新加函数
+				$write_able = self::writable_check(ZQCMS_PATH.$file);
+			} else {
+				$is_dir = '0';
+				$cname = '文件';
+			}
+			//新的判断
+			if($is_dir =='0' && is_writable(ZQCMS_PATH.$file)) {
+				$is_writable = 1;
+			} elseif($is_dir =='1' && self::dir_writeable(ZQCMS_PATH.$file)){
+				$is_writable = $write_able;
+				if($is_writable=='0'){
+					$no_writablefile = 1;
+				}
+			}else{
+				$is_writable = 0;
+ 				$no_writablefile = 1;
+  		}
+							
+			$filesmod[$_k]['file'] = $file;
+			$filesmod[$_k]['is_dir'] = $is_dir;
+			$filesmod[$_k]['cname'] = $cname;			
+			$filesmod[$_k]['is_writable'] = $is_writable;
+		}
+		if(self::dir_writeable(ZQCMS_PATH)) {
+			$is_writable = 1;
+		} else {
+			$is_writable = 0;
+		}
+		$filesmod[$_k+1]['file'] = '网站根目录';
+		$filesmod[$_k+1]['is_dir'] = '1';
+		$filesmod[$_k+1]['cname'] = '目录';			
+		$filesmod[$_k+1]['is_writable'] = $is_writable;
+    
+    foreach ($is_writable as $key => $value) {
+      if(!$value['is_writable']){
+        $compat[] = '<p><strong>'.$value['cname'].' '.$value['file'].' 不可写，请调整读写权限</strong></p>';
+      }
+    }
     
 		return $compat;
 	}
+  
+  private function dir_writeable($dir) {
+  	$writeable = 0;
+  	if(is_dir($dir)) {  
+          if($fp = @fopen("$dir/chkdir.test", 'w')) {
+              @fclose($fp);      
+              @unlink("$dir/chkdir.test"); 
+              $writeable = 1;
+          } else {
+              $writeable = 0; 
+          } 
+  	}
+  	return $writeable;
+  }
+
+  private function writable_check($path){
+  	$dir = '';
+  	$is_writable = '1';
+  	if(!is_dir($path)){return '0';}
+  	$dir = opendir($path);
+   	while (($file = readdir($dir)) !== false){
+  		if($file!='.' && $file!='..'){
+  			if(is_file($path.'/'.$file)){
+  				//是文件判断是否可写，不可写直接返回0，不向下继续
+  				if(!is_writable($path.'/'.$file)){
+   					return '0';
+  				}
+  			}else{
+  				//目录，循环此函数,先判断此目录是否可写，不可写直接返回0 ，可写再判断子目录是否可写 
+  				$dir_wrt = self::dir_writeable($path.'/'.$file);
+  				if($dir_wrt=='0'){
+  					return '0';
+  				}
+     				$is_writable = self::writable_check($path.'/'.$file);
+   			}
+  		}
+   	}
+  	return $is_writable;
+  }
 
 	/**
 		数据库导入

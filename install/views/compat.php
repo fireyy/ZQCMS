@@ -1,9 +1,9 @@
 <?php render('layout/header'); ?>
 
-<section class="content small">
-	<h1>Oh, no!</h1>
+<div class="content small">
+	<h1>发现了一些问题</h1>
 
-	<p>Unfortunately, it looks like this vessel can't handle Anchor. Here's the missing requirements:</p>
+	<p>很抱歉的通知您，在安装之前我们发现了一些问题需要处理，只有解决这些问题，才能继续安装 ZQCMS:</p>
 
 	<ul>
 		<?php foreach($compat as $item): ?>
@@ -11,7 +11,7 @@
 		<?php endforeach; ?>
 	</ul>
 
-	<p><a class="button" href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php">Continue</a></p>
-</section>
+	<p><a class="button" href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php">继续</a></p>
+</div>
 
 <?php render('layout/footer'); ?>

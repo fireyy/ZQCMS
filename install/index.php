@@ -1,10 +1,16 @@
 <?php
 
 // Define base path
-define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
+define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR);
+define('ZQCMS_PATH', PATH."..".DIRECTORY_SEPARATOR);
 
-// Anchor version
-define('ZQCMS_VERSION', 0.1);
+$ver_path = ZQCMS_PATH.'caches/update/ver.txt';
+$fp = fopen($ver_path, 'r');
+$ver_path = @fread($fp, filesize($ver_path));
+fclose($fp);
+
+// ZQCMS version
+define('ZQCMS_VERSION', $ver_path);
 
 require PATH . 'functions.php';
 require PATH . 'models/messages.php';
