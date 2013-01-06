@@ -27,7 +27,6 @@ local.properties
 
 # PDT-specific
 .buildpath
-caches/
 
 
 ############
@@ -54,3 +53,7 @@ Desktop.ini
 .DS_Store
 /caches/configs/system.php
 /caches/configs/database.php
+/caches/cache_template/
+/caches/sessions/
+/caches/update/updatetmp.inc
+/caches/update/source/
