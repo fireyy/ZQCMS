@@ -7,7 +7,7 @@ zq_core::load_sys_class('admin','',0);
 class update extends admin {
 	public function __construct() {
     parent::__construct();
-    $this->updateHost = "http://zqcms.site/update";
+    $this->updateHost = "http://cdn.update.qiniudn.com";
     $this->verLockFile = CACHE_PATH.'update/ver.txt';
     $this->lastVer = "";
     $this->tmpdir = "source";
