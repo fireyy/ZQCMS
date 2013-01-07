@@ -15,7 +15,7 @@ if (!defined("ZQCMS_PATH")){
 define("CACHE_PATH", ZQCMS_PATH.'caches'.DIRECTORY_SEPARATOR);
 
 //current site url
-define("SITE_URL", (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
+define("SITE_URL", "http://".(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
 
 //define referer
 define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : ''));

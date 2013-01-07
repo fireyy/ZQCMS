@@ -243,7 +243,7 @@ function getArticleThumb($item,$w=0,$h=0) {
     }
   }
   if(empty($imageUrl)){
-    return ZQCMS_PATH."uploads/nopic.gif";
+    return SITE_URL."/uploads/nopic.gif";
   }else{
     return $imageUrl."?".$imageView;
   }

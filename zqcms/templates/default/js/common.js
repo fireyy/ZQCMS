@@ -545,7 +545,7 @@ JOO.apply('GameInfo', {
 		});
 		var gid = id.join(',');
 		if (gid){
-			Ajax.getJSON("http://www.kaifu.com/api/gameinfo.php?action=getGameOther", {
+			Ajax.getJSON(SITE_URL+"/api.php?op=getGameOther", {
 				gid:gid,
 				from:from
 			}, function(d){
@@ -1219,7 +1219,7 @@ $(function(){
 	    return false;
 	}
 
-	$.post('/api.php?op=score', {
+	$.post(SITE_URL+'/api.php?op=score', {
 	    id:item.attr('game_id'),
 	    score:score
 	}, function(d){
