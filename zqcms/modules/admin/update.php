@@ -93,7 +93,7 @@ class update extends admin {
 
     //下载远程数据
     $dhd = new http();
-    $dhd->get($updateHost.'/verinfo.txt');
+    $dhd->get($updateHost.'/verinfo.txt?ver='.time());
     $verlist = trim($dhd->get_data());
     //$dhd->Close();
     $verlist = preg_replace("#[\r\n]{1,}#", "\n", $verlist);
