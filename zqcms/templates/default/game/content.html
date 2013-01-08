@@ -152,10 +152,12 @@ $(function(){
 {if !empty($items) }
   <div class="game_screen fl mt_5"><div class="game_screen"><h5 style="float:left;">游戏截图&gt;&gt;</h5><a href="'.$arcurl.'" target="_blank" class="blue fr lh40 mr">更多&gt;&gt;</a></div><ul>
     {foreach $items as $gallery}
-      $imgs = GetThumbsArray($gallery.body);
+      {$imgs = GetThumbsArray($gallery.body)}
       {foreach $imgs as $item}
-      if($item@index > 3) break;
-		  <li><div class="booklet-image-wrap">';
+      {if $item@index > 3}
+      {break}
+      {/if}
+		  <li><div class="booklet-image-wrap">
 		  <span class="picbd"><a class="booklet-image" href="{$gallery|zqurl}" target="_blank"><i class="booklet-image-hack"></i><img width="140" src="{$item}"></a></span>
       </div><a href="{$gallery|zqurl}" target="_blank"><p>游戏截图</p></a></li>
       {/foreach}
@@ -166,7 +168,7 @@ $(function(){
 {if !empty($kaifus)}
 <div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
 	<h5>{$game.title} 开服表 >> 
-		<span class="p12 text_span">官网全部{$game.company_count} | <a href="{getTypeLink("kaifu","",['{$game_id}'=>$game_id])}">开服表全部{$game.kaifu_count}</a></span>
+		<span class="p12 text_span">官网全部{$game.company_count} | <a href="{getTypeLink("kaifu","",['action'=>'serverlist','{$game_id}'=>$game_id])}">开服表全部{$game.kaifu_count}</a></span>
 	</h5>
 
 	<div id="game_kaifu_list" class="div_top fl">
