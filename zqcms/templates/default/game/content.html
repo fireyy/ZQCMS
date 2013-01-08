@@ -167,7 +167,7 @@ $(function(){
 
 {if !empty($kaifus)}
 <div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
-	<h5>{$game.title} 开服表 >> 
+	<h5>{$game.game_name} 开服表 >> 
 		<span class="p12 text_span">官网全部{$game.company_count} | <a href="{getTypeLink("kaifu","",['action'=>'serverlist','{$game_id}'=>$game_id])}">开服表全部{$game.kaifu_count}</a></span>
 	</h5>
 
@@ -246,7 +246,7 @@ $(function(){
 {get_kaice_list assign='items' limit='0,10' orderby='test_date' game_id="$game_id"}
 {if !empty($items) }
 <div id="game_kaice" class="kaifu_table mt_5" style="margin-top: 5px;">
-    <h5>{$game.title} 开测表 >> </h5>
+    <h5>{$game.game_name} 开测表 >> </h5>
     <div id="game_kaice_list" class="div_top fl">
 	<ul class="top_ul">
 	    <li class="list_01 strong">时间</li>
@@ -274,7 +274,7 @@ $(function(){
 {get_gift_list assign='items' limit='0,10' orderby='test_date' game_id="$game_id"}
 {if !empty($items) }
 <div id="game_gift" class="kaifu_table mt_5" style="margin-top: 5px;">
-    <h5>{$game.title} 新手卡/激活码 >> </h5>
+    <h5>{$game.game_name} 新手卡/激活码 >> </h5>
     <div id="game_gift_list" class="div_top fl">
 	<ul class="top_ul">
 	    <li class="list_01 strong">时间</li>
