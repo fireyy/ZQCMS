@@ -150,14 +150,13 @@ class update extends admin {
 	 */
   private function getList($lastTime, $upitems, $vtime, $updateVers) {
     $updateHost = $this->updateHost;
-    $lastVer = $this->lastVer;
     $upitemsArr = explode(',', $upitems);
         
     $dhd = new http();
     $fileArr = array();
     $f = 0;
     foreach($upitemsArr as $upitem) {
-      $lastVer = $upitem;
+      $this->lastVer = $upitem;
       $durl = $updateHost.'/'.$upitem.'.file.txt';
       $dhd->get($durl);
       $filelist = $dhd->get_data();
@@ -255,37 +254,14 @@ class update extends admin {
     echo "<p>开始开始下载文件</p>";
     if ($fileConut > 0) {
     	while ($curfile < $fileConut) {
-    	    //检查临时文件保存目录是否可用
-    	    self::MkTmpDir($files[$curfile]);
-    	    $downfile = $updateHost.'/source/'.$files[$curfile];
-
-    	    //自动循环
-    	    $dhd = new http();
-    	    //echo "<span>{$files[$curfile]}</span><br/>";
-    	    $dhd->get($downfile);
-    	    $dhd->save(UPDATE_TMP.'/'.$files[$curfile]);
-    	    //$dhd->Close();
+          self::_download_file($files[$curfile]);
     	    $curfile++;
     	}
     }
     
     echo "<p>文件下载完成，开始下载SQL</p>";
-    self::MkTmpDir('sql.txt');
-    $dhd = new http();
-    $ct = '';
-    foreach($sqls as $sql)
-    {
-    	$downfile = $updateHost."/".$sql;
-    	$dhd->OpenUrl($downfile);
-    	$ct .= $dhd->GetHtml();
-    }
-    $dhd->Close();
-    $truefile = UPDATE_TMP.'/sql.txt';
-    $fp = fopen($truefile, 'w');
-    fwrite($fp, $ct);
-    fclose($fp);
+    downSQL();
     
-    echo "</div>";
     self::_ApplyUpdate();
   }
   
@@ -326,7 +302,7 @@ class update extends admin {
     }
 
     self::MkTmpDir($file);
-    $downfile = $updateHost.'/source/'.$file;
+    $downfile = $updateHost.'/source/'.$file."?ver=".$this->lastVer;
     $dhd = new http();
     if($dhd->get($downfile)){
       $dhd->save(UPDATE_TMP.'/'.$file);
@@ -343,6 +319,12 @@ class update extends admin {
 	 * 下载SQL文件
 	 */
   public function downSQL() {
+    $tm = self::_down_sql();
+    echo json_encode(array('status' => 'success', 'count' => $tm));
+    exit;
+  }
+  
+  private function _down_sql(){
     $tm = 0;
     $updateHost = $this->updateHost;
     $cacheFiles = $this->cacheFiles;
@@ -365,8 +347,7 @@ class update extends admin {
       fwrite($fp, $ct);
       fclose($fp);
     }
-    echo json_encode(array('status' => 'success', 'count' => $tm));
-    exit;
+    return $tm;
   }
   
   /**
@@ -385,7 +366,7 @@ class update extends admin {
   }
   
   private function _ApplyUpdate($files) {
-
+    return 1;
     //update database;
     $truefile = UPDATE_TMP.'/sql.txt';
     $fp = fopen($truefile, 'r');
