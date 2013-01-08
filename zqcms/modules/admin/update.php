@@ -366,7 +366,7 @@ class update extends admin {
   }
   
   private function _ApplyUpdate($files) {
-    return 1;
+
     //update database;
     $truefile = UPDATE_TMP.'/sql.txt';
     $fp = fopen($truefile, 'r');
