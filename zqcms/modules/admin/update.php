@@ -302,7 +302,8 @@ class update extends admin {
     }
 
     self::MkTmpDir($file);
-    $downfile = $updateHost.'/source/'.$file."?ver=".$this->lastVer;
+    //$downfile = $updateHost.'/source/'.$file."?ver=".$this->lastVer;
+    $downfile = $updateHost.'/source/'.$file."?ver=".time();
     $dhd = new http();
     if($dhd->get($downfile)){
       $dhd->save(UPDATE_TMP.'/'.$file);
