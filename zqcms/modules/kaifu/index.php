@@ -16,8 +16,8 @@ class index {
     public function lists() {
 	$now = time();
 
-	$game_name = empty($_GET['game_name']) ? '' : $_GET['game_name'];
-	$oper_name = empty($_GET['oper_name']) ? '' : $_GET['oper_name'];
+	$game_name = empty($_REQUEST['game_name']) ? '' : $_REQUEST['game_name'];
+	$oper_name = empty($_REQUEST['oper_name']) ? '' : $_REQUEST['oper_name'];
 
 	$year = isset($_GET['year']) ? $_GET['year'] : date('Y', $now);
 	$month = isset($_GET['month']) ? $_GET['month'] : date('m', $now);
@@ -83,6 +83,12 @@ class index {
 	if(isset($begin_date) && !empty($end_date)){
 	    $where[] = "test_date >= $begin_date AND test_date < $end_date";
 	}
+	if(!empty($game_name)){
+	    $where[] = "game_name = '$game_name'";
+	}
+	if(!empty($oper_name)){
+	    $where[] = "oper_short_name = '$oper_name'";
+	}
 	$where = join(" and ", $where);
 	$lists = $this->db->select($where, '*', '', 'test_date DESC');
 
@@ -112,6 +118,42 @@ class index {
 	register_template_data('maxday_list', $maxday_list);
 
 	return template('kaifu', 'list');
+    }
+    
+    public function serverlist(){
+      $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    	$game_id = empty($_REQUEST['game_id']) ? '' : $_REQUEST['game_id'];
+    	$oper_name = empty($_REQUEST['oper_name']) ? '' : $_REQUEST['oper_name'];
+      $game_name = "";
+      
+    	$where = array();
+    	$title = getTypeName($this->db->typeid);
+      
+    	#TODO 排序：今日排在最前
+      
+    	if(!empty($game_id)){
+          $game_db = zq_core::load_model('game_model');
+          $game_name = $game_db->get_one(array(
+      		  "game_id" => $game_id
+      	  ));
+          $game_name = $game_name["game_name"];
+    	    $where[] = "game_id = '$game_id'";
+          $title = $game_name.$title;
+    	}
+    	if(!empty($oper_name)){
+    	    $where[] = "oper_short_name = '$oper_name'";
+          $title = $oper_name.$title;
+    	}
+    	$where = join(" and ", $where);
+    	$lists = $this->db->listinfo($where, $orderby, $page, 45);
+
+    	register_template_data('lists', $lists);
+    	register_template_data('items', $this);
+    	register_template_data('title', $title);
+      register_template_data('game_name', $game_name);
+    	register_template_data('pages', $this->db->pages);
+      
+      return template('kaifu', 'serverlist');
     }
 }
 ?>

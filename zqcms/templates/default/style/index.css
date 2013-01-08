@@ -586,3 +586,17 @@ font-size:0px; }
 #landing_pages_page4 .kfb_div .list001{ width:85px; border-right: 1px solid #ececec;}
 #landing_pages_page4 .kfb_div .list002{ width:65px; border-right: 1px solid #ececec;}
 #landing_pages_page4 .kfb_div .list003{width: 30px; padding: 0px;}
+
+.Serverinformation h2 { line-height:28px; }
+.Serverinformation .pname_text{ height:26px;}
+#content .Serverinformation .search_in .submit{background: url("../images/dybutton_sty6.jpg") repeat scroll 0 0 transparent; border: medium none;color: #333333; cursor: pointer; display: inline-block;font-weight: bold; height: 26px; line-height: 26px; margin-top:0; padding: 0 10px;  text-align: center; width: 56px; float:left;}
+#content .Serverinformation .search_in .search{ width:295px; _width:294px; *width:305px; float:right; border-bottom:none; height:26px; overflow:hidden;}
+#content .Serverinformation .search_in .search span{ float:left; line-height:26px;}
+.Serverinformation h1{ float:left; margin-bottom:10px; padding-left:10px;}
+.Serverinformation .showtype{ float:left; font-family:"微软雅黑"; font-size:16px; color:#000000;}
+.Serverinformation .showtype span{ background-color:#FFFFFF; padding:10px 5px; border:solid 1px #e3e3e3; border-bottom:none; border-top:none;}
+.Serverinformation .showtype a{ color:#ff6600; font-family:"微软雅黑"; font-size:16px;}
+.Serverinformation .other{ float: right;}
+.Serverinformation .pname_text{ height:22px; line-height:22px; width:150px; float:left; margin-right:5px; }
+.Serverinformation ul { width:996px; height:34px; line-height:34px; border-left:1px solid #e3e3e3; border-right:1px solid #e3e3e3; border-bottom:1px solid #e3e3e3; float:left }
+.Serverinformation ul img { _margin-top:13px }

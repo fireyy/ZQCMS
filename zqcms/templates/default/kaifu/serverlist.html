@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>{$title}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+<link href="{$style_dir}/style/ver4.css?v=20120831" rel="stylesheet" type="text/css" />
+{include "../scripts.html" caching}
+</head>
+<body>
+{include "../head.html"}
+
+<div id="content" class="game_server_list_last">
+  <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
+  <div class="Serverinformation">
+    <h1 class="p20 h1yb">{$game_name}开服表</h1>
+    <div class="search_in">
+        <form method="get">
+                <div>
+                  {foreach $smarty.get as $par}
+                        <input type="hidden" name="{$par@key}" value="{$par}" />
+                  {/foreach}
+                </div>
+                <div class="search">
+                        <span class="tip">按平台搜索:</span>
+                        <input class="pname_text" type="text" name="oper_name" value=""  />
+                        <input class="submit" type="submit" value="搜索" />
+                </div>
+        </form>
+    </div>
+    <div class="div_top">
+   			<ul class="top_ul">
+   				<li class="Sli_3">开服时间</li>
+   				<li class="Sli_1">服务器名称</li>
+   				<li class="Sli_2">线路</li>
+   				<li class="Sli_3">运营平台</li>
+   				<li class="Sli_3">快捷操作</li>
+   			</ul>
+        {foreach $lists as $item}
+        <ul>
+					<li class="Sli_3"><span class="p14">{date("Y年m月d日H点",$item.test_date)}开服</span></li>
+					<li class="Sli_1">{$item.server_name}</li>
+					<li class="Sli_2">双线</li>
+					<li class="Sli_3">{$item.oper_short_name}</li>
+					<li class="Sli_3"><a href="{$item.register_url}" rel="nofollow" target="_blank">开始游戏</a></li>
+				</ul>
+        {/foreach}
+    </div>
+  </div>
+  <div class="qdiv">{$pages}</div>
+</div>
+
+{include "../footer.html"}
+</body>
+</html>

@@ -111,9 +111,9 @@
             {if $smarty.get['gamesort'] == 3}<p class="gray">热度：{$item.goodpost}</p>{/if}
             {if $smarty.get['gamesort'] == 4}<p class="gray"><img src="{$style_dir}/images/{intval($item.scores/$item.scorecount)}.jpg"></p>{/if}
             <p name="Tag" value="{$item.game_id}">
-							<span id="game_{$item.game_id}"></span>
+							<span class="havegift" id="game_{$item.game_id}"></span>
 							<span id="game_screen_{$item.game_id}"></span>
-							<span id="game_new_{$item.game_id}"></span>
+							<span class="newserver" id="game_new_{$item.game_id}"></span>
 						</p>
           </li>
         </ul>

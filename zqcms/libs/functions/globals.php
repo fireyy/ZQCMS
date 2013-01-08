@@ -555,10 +555,11 @@ function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=arra
 	$html = '<div class="pages"><span class="page_count">当前第 '. $currentPage .' 页 / 共 '. $totalPages .' 页</span>';
 
 	if ($currentPage > 0) {
-	    if ($currentPage == $totalPages) {
+	    /*if ($currentPage == $totalPages) {
 	        $html .= '<span class="first"><a href="'.pageurl($urlrule, 1, $array).'">到首页</a></span>';
-	    }
+	    }*/
 	    if ($currentPage > 1) {
+    $html .= '<span class="first"><a href="'.pageurl($urlrule, 1, $array).'">到首页</a></span>';
 		$html .= '<span class="prev"><a href="'.pageurl($urlrule, $currentPage-1, $array).'">上一页</a></span>';
 	    }
 

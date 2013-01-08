@@ -75,7 +75,7 @@ function closeServerList(el){
     <div class="fl pic mr picbd">
   <img width="250" height="250" src="{$game.game_avatar}">
 </div>
-{$game_id=$game.id}
+{$game_id=$game.game_id}
 <div class="fr text_width">
   <div class="fl wd">
     <div class="title">
@@ -166,7 +166,7 @@ $(function(){
 {if !empty($kaifus)}
 <div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
 	<h5>{$game.title} 开服表 >> 
-		<span class="p12 text_span">官网全部{$game.company_count} | 开服表全部{$game.kaifu_count}</span>
+		<span class="p12 text_span">官网全部{$game.company_count} | <a href="{getTypeLink("kaifu","",['{$game_id}'=>$game_id])}">开服表全部{$game.kaifu_count}</a></span>
 	</h5>
 
 	<div id="game_kaifu_list" class="div_top fl">
@@ -191,10 +191,11 @@ $(function(){
           </div>
 
           {if count($kaifu['kaifu']['n']) > 1}
+          {if date('d', $kaifu['kaifu']['n'][0]['test_date']) == date('d', $smarty.now)}
           <div onmouseout="javascript:closeServerList(this);" onmouseover="javascript:showServerList(this);" class="list_bg fl">
             <span class="list_span mblack"><b class="red">今日</b>开服{count($kaifu['kaifu']['n'])}组</span>
 
-            <span class="list_span"><img width="15" height="9" src="http://res.kaifu.com/isy/templates/front/images/xl_15.jpg">
+            <span class="list_span"><img width="15" height="9" src="{$style_dir}/images/xl_15.jpg">
               <span style="display: none;" class="tc_div">
 
                 <ul class="topdiv"><li class="li001">开服时间</li><li class="li002">服务器</li><li class="li003">线路</li></ul>
@@ -205,6 +206,9 @@ $(function(){
               </span>
             </span>
           </div>
+          {else}
+          <div class="list_bg fl">/</div>
+          {/if}
           {else}
             <div class="list_bg fl">
               <span class="list_span mblack">

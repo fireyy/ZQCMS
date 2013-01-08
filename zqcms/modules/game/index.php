@@ -16,7 +16,7 @@ class index {
 	    $game = $this->db->get_one(array(
 		"id" => $id
 	    ));
-	    
+      $maxd = 10;
 	    //获得游戏的运营商数量
 	    $rdb = zq_core::load_model('game_company_model');
 	    $company_count = $rdb->count(array('game_id' => $game['game_id']));
@@ -29,9 +29,32 @@ class index {
 	    $data = $kaifu_db->select(
 		"game_id = {$game['game_id']} AND test_date >= {$now} AND test_date <= {$last_now}",
 		'*',
-		'0, 20',
+		'0, 10',
 		'test_date ASC'
 	    );
+      $countd = count($data);
+      if($countd < $maxd){
+        $tmp = $maxd - $countd;
+  	    $data2 = $kaifu_db->select(
+  		"game_id = {$game['game_id']} AND test_date > {$last_now}",
+  		'*',
+  		"0, {$tmp}",
+  		'test_date ASC'
+  	    );
+        $data = array_merge($data, $data2);
+        $countd = count($data);
+        if($countd < $maxd){
+          $tmp = $maxd - $countd;
+    	    $data2 = $kaifu_db->select(
+    		"game_id = {$game['game_id']} AND test_date < {$now}",
+    		'*',
+    		"0, {$tmp}",
+    		'test_date ASC'
+    	    );
+          $data = array_merge($data, $data2);
+        }
+      }
+      //print_r($data);
 	    
 	    $kaifus = array();
 	    for ($i = 0; $i < count($data); $i++) {

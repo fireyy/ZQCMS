@@ -107,3 +107,6 @@
 #content .kaifu_api .box_line{border:1px solid #fff;}
 .kaifu_api .h2divbg{ background:#e7e7e7;}
 .kaifu_api .input1_03{ background-image:none; background-color:#FF3300; border-right:1px solid #b30d00; border-bottom:1px solid #b30d00; padding:0px 10px; width:120px; font-weight:bold;}
+
+.position_div .havegift a {display:inline-block;*zoom:1;*display:inline;background: url(../images/back23u_03.gif);width: 16px;height:15px;}
+.position_div .newserver a {display:inline-block;*zoom:1;*display:inline;background: url(../images/back23u_02.gif);width: 41px;height:15px;}

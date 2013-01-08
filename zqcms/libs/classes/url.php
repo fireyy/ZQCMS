@@ -109,11 +109,16 @@ class url {
 	if (empty($urlrules)) {
 	    $urlrules = array();
 	}
-	if (empty($urlrules['list'])) {
-	    //DEFAULT content url
-	    $urlrules['list'] = 'index.php?m='.$type_name.'&c=index&a=lists&page={$page}';
-	}
-	$urlrules_arr = explode("|", $urlrules['list']);
+  if(isset($array["action"])){
+    $urlrules[$array["action"]] = 'index.php?m='.$type_name.'&c=index&a='.$array["action"].'&page={$page}';
+    $urlrules_arr = explode("|", $urlrules[$array["action"]]);
+  }else{
+  	if (empty($urlrules['list'])) {
+  	    //DEFAULT content url
+  	    $urlrules['list'] = 'index.php?m='.$type_name.'&c=index&a=lists&page={$page}';
+  	}
+    $urlrules_arr = explode("|", $urlrules['list']);
+  }
 
 	if ($page == 1) {
 	    $urlrule = $urlrules_arr[0];

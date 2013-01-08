@@ -582,8 +582,8 @@ function get_article_list($params, $template){
   if (isset($params['limit'])){
     $limit = $params['limit'];
   }
-  if(isset($params['game_id'])){
-    $where[] = "game_id = {$params['game_id']}";
+  if (isset($params['game_id'])){
+    $where[] = "game_id = ".$params['game_id'];
   }
   $where = join(" and ", $where);
   $data = $db->select($where, '*', $limit, $orderby);
