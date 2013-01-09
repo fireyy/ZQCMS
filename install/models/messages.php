@@ -11,7 +11,7 @@ class Messages {
 	}
 
 	public static function add($message) {
-		$messages = static::get();
+		$messages = self::get();
 
 		if(is_array($message)) {
 			$messages = array_merge($messages, $message);
@@ -19,11 +19,11 @@ class Messages {
 			$messages[] = $message;
 		}
 
-		static::set($messages);
+		self::set($messages);
 	}
 
 	public static function read() {
-		$messages = static::get();
+		$messages = self::get();
 
 		if(empty($messages)) {
 			return '';

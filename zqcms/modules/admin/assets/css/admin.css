@@ -59,6 +59,7 @@ i, em {
     }
         #top a#logo img {
             display: block;
+            border: none;
         }
         #top a#logo:hover {
             opacity: .8;

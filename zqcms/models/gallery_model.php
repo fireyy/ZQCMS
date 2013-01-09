@@ -14,14 +14,9 @@ class gallery_model extends model {
 	$type_model = zq_core::load_model('type_model');
 	$this->typeid = $type_model->getTypeIdByTableName($this->table_name);
     }
-
-    public function addGallery($data) {
-	$info = $this->get_one(array('guid' => $data->guid));
-	if (!empty($info) && is_array($info)) {
-	    return $this->updateGallery($data);
-	}
-
-	$insert_data = array(
+    
+    private function getData($data) {
+	$data = array(
 	    'guid' => $data->guid,
 	    'typeid' => $this->typeid,
 	    'flag' => getFlags($data->isTop),
@@ -37,13 +32,24 @@ class gallery_model extends model {
 	    'senddate' => time(),
 	    'lastpost' => time(),
 	    'keywords' => $data->keywords,
-	    'body' => $data->galleryPath,
+	    'body' => $data->content,
 	    'thumb' => $data->thumb,
 	    'external_links' => $data->externalLinks,
 	    'game_id' => $data->gameId
 	);
 
+	return $data;
+    }
+
+    public function addGallery($data) {
+	$info = $this->get_one(array('guid' => $data->guid));
+	if (!empty($info) && is_array($info)) {
+	    return $this->updateGallery($data);
+	}
+
+	$insert_data = $this->getData($data);
 	$aid = $this->insert($insert_data, true);
+  
 	$categoryId = $data->categoryId;
 	if ($categoryId && $aid) {
 	    zq_tag($categoryId, $aid, $this->typeid, 'category');

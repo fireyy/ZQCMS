@@ -278,13 +278,13 @@ class Installer {
 		$_SESSION['key'] = random(32);
 
 		// 导入数据库
-		static::install_schema();
+		self::install_schema();
 
 		// 写入配置文件
-		static::install_config();
+		self::install_config();
     
 		// 在CMDP上注册站点
-		static::register_site();
+		self::register_site();
 
 		return true;
 	}
@@ -438,7 +438,7 @@ class Installer {
 		// save and continue
 		$_SESSION['user'] = $post;
 
-		return static::run();
+		return self::run();
 	}
   
   private function delete_install($dir) {

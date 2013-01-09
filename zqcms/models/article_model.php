@@ -52,7 +52,10 @@ class article_model extends model {
 	
 	$categoryId = $data->categoryId;
 	if ($categoryId && $aid) {
-	    zq_tag($categoryId, $aid, $this->typeid, 'category');
+      $categoryIds = explode(",", $categoryId);
+      foreach ($categoryIds as $key) {
+        zq_tag(trim($key), $aid, $this->typeid, 'category');
+      }
 	}
 	return $aid;
     }
@@ -79,7 +82,10 @@ class article_model extends model {
 	
 	//clean aid tag
 	$categoryId = $data->categoryId;
-	zq_tag($categoryId, $info['id'], $this->typeid, 'category', 'update');
+  $categoryIds = explode(",", $categoryId);
+  foreach ($categoryIds as $key) {
+    zq_tag(trim($key), $info['id'], $this->typeid, 'category', 'update');
+  }
 
 	return $info['id'];
     }

@@ -11,6 +11,7 @@ fclose($fp);
 
 // ZQCMS version
 define('ZQCMS_VERSION', $ver_path);
+ini_set("session.save_path", ZQCMS_PATH."caches/sessions");
 
 require PATH . 'functions.php';
 require PATH . 'models/messages.php';

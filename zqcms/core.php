@@ -22,6 +22,8 @@ define("HTTP_REFERER", (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER
 
 define('UPDATE_TMP', CACHE_PATH.'update/source');
 
+ini_set("session.save_path", CACHE_PATH."sessions");
+
 $ver = CACHE_PATH.'update/ver.txt';
 $fp = fopen($ver, 'r');
 $ver = @fread($fp, filesize($ver));
