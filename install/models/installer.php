@@ -9,8 +9,7 @@ class Installer {
 		$compat = array();
     
     // check if lock install
-    $lockfile = ZQCMS_PATH."install/lock.txt";
-    if(file_exists($lockfile)){
+    if(file_exists(ZQCMS_PATH."install/lock.txt")){
 			$compat[] = '<strong>您已经安装过 ZQCMS 了，如果需要重新安装，请移除 install/lock.txt 文件</strong>';
     }
     
@@ -297,6 +296,8 @@ class Installer {
     // 写入 install/lock.txt 文件，锁定安装
     $lockfile = ZQCMS_PATH."install/lock.txt";
 		file_put_contents($lockfile, "1");
+		//删除安装目录
+		//self::delete_install(ZQCMS_PATH.'install/');
 
 		return true;
 	}
@@ -431,5 +432,21 @@ class Installer {
 
 		return static::run();
 	}
+  
+  private function delete_install($dir) {
+  	$dir = self::dir_path($dir);
+  	if (!is_dir($dir)) return FALSE;
+  	$list = glob($dir.'*');
+  	foreach($list as $v) {
+  		is_dir($v) ? delete_install($v) : @unlink($v);
+  	}
+      return @rmdir($dir);
+  }
+  
+  private function dir_path($path) {
+  	$path = str_replace('\\', '/', $path);
+  	if(substr($path, -1) != '/') $path = $path.'/';
+  	return $path;
+  }
 
 }
