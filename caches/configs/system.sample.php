@@ -13,7 +13,7 @@ return array(
     'image_path' => '',
     'powered_by' => 'Powered by ZQCMS',
     'site_name' => '~site_name~',
-    'site_keywords' => '',
+    'site_keywords' => '~site_keywords~',
     'site_description' => '~site_description~',
     'site_basehost' => '~site_basehost~',
     'site_indexurl' => '~site_indexurl~',

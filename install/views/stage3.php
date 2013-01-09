@@ -31,24 +31,16 @@
 
 				<textarea name="site_description"><?php echo post('site_description', 'ZQCMS, 为游戏玩家提供网游新服表、网游开服表、网页游戏开服表、网页游戏大全、游戏激活码等服务。'); ?></textarea>
 			</p>
-
+      
 			<p>
 				<label>
-					<strong>安装目录</strong>
-					<span>在根目录安装时不必理会.</span>
+					<strong>站点关键字</strong>
+					<span>给您的站点定义几个关键字.</span>
 				</label>
 
-				<input name="site_indexurl" value="<?php echo post('site_indexurl', dirname(dirname($_SERVER['REQUEST_URI']))); ?>">
+				<textarea name="site_keywords"><?php echo post('site_keywords', '网页游戏,开服,礼包,开测,页游,资讯'); ?></textarea>
 			</p>
 
-			<p>
-				<label>
-					<strong>网站主题</strong>
-					<span>选择网站主题.</span>
-				</label>
-			<select name="theme">
-				<option value="default">Default</option>
-			</select></p>
 		</fieldset>
 
 		<div class="options">

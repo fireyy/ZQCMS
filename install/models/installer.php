@@ -158,7 +158,7 @@ class Installer {
 			_sql_execute($sql,$tablepre);
 
 			// 更新站点信息
-      $uppp = array("site_name","site_description","site_basehost","site_indexurl","auth_key","valid_key");
+      $uppp = array("site_name","site_description","site_keywords","site_basehost","site_indexurl","auth_key","valid_key");
       foreach ($uppp as $key => $value) {
         _sql_execute("UPDATE `".$tablepre."options` SET `value`='".$data['site'][$value]."' WHERE `name`='$value';", $tablepre);
       }
@@ -177,20 +177,11 @@ class Installer {
 	private static function install_config() {
 		$errors = array();
 		$data = $_SESSION;
-    $config_path = "../caches/configs/";
+    $config_path = ZQCMS_PATH."caches/configs/";
 		$template = file_get_contents($config_path.'database.sample.php');
     $sys_template = file_get_contents($config_path.'system.sample.php');
 
 		$index_page = 'index.php';
-		$path_url = $data['site']['site_indexurl'];
-    if(!empty($_SERVER['HTTP_HOST'])){
-      $base_url = 'http://'.$_SERVER['HTTP_HOST'];
-    }else{
-      $base_url = "http://".$_SERVER['SERVER_NAME'];
-    }
-    $_SESSION['site']['site_basehost'] = $base_url;
-    $auth_key = chr(mt_rand(ord('A'),ord('Z'))).chr(mt_rand(ord('a'),ord('z'))).chr(mt_rand(ord('A'),ord('Z'))).chr(mt_rand(ord('A'),ord('Z'))).chr(mt_rand(ord('a'),ord('z'))).mt_rand(1000,9999).chr(mt_rand(ord('A'),ord('Z')));
-    $_SESSION['site']['auth_key'] = $auth_key;
 
 		$search = array(
 			"'hostname' => '~hostname~'",
@@ -205,7 +196,8 @@ class Installer {
 			"'site_basehost' => '~site_basehost~'",
 			"'auth_key' => '~auth_key~'",
       "'valid_key' => '~valid_key~'",
-      "'site_description' => '~site_description~'"
+      "'site_description' => '~site_description~'",
+      "'site_keywords' => '~site_keywords~'"
     );
 		$replace = array(
 			"'hostname' => '" . $data['db']['host'] . "'",
@@ -217,11 +209,12 @@ class Installer {
     $sys_replace = array(
 			// apllication paths
       "'site_name' => '". $data['site']['site_name'] ."'",
-			"'site_indexurl' => '". $path_url ."'",
-			"'site_basehost' => '". $base_url ."'",
-			"'auth_key' => '" . $auth_key . "'",
+			"'site_indexurl' => '". $data['site']['site_indexurl'] ."'",
+			"'site_basehost' => '". $data['site']['site_basehost'] ."'",
+			"'auth_key' => '" . $data['site']['auth_key'] . "'",
       "'valid_key' => '". $data['site']['valid_key'] ."'",
-      "'site_description' => '". $data['site']['site_description'] ."'"
+      "'site_description' => '". $data['site']['site_description'] ."'",
+      "'site_keywords' => '". $data['site']['site_description'] ."'"
     );
 		$database = str_replace($search, $replace, $template);
     $system = str_replace($sys_search, $sys_replace, $sys_template);
@@ -373,20 +366,32 @@ class Installer {
   }
 
 	public static function stage3() {
-		$post = post(array('site_name', 'site_description', 'site_indexurl', 'theme'));
+		$post = post(array('site_name', 'site_description', 'site_keywords'));
 
 		if(empty($post['site_name'])) {
 			$errors[] = '请输入站点名称';
-		}
-
-		if(empty($post['site_indexurl'])) {
-			$errors[] = '请输入站点安装目录，如果是根目录请输入 <code>/</code>';
 		}
 
 		if(isset($errors) && count($errors)) {
 			Messages::add($errors);
 			return false;
 		}
+    
+    if(!empty($_SERVER['HTTP_HOST'])){
+      $base_url = 'http://'.$_SERVER['HTTP_HOST'];
+    }else{
+      $base_url = "http://".$_SERVER['SERVER_NAME'];
+    }
+    $post["site_basehost"] = $base_url;
+    
+		$PHP_SELF = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : (isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : $_SERVER['ORIG_PATH_INFO']);
+		$rootpath = str_replace('\\','/',dirname($PHP_SELF));	
+		$rootpath = substr($rootpath,0,-7);
+		$rootpath = strlen($rootpath)>1 ? $rootpath : "/";
+    $post["site_indexurl"] = $rootpath;
+    
+    $auth_key = chr(mt_rand(ord('A'),ord('Z'))).chr(mt_rand(ord('a'),ord('z'))).chr(mt_rand(ord('A'),ord('Z'))).chr(mt_rand(ord('A'),ord('Z'))).chr(mt_rand(ord('a'),ord('z'))).mt_rand(1000,9999).chr(mt_rand(ord('A'),ord('Z')));
+    $post["auth_key"] = $auth_key;
     
     $valid_key = substr(sha1(self::fetch_salt(16).md5(time())), 0, 32);
     $post["valid_key"] = $valid_key;
