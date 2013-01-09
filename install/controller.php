@@ -79,7 +79,9 @@ class Installation_controller {
 	}
 
 	public function complete() {
-		render('complete');
+		if(Installer::complete()) {
+			render('complete');
+		}
 	}
 
 	public function compat() {

@@ -76,9 +76,9 @@ class Installer {
 		$filesmod[$_k+1]['cname'] = '目录';			
 		$filesmod[$_k+1]['is_writable'] = $is_writable;
     
-    foreach ($is_writable as $key => $value) {
+    foreach ($filesmod as $key => $value) {
       if(!$value['is_writable']){
-        $compat[] = '<p><strong>'.$value['cname'].' '.$value['file'].' 不可写，请调整读写权限</strong></p>';
+        $compat[] = '<p><strong>'.$value['cname'].' '.$value['file'].' 不可写，需要状态为可写</strong></p>';
       }
     }
     
@@ -292,15 +292,18 @@ class Installer {
     
 		// 在CMDP上注册站点
 		static::register_site();
-    
+
+		return true;
+	}
+  
+  public static function complete() {
     // 写入 install/lock.txt 文件，锁定安装
     $lockfile = ZQCMS_PATH."install/lock.txt";
 		file_put_contents($lockfile, "1");
 		//删除安装目录
 		//self::delete_install(ZQCMS_PATH.'install/');
-
-		return true;
-	}
+    return true;
+  }
 
 	/**
 		安装步骤
