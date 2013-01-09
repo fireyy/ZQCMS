@@ -27,7 +27,7 @@
 				<label for="keywords">站点关键字:</label>
 				<input id="site_keywords" name="site_keywords" value="<?php echo $option["site_keywords"]; ?>">
 				
-				<em>站点关键字，可用于 <code>meta name="keywords"</code></em>
+				<em>站点关键字，多个用英文逗号分割。用于 <code>meta name="keywords"</code></em>
 			</p>
 
 			<p>

@@ -1,16 +1,22 @@
 <?php
 
 class Installer {
-
+  
 	/**
 		测试系统安装需求
 	*/
 	public static function compat_check() {
 		$compat = array();
-
+    
+    // check if lock install
+    $lockfile = ZQCMS_PATH."install/lock.txt";
+    if(file_exists($lockfile)){
+			$compat[] = '<strong>您已经安装过 ZQCMS 了，如果需要重新安装，请移除 install/lock.txt 文件</strong>';
+    }
+    
 		// php
     if(version_compare(PHP_VERSION, '5.3.0', '<')) set_magic_quotes_runtime(0);
-		if(version_compare(PHP_VERSION, '5.2.0', '<')) {
+		if(version_compare(PHP_VERSION,  '5.2.0', '<')) {
 			$compat[] = '<strong>ZQCMS 需要 PHP 版本 >= 5.2</strong><br>
 				<em>您的服务器 PHP 版本是 ' . PHP_VERSION . '</em>';
 		}
@@ -26,8 +32,11 @@ class Installer {
     if(!ini_get('allow_url_fopen')){
       $compat[] = '<strong>ZQCMS 建议打开 allow_url_fopen 函数<br><em>采集获取数据必需</em></strong>';
     }
-		$chmod_file = 'chmod.txt';
-		$files = file(ZQCMS_PATH."install/".$chmod_file);		
+    if(!function_exists('file_put_contents')){
+      $compat[] = '<strong>ZQCMS 建议打开 file_put_contents 函数<br><em>采集获取数据必需</em></strong>';
+    }
+    
+		$files = file(ZQCMS_PATH."install/chmod.txt");		
 		foreach($files as $_k => $file) {
 			$file = str_replace('*','',$file);
 			$file = trim($file);
@@ -284,6 +293,10 @@ class Installer {
     
 		// 在CMDP上注册站点
 		static::register_site();
+    
+    // 写入 install/lock.txt 文件，锁定安装
+    $lockfile = ZQCMS_PATH."install/lock.txt";
+		file_put_contents($lockfile, "1");
 
 		return true;
 	}

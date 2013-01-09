@@ -30,7 +30,7 @@
 <script type="text/javascript">
 $(function(){
   $.ajax({
-      url: '?m=admin&c=update&a=checkUpdate',
+      url: '?m=admin&c=update&a=checkUpdate&_time='+new Date().getTime(),
       type: 'POST',
       data: {"chk":1},
       dataType: 'json',
