@@ -237,6 +237,7 @@ class Installer {
   private static function register_site() {
 		$errors = array();
 		$data = $_SESSION;
+    $api_url = "http://cmdp2.dev/cmdp/admin/website/register.do";
     //发送valid key
     $post_data = array(
     	'webUrl' => $data['site']['site_basehost'],
@@ -249,7 +250,7 @@ class Installer {
     if (function_exists("curl_init")) {
     	$ch = curl_init();
     	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json'));
-    	curl_setopt($ch, CURLOPT_URL, "http://www.dbplay.com/DataSave_addTCmdpWebsite");
+    	curl_setopt($ch, CURLOPT_URL, $api_url);
     	curl_setopt($ch, CURLOPT_POST, true);
     	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
     	$response = curl_exec($ch);
@@ -266,7 +267,7 @@ class Installer {
     	    )
     	);
     	$context = stream_context_create($opts);
-    	file_get_contents('http://www.dbplay.com/DataSave_addTCmdpWebsite', false, $context);
+    	file_get_contents($api_url, false, $context);
     }
   }
 
