@@ -16,7 +16,7 @@ class profile extends admin {
 		$userid = $_SESSION['userid'];
 		$r = $this->db->get_one(array('id'=>$userid));
     $email = $r['email'];
-    if(isset($_GET['dosubmit'])) {
+    if(isset($_POST['dosubmit'])) {
       $update = array();
       $passwd = $_POST["password"];
       $email2 = $_POST["email"];

@@ -160,11 +160,11 @@ class Installer {
 			// 更新站点信息
       $uppp = array("site_name","site_description","site_keywords","site_basehost","site_indexurl","auth_key","valid_key");
       foreach ($uppp as $key => $value) {
-        _sql_execute("UPDATE `".$tablepre."options` SET `value`='".$data['site'][$value]."' WHERE `name`='$value';", $tablepre);
+        _sql_execute("INSERT INTO `".$tablepre."options` (`name`,`value`) VALUES('".$value."','".$data['site'][$value]."');", $tablepre);
       }
 
 			// 创建管理员
-      _sql_execute("INSERT INTO ".$tablepre."admin (`name`,`passwd`,`email`) VALUES ('".$data['user']['username']."','".md5($data['user']['password'])."','".$data['user']['email']."')", $tablepre);
+      _sql_execute("INSERT INTO `".$tablepre."admin` (`name`,`passwd`,`email`) VALUES ('".$data['user']['username']."','".md5($data['user']['password'])."','".$data['user']['email']."')", $tablepre);
 
 		} catch(PDOException $e) {
 			Messages::add($e->getMessage());
@@ -214,7 +214,7 @@ class Installer {
 			"'auth_key' => '" . $data['site']['auth_key'] . "'",
       "'valid_key' => '". $data['site']['valid_key'] ."'",
       "'site_description' => '". $data['site']['site_description'] ."'",
-      "'site_keywords' => '". $data['site']['site_description'] ."'"
+      "'site_keywords' => '". $data['site']['site_keywords'] ."'"
     );
 		$database = str_replace($search, $replace, $template);
     $system = str_replace($sys_search, $sys_replace, $sys_template);
@@ -326,11 +326,11 @@ class Installer {
     		if($server_info < '4.0') {
     		  $errors[] = "数据库版本低于Mysql 4.0，无法安装ZQCMS，请升级数据库版本！";
     		}else{
-      		if($version > '4.1') {
+      		if($server_info > '4.1') {
       			mysql_query("SET NAMES 'utf8'");
       		}
 			
-      		if($version > '5.0') {
+      		if($server_info > '5.0') {
       			mysql_query("SET sql_mode=''");
       		}
       		if(!mysql_select_db($post['name'])) {

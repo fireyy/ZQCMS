@@ -14,7 +14,7 @@ class setting extends admin {
     $succ = array();
     $option = zq_core::load_config('system');
     
-    if(isset($_GET['dosubmit'])) {
+    if(isset($_POST['dosubmit'])) {
       $update = array();
       $poster = array("site_name", "site_description", "site_keywords", "site_basehost", "site_indexurl", "site_logo", "site_beian");
       $msg = array(
@@ -24,11 +24,11 @@ class setting extends admin {
         "site_logo"=>"站点logo"
       );
       foreach ($poster as $key) {
-        if(!empty($_POST[$key]) && $_POST[$key] != $option[$key]){
-          $update[$key] = $_POST[$key];
+        if(empty($_POST[$key]) && isset($msg[$key])){
+          $errors[] = $msg[$key]."不可为空";
         }else{
-          if(empty($_POST[$key]) && $msg[$key]){
-            $errors[] = $msg[$key]."不可为空";
+          if($_POST[$key] != $option[$key]){
+            $update[$key] = $_POST[$key];
           }
         }
       }
@@ -36,7 +36,15 @@ class setting extends admin {
       if(!empty($update)){
         $option_db = zq_core::load_model('option_model');
         foreach ($update as $key => $value) {
-          $option_db->update(array('value'=>$value),array('name'=>$key));
+          $ishere = $option_db->get_one(array('name'=>$key));
+          if(is_array($ishere) && !empty($ishere)){
+            $option_db->update(array('value'=>$value),array('name'=>$key));
+          }else{
+            $option_db->insert(array(
+              'name' => $key,
+              'value' => $value
+            ));
+          }
         }
         $option = array_merge($option, $update);
         $system = "<?php\r\nreturn ".var_export($option,true)."\r\n?>";

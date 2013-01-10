@@ -6,7 +6,7 @@
 <?php if(!empty($succ)) echo '<p class="notification success">' . implode('<br>', $succ) . '</p>'; ?>
 
 <div class="content">
-  <form method="post" action="?m=admin&c=setting&dosubmit=1" novalidate="">
+  <form method="post" action="?m=admin&c=setting">
 		
 		<fieldset>
 			<p>
@@ -60,6 +60,7 @@
 		</fieldset>
 			
 		<p class="buttons">
+      <input type="hidden" name="dosubmit" value="1">
 			<button type="submit">提交</button>
 		</p>
 	</form>

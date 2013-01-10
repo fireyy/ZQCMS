@@ -21,7 +21,7 @@ function is_real_writable($path) {
 		return false;
 	}
 
-	unlink('../test.php');
+	unlink($path.'/test.php');
 
 	return true;
 }
