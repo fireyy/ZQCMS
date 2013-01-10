@@ -37,7 +37,7 @@ class game_model extends model {
 	    'source' => $data->copyFrom,
 	    'click' => rand(0, 500),
 	    'rank' => time(),
-	    'pubdate' => time(),
+	    'pubdate' => strtotime($data->insert_time),
 	    'senddate' => time(),
 	    'lastpost' => time(),
 	    'game_tag' => $data->gameTag,

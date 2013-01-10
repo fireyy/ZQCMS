@@ -118,6 +118,7 @@ class index {
     //列表页面
     public function lists() {
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
+  $tag_name = isset($_GET['tag']) ? $_GET['tag'] : '';
 	$filters = array("game_tag", "game_theme", "game_status", "game_effect");
 	$gamesort = isset($_GET['gamesort']) ? $_GET['gamesort'] : 1;
 	$title = "";
@@ -131,6 +132,12 @@ class index {
 		$title = $tag."_".$title;
 	    }
 	}
+  if(!empty($tag_name)){
+    $ids = getIdsByTagname($tag_name,"*",$this->db->typeid);
+    $ids = join(",", $ids);
+    $where[] = "id in ($ids)";
+    $title = $tag_name."_".$title;
+  }
 	switch ($gamesort) {
 	case 1:
 	    $orderby = "pubdate DESC";

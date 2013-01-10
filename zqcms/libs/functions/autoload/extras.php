@@ -238,7 +238,7 @@ function getArticleThumb($item,$w=0,$h=0) {
     $imageUrl = $item;
   }else{
     $item = GetThumbsArray($item["body"]);
-    if(!empty($item) && $item.length > 0){
+    if(!empty($item) && count($item) > 0){
       $imageUrl = $item[0];
     }
   }
