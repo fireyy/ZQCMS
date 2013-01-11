@@ -237,7 +237,7 @@ class Installer {
   private static function register_site() {
 		$errors = array();
 		$data = $_SESSION;
-    $api_url = "http://cmdp2.dev/cmdp/admin/website/register.do";
+    $api_url = "http://cmdp.58apps.com/cmdp/admin/website/register.do";
     //发送valid key
     $post_data = array(
     	'webUrl' => $data['site']['site_basehost'],
