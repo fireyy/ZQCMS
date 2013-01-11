@@ -32,7 +32,7 @@ class gallery_model extends model {
 	    'senddate' => time(),
 	    'lastpost' => time(),
 	    'keywords' => $data->keywords,
-	    'body' => $data->content,
+	    'body' => $data->galleryPath,
 	    'thumb' => $data->thumb,
 	    'external_links' => $data->externalLinks,
 	    'game_id' => $data->gameId

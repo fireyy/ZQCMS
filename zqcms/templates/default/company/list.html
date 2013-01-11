@@ -44,7 +44,7 @@
 		<ul>
       
       {foreach $lists as $item}
-			<li style="height:150px"> <a href="{$item|zqurl}" target="_blank"><img src="[field:/]" alt="{$item.company_thumb}" width="180" height="90" /></a>
+			<li style="height:150px"> <a href="{$item|zqurl}" target="_blank"><img src="{$item.company_thumb}" alt="{$item.short_name}" width="180" height="90" /></a>
 				<p><a href="{$item|zqurl}" target="_blank">{$item.short_name}</a></p>
 				<p>旗下运营游戏：{$item.game_count} 款</p>
 			</li>

@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `zq_companies` (
   `scores` int(11) NOT NULL,
   `scorecount` int(11) NOT NULL,
   `data_type` int(11) NOT NULL,
-  `offical_url` int(11) NOT NULL,
+  `offical_url` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `telephone` varchar(64) NOT NULL,
   `email` varchar(255) NOT NULL,
