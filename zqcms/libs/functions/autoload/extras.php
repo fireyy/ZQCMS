@@ -221,7 +221,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
 }
 
 function getArticleThumb($item,$w=0,$h=0) {
-  if(isset($item["thumb"]) && is_string($item["thumb"])){
+  if(isset($item["thumb"]) && is_string($item["thumb"]) && !empty($item["thumb"])){
     return $item["thumb"];
   }
   $imageUrl = "";
