@@ -225,18 +225,17 @@ function getArticleThumb($item,$w=0,$h=0) {
     return $item["thumb"];
   }
   $imageUrl = "";
-  // $mode = 1 or 2
-  $mode = 1;
+  // 参数列表查看: http://docs.qiniutek.com/v3/api/foimg/
   // 图片质量 = 1-100
-  $quality = 100;
-  $imageView = "imageView/".$mode;
+  $quality = 80;
+  $imageView = "imageMogr/thumbnail/!";
   if($w!=0){
-    $imageView .= "/w/".$w;
+    $imageView .= $w;
   }
   if($h!=0){
-    $imageView .= "/h/".$h;
+    $imageView .= "x".$h;
   }
-  $imageView .= "/q/".$quality;
+  $imageView .= "r/crop/!".$w."x".$h."/gravity/North/quality/".$quality."/format/jpg";
   if(is_string($item)){
     $imageUrl = $item;
   }else{
