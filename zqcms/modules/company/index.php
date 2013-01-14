@@ -49,17 +49,14 @@ class index {
   $where = array();
   switch ($sort) {
     case 1:
-    #TODO 按旗下游戏排序
-      $orderby = "pubdate";
+      #TODO 按旗下游戏排序
+      $orderby = "game_count";
       break;
     case 2:
       $orderby = "pubdate";
       break;
-    case 3:
-      $orderby = "goodpost";
-      break;
     default:
-      $orderby = "pubdate";
+      $orderby = "game_count";
       break;
   }
   $where = join(" and ", $where);

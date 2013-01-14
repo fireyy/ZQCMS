@@ -77,7 +77,7 @@
     		<div id="newsSlider">
         		<div class="container" style="width:390px;overflow: hidden;height:160px;position: relative;">
         			<ul id="slides" class="slides">
-                {get_article_list assign='items' flag='f' limit='0,6'}
+                {get_article_list assign='items' flag='f' limit='0,6' orderby='pubdate' orderway='desc'}
                 {foreach $items as $item}
                 <li>
                   <div class='slide_c_r'>
