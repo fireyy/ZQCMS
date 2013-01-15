@@ -127,7 +127,7 @@
   		  		</ul>
   		  		<div id="slist_1_content">
   					  <div class="hotcolor" id="ad_serverlist">
-                {get_recomm_kaifu_list assign='items' flag='c' limit='0,19' orderby='test_date'}
+                {get_recomm_kaifu_list assign='items' flag='c' limit='0,12' orderby='test_date'}
                 {foreach $items as $item}
                 <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
                 {/foreach}
@@ -136,7 +136,7 @@
             {$kaifu_days=["today","yesterday","tomorrow"]}
             {foreach $kaifu_days as $kaifu_day}
   				  <div id="slist_{$kaifu_day@index + 2}_content"{if $kaifu_day@index > 0} style="display: none;"{/if}>
-              {get_kaifu_list assign='items' limit='0,19' orderby='test_date' day="$kaifu_day"}
+              {get_kaifu_list assign='items' limit='0,12' orderby='test_date' day="$kaifu_day"}
               {foreach $items as $item}
               <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
               {/foreach}
@@ -155,7 +155,7 @@
 					    <li class="li_5">运营公司</li>
 					    <li class="li_6">礼包</li>
 					</ul>
-          {get_kaice_list assign='items' limit='0,19' orderby='test_date' day="today"}
+          {get_kaice_list assign='items' limit='0,12' orderby='test_date' day="today"}
           {foreach $items as $item}
           <ul>
     		    <li class="li_1 red "><span class="">{date("m日d日", $item.test_date)}</span></li>
@@ -199,7 +199,7 @@
 	    	</div>
 
 	    	<ul class="newslist_yb lh24 fl">
-        {get_article_list assign='items' flag='c' limit='0,12'}
+        {get_article_list assign='items' flag='c' limit='0,5'}
         {foreach $items as $item}
 				<li><span class="fl p14 newslist_clss"></span><a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{$item.title}</a></li>
 				{/foreach}

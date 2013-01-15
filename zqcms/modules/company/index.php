@@ -17,11 +17,11 @@ class index {
     $game_company_db = zq_core::load_model('game_company_model');
     $game_db = zq_core::load_model('game_model');
     $games = $game_company_db->select(array(
-      "company_id" => $id
+      "company_id" => $company["company_id"]
     ));
     foreach ($games as $key => $value) {
       $row = $game_db->get_one(array(
-        "id" => $value["game_id"]
+        "game_id" => $value["game_id"]
       ));
       if(!empty($row)) {
         $games[$key]["game_name"] = $row["game_name"];
@@ -50,13 +50,13 @@ class index {
   switch ($sort) {
     case 1:
       #TODO 按旗下游戏排序
-      $orderby = "game_count";
+      $orderby = "game_count desc";
       break;
     case 2:
-      $orderby = "pubdate";
+      $orderby = "pubdate desc";
       break;
     default:
-      $orderby = "game_count";
+      $orderby = "game_count desc";
       break;
   }
   $where = join(" and ", $where);
@@ -65,6 +65,7 @@ class index {
   register_template_data('pages', $this->db->pages);
   register_template_data('items', $this);
   register_template_data('title', $title);
+  register_template_data('sort', $sort);
 	return template('company', 'list');
     }
 }

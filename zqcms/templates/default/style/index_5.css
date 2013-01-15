@@ -16,7 +16,7 @@ a{  color:#333;}
 #flashbanner .nav_fl li a{background-color:#a4c1df; width:27px; height:7px; margin:6px 5px 6px 0; display:block; border:1px solid #dcebfe; overflow:hidden; float:left;}
 #otherLogin{}
 
-#kaf_list{ width:588px; height:auto; height:638px; overflow:hidden; *height:636px;}
+#kaf_list{ width:588px; height:auto; height:442px; overflow:hidden; *height:636px;}
 #kaf_list .more_index{ _margin-top:-30px; *margin-top:-30px; line-height:30px}
 #kaf_list .lise_kaice .more_index{_margin-top:10px; _line-height:20px; *margin-top:5px; *line-height:20px;}
 #kaf_list .lise_kaice .more_index a{ color:#ff6600}
@@ -47,7 +47,7 @@ a{  color:#333;}
 .li_4{ width:54px;  overflow:hidden;}
 .li_5{ width:70px;  overflow:hidden;}
 .li_6{ width:60px;  overflow:hidden;}
-.newsnav,.newsnav_2{width:392px; height:439px; background:url(../images/h1bg_1.0.png) 0 -647px no-repeat; padding-bottom:0; overflow:hidden;}
+.newsnav,.newsnav_2{width:392px; height:243px; background:url(../images/h1bg_1.0.png) 0 -647px no-repeat; padding-bottom:0; overflow:hidden;}
 .newsnav .more_index,.newsnav_2 .more_index{ margin-top:-10px;}
 .newsnav .f_news{ width:100%; height:auto; text-align:center; padding:10px 0; border-bottom: 1px dashed #E2E2E2; overflow:hidden; margin-top:10px;}
 .newsnav .newslist_clss{ float:left;}
