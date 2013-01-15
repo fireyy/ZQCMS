@@ -65,31 +65,30 @@
 		last_get_time = get_time;
 		$('.loading').css('visibility', 'visible');
 		$.get('/index.php?m=gallery&c=index&a=getList', {tag:tag, page:page}, function(d){
-			for(var i in d){
-				if(d[i].cover_pic_list == '')
-					continue;
-				var pos = get_next_position();
-				var el = $(empty_el);
-				el.append(d[i].footer);
-				el.find('.view-url').attr('href', d[i].url);
-				var match = d[i].cover_pic_list.match(/\.([0-9]+)x([0-9]+)\./);
-				match[1] = parseInt(match[1]);
-				match[2] = parseInt(match[2]);
-				if(!isNaN(match[1]) && !isNaN(match[2]) && match[1] != 170){
-					var w = match[1];
-					match[1] = match[1] > 170 ? 170 : match[1];
-					match[2] = match[2] * (w / 170);
+			/*for(var i in d){*/
+				a = 0;
+				var set_img = function(i){
+					if(d[i] && d[i].cover_pic_list != '') {
+						var pos = get_next_position();
+						var el = $(empty_el);
+						el.append(d[i].footer);
+						el.find('.view-url').attr('href', d[i].url);
+						w = 170;
+						h = 100;
+						el.css('top', pos.top+24).css('left', pos.left);
+						el.appendTo('.pic-list');
+						bottom_pic[pos.i]=el;
+						el.find('img').attr("width",w).attr('src', d[i].cover_pic_list).load(function(){
+							h = $(this).height();
+							$(this).attr('height',h);					
+							if($('.pic-list').height() < pos.top+24+el.height()) $('.pic-list').css('height', pos.top+24+el.height());
+							a++;
+							if(a < d.length) set_img(a);
+						});
+					}
 				}
-				el.find('img').attr('src', d[i].cover_pic_list).attr('width',match[1]).attr('height',match[2]);
-//				el.find('.click_count').html(d[i].click_count+'人看过');
-//				el.find('.pic_count').html(d[i].pic_count+'张');
-//				el.find('.booklet_name').html(d[i].name);
-				el.css('top', pos.top+24).css('left', pos.left);
-				el.appendTo('.pic-list');
-				bottom_pic[pos.i]=el;
-				if($('.pic-list').height() < pos.top+24+el.height())
-					$('.pic-list').css('height', pos.top+24+el.height());
-			}
+				set_img(a);
+			/*}*/
 			if(d.length>0)
 				page++;
 			$('.loading').css('visibility', 'hidden');

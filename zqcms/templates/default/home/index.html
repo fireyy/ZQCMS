@@ -129,7 +129,7 @@
   					  <div class="hotcolor" id="ad_serverlist">
                 {get_recomm_kaifu_list assign='items' flag='c' limit='0,12' orderby='test_date'}
                 {foreach $items as $item}
-                <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
+                <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red">{if $item.game_id}<a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a>{else}{$item.game_name}{/if}</li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3">{$item.game_tag}</li><li class="li_5"><a href="{$item.register_url}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white nogift" href="javascript:;" title="暂无礼包">领取</a></li></ul>
                 {/foreach}
   					  </div>
   				  </div>
@@ -138,7 +138,7 @@
   				  <div id="slist_{$kaifu_day@index + 2}_content"{if $kaifu_day@index > 0} style="display: none;"{/if}>
               {get_kaifu_list assign='items' limit='0,12' orderby='test_date' day="$kaifu_day"}
               {foreach $items as $item}
-              <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red"><a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a></li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3"><a href="#" target="_blank">{$item.game_tag}</a></li><li class="li_5"><a href="{getGameURL($item.game_id)}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white" href="{getGameURL($item.game_id)}">领取</a></li></ul>
+              <ul><li class="li_1"><span class="red clockicon">{date("m日d日", $item.test_date)}</span></li><li class="li_2 red">{if $item.game_id}<a href="{getGameURL($item.game_id)}" title="{$item.game_name}" target="_blank">{$item.game_name}</a>{else}{$item.game_name}{/if}</li><li class="li_2">{$item.server_name}</li><li class="li_3"><span>{$item.oper_short_name}</span></li><li class="li_3">{$item.game_tag}</li><li class="li_5"><a href="{$item.register_url}" target="_blank">进入游戏</a></li><li class="li_6"><a class="lq_bt white nogift" href="javascript:;" title="暂无礼包">领取</a></li></ul>
               {/foreach}
   	        </div>
             {/foreach}
@@ -161,9 +161,9 @@
     		    <li class="li_1 red "><span class="">{date("m日d日", $item.test_date)}</span></li>
     		    <li class="li_2 red">{$item.game_name}</li>
     		    <li class="li_2">{$item.test_status}</li>
-    		    <li class="li_3"><a href="#" target="_blank" title="{$item.game_tag}">{$item.game_tag}</a></li>
+    		    <li class="li_3">{$item.game_tag}</li>
     		    <li class="li_5"><span>{$item.oper_short_name}</span></li>
-    		    <li class="li_6"><a href='{getGameURL($item.game_id)}' target="_blank" class="lq_bt white ling">领取</a></li>
+    		    <li class="li_6"><a href="javascript:void(0);" title="暂无礼包" class="nogift">领取</a></li>
       		</ul>
           {/foreach}
 				</div>

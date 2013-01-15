@@ -15,7 +15,7 @@ class index {
     //列表页面
     public function lists() {
 	$now = time();
-
+    $today = false;
 	$game_name = empty($_REQUEST['game_name']) ? '' : $_REQUEST['game_name'];
 	$oper_name = empty($_REQUEST['oper_name']) ? '' : $_REQUEST['oper_name'];
 
@@ -26,9 +26,9 @@ class index {
 
 	list($month_kaifu_count, $kaifu_data) = $this->db->getYearAndMonthKaifuCount($year, $month);
 
-	//if ($t > 0) {
-	//    $today = false;
-	//}
+	if ($year == date('Y', $now) && $month == date('m', $now) && $day == date('d', $now) && $t == 0) {
+	    $today = true;
+	}
 
 	switch ($t) {
 	    case 1:
@@ -56,7 +56,7 @@ class index {
 		$end_date   = mktime(16, 59, 0, $month, $day, $year);
 		break;
 	    case 8:
-		$begin_date = mktime(16, 0, 0, $month, $day, $year);
+		$begin_date = mktime(17, 0, 0, $month, $day, $year);
 		$end_date   = mktime(18, 59, 0, $month, $day, $year);
 		break;
 	    case 9:
@@ -73,24 +73,50 @@ class index {
 		break;
 	    case 0:
 	    default:
-		$begin_date = mktime(0, 0, 0, $month, $day, $year);
-		$end_date   = mktime(0, 0, 0, $month, $day+1, $year);
+        $begin_date = mktime(0, 0, 0, $month, $day, $year);
+        $end_date   = mktime(0, 0, 0, $month, $day+1, $year);
+        
 	}
+    if($today){
+        #获取今天当前时段的数据
+        $hour = date('H', $now);
+        $begin_date = mktime($hour, 0, 0, $month, $day, $year);
+        $end_date   = mktime($hour+1, 0, 0, $month, $day, $year);
+    }
 
 	$title = "";
 	$where = array();
 	$title = getTypeName($this->db->typeid);
-	if(isset($begin_date) && !empty($end_date)){
-	    $where[] = "test_date >= $begin_date AND test_date < $end_date";
-	}
 	if(!empty($game_name)){
 	    $where[] = "game_name = '$game_name'";
 	}
 	if(!empty($oper_name)){
 	    $where[] = "oper_short_name = '$oper_name'";
 	}
+    $where_nodate = $where;
+    if(isset($begin_date) && !empty($end_date)){
+        $where[] = "test_date >= $begin_date AND test_date < $end_date";
+    }
 	$where = join(" and ", $where);
-	$lists = $this->db->select($where, '*', '', 'test_date DESC');
+	$lists = $this->db->select($where, '*', '', 'test_date ASC');
+    if($today){
+        #获取今天当前时段之后的数据
+        $where2 = $where_nodate;
+        $begin_date = mktime($hour+1, 0, 0, $month, $day, $year);
+        $end_date   = mktime(23, 59, 0, $month, $day, $year);
+        $where2[] = "test_date >= $begin_date AND test_date < $end_date";
+        $where2 = join(" and ", $where2);
+        $lists2 = $this->db->select($where2, '*', '', 'test_date ASC');
+        #获取今天当前时段之前的数据
+        $where3 = $where_nodate;
+        $begin_date = mktime(0, 0, 0, $month, $day, $year);
+        $end_date   = mktime($hour-1, 59, 0, $month, $day, $year);
+        $where3[] = "test_date >= $begin_date AND test_date < $end_date";
+        $where3 = join(" and ", $where3);
+        $lists3 = $this->db->select($where3, '*', '', 'test_date DESC');
+        #合并生成今天的所有数据
+        $lists = array_merge($lists,$lists2,$lists3);
+    }
 
 	register_template_data('lists', $lists);
 	register_template_data('items', $this);
