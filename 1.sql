@@ -1,0 +1,1 @@
+UPDATE `zq_types` SET title='图库' WHERE name='gallery';

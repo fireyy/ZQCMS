@@ -28,9 +28,11 @@ class index {
     $title = $tag."_".$title;
   }
   #TODO 调用图库的tag列表
-  #register_template_data('lists', $lists);
+  $tags = getTagByType($this->db->typeid);
   register_template_data('items', $this);
   register_template_data('title', $title);
+  register_template_data('current_tag', $tag);
+  register_template_data('tags', $tags);
 	return template('gallery', 'list');
     }
     
@@ -40,7 +42,10 @@ class index {
       $page = empty($_GET['page']) ? 1 : $_GET['page'];
       $tag = empty($_GET['tag']) ? '' : $_GET['tag'];
       if(isset($tag) && !empty($tag)){
-        #TODO 按tag显示图库列表
+        #按tag显示图库列表
+        $ids = getIdsByTagname($tag, '*', $this->db->typeid);
+        $ids = join(",", $ids);
+        $where[] = "id in ($ids)";
         $title = $tag;
       }else{
         $title = getTypeName($this->db->typeid);

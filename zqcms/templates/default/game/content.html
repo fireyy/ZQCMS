@@ -94,7 +94,7 @@ function closeServerList(el){
 	  <p>
 	  </p>
 	  <div class="star_bg left">
-	      <div game_id="{$game_id}" score="{trim(sprintf("%4.2f", $game.scores / $game.scorecount))}" id="score-items" class="star_bt">
+	      <div game_id="{$game.id}" score="{trim(sprintf("%4.2f", $game.scores / $game.scorecount))}" id="score-items" class="star_bt">
 		  <a title="一场噩梦" href="javascript:void(0);"></a>
 		  <a title="不怎么样" href="javascript:void(0);"></a>
 		  <a title="没有感觉" href="javascript:void(0);"></a>
@@ -112,7 +112,7 @@ function closeServerList(el){
 	  <p></p>
       </div>
     <p class="lh30">
-	<a onclick="postDigg({$game_id})" class="bt_good"></a><strong class="yahei boder_num vote-count-{$game_id}">{$game.goodpost}票</strong>
+	<a onclick="postDigg({$game.id})" class="bt_good"></a><strong class="yahei boder_num vote-count-{$game.id}">{$game.goodpost}票</strong>
     </p>
     <div class="mt" id="newsinfo_share">
 	<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">

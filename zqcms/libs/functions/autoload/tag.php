@@ -261,4 +261,29 @@ function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
     return $ids;
 }
 
+/**
+ * 根据typeid 获得相关标签数据
+ * @param integer typeid 内容模型id
+ */
+ function getTagByType($typeid){
+    $db = zq_core::load_model('tag_relationship_model');
+    $taxonomy_db = zq_core::load_model('tag_taxonomy_model');
+
+    $taxids = $db->select(array(
+        'typeid' => $typeid
+    ), 'tag_taxonomy_id', '', 'tag_taxonomy_id asc', 'tag_taxonomy_id');
+    $tagids = array();
+    foreach ($taxids as $value) {
+        $tmp = $taxonomy_db->get_one(array(
+            'id' => $value["tag_taxonomy_id"]
+        ));
+        $tagids[] = $tmp["tag_id"];
+    }
+    $tags = array();
+    foreach ($tagids as $value) {
+        $tags[$value] = getTagInfoById($value);
+    }
+    return $tags;
+ }
+
 ?>

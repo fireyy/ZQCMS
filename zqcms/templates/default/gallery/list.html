@@ -19,7 +19,10 @@
 			<li style="position: absolute; top: 0; left: 5px;">
 				<h3 style="font-size:14px">类型</h3>
 				<div class="nav">
-					<a href="#" style="background:#ccc;">所有</a>
+					<a href="{getTypeLink('gallery')}"{if $current_tag == ""} style="background:#ccc;"{/if}>所有</a>
+					{foreach $tags as $tag}
+					<a href='{getTypeLink("gallery","{$tag['name']}")}'{if $current_tag == $tag['name']} style="background:#ccc;"{/if}>{$tag["name"]}</a>
+					{/foreach}
 				</div>
 			</li>
 			<li style="position: absolute; top: -24px; left: 202px;" class="hide"></li>
@@ -34,7 +37,7 @@
 <script type="text/javascript">
 	var bottom_pic=new Array(),
 		page=1,
-    tag="{$tag}",
+    tag="{$current_tag}",
 		empty_el='<li style="position: absolute; top: 0; left: 800px;"><a href="javascript:void(0);" target="_blank" class="view-url"><img width="170" src=""></a></li>';
   {literal}
 	function get_next_position(){
@@ -82,6 +85,10 @@
 							h = $(this).height();
 							$(this).attr('height',h);					
 							if($('.pic-list').height() < pos.top+24+el.height()) $('.pic-list').css('height', pos.top+24+el.height());
+							a++;
+							if(a < d.length) set_img(a);
+						}).error(function() {
+						    if($('.pic-list').height() < pos.top+24+el.height()) $('.pic-list').css('height', pos.top+24+el.height());
 							a++;
 							if(a < d.length) set_img(a);
 						});
