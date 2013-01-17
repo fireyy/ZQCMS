@@ -99,7 +99,7 @@ class index {
 	    $company_count = $rdb->count(array('game_id' => $game['game_id']));
 	    $game['company_count'] = $company_count;
 
-	    $this->kaifus = {}
+	    $this->kaifus = array();
 
 	    //获取开服信息
 	    $this->kaifu_db = zq_core::load_model('kaifu_model');
