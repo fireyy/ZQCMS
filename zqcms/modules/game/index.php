@@ -117,7 +117,7 @@ class index {
 	    if (count(array_keys($this->kaifus)) < $this->MAX_KAIFUS) {
 		$this->getKaifuInfo($game, "test_date > {$last_now} AND oper_id not in (".join(",", array_keys($this->kaifus)).")", "ASC");
 	    }
-
+print_r($this->kaifus);
 	    register_template_data('kaifus', $this->kaifus);
 	    register_template_data('game', $game);
 	    return template('game', 'content');
@@ -132,6 +132,7 @@ class index {
 	$tag_name = isset($_GET['tag']) ? $_GET['tag'] : '';
 	$filters = array("game_tag", "game_theme", "game_status", "game_effect", "test_status");
 	$gamesort = isset($_GET['gamesort']) ? $_GET['gamesort'] : 1;
+  $game_pinyin = isset($_GET['game_pinyin']) ? $_GET['game_pinyin'] : '';
 	$title = "";
 	$orderby = "";
 	$where = array();
@@ -149,6 +150,9 @@ class index {
 	    $where[] = "id in ($ids)";
 	    $title = $tag_name."_".$title;
 	}
+  if(!empty($game_pinyin)){
+      $where[] = "pinyin LIKE '".strtolower($game_pinyin)."%'";
+  }
 	switch ($gamesort) {
 	case 1:
 	    $orderby = "pubdate DESC";

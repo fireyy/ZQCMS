@@ -157,14 +157,18 @@ function getTypeLink($type, $tagname='', $array=array()) {
  * @return string url
  */
 function getGameFilterLink($args, $array=array()) {
-    $tags = array("game_tag","test_status","game_theme","game_status","game_effect");
+    $filters = array("game_tag","test_status","game_theme","game_status","game_effect","gamesort","game_pinyin");
     $config = array();
-    foreach ($tags as $value) {
-      if(isset($args[$value])){
+    foreach ($filters as $value) {
+      if(isset($args[$value]) && !empty($args[$value])){
         $config['{$'.$value.'}'] = $args[$value];
       }
       if(isset($array['{$'.$value.'}'])){
-        $config['{$'.$value.'}'] = $array['{$'.$value.'}'];
+        if(empty($array['{$'.$value.'}'])){
+          unset($config['{$'.$value.'}']);
+        }else{
+          $config['{$'.$value.'}'] = $array['{$'.$value.'}'];
+        }
       }
     }
     //print_r($config);

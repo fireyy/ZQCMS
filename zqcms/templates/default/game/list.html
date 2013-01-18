@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,51 +14,23 @@
 <div id="content">
   <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
   <div class="gamelist_new">
+    {$filters = array()}
+    {$filters["game_tag"] = array("全部","角色扮演","战争策略","模拟经营","社区养成","休闲竞技","儿童游戏")}
+    {$filters["test_status"] = array("全部","公测","内测","研发","停运","封测","技术测试")}
+    {$filters["game_theme"] = array("全部","三国","仙侠","体育","修真","军事","历史","奇幻","宠物","格斗","武侠","玄幻","神话","科幻","竞速","都市","魔幻")}
+    {$filters["game_status"] = array("全部","免费","时间收费","道具收费")}
+    {$filters["game_effect"] = array("全部","3D","2.5/2.8D","2D")}
+    {foreach $filters as $filter}
       <ul>
-	  <h1><span style="line-height: 30px;" class="p12 strong backa">游戏分类：</span></h1>
-      {$game_tags=array("全部","角色扮演","战争策略","模拟经营","社区养成","休闲竞技","儿童游戏")}
-      {foreach $game_tags as $item}
+	  <h1><span style="line-height: 30px;" class="p12 strong backa">{$filter@key|LANG}：</span></h1>
+      {foreach $filter as $item}
       {$item_title=$item}
+      {$item_tag=$filter@key}
       {if $item=="全部"}{$item=""}{/if}
-      <li><a {if $smarty.get['game_tag'] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,['{$game_tag}'=>"{$item}"])}">{$item_title}</a></li>
+      <li><a {if $smarty.get[$filter@key] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,["{ldelim}$$item_tag{rdelim}"=>"{$item}"])}">{$item_title}</a></li>
       {/foreach}
       </ul>
-      <ul>
-      <h1><span style="line-height: 30px;" class="p12 strong backa">运营状态：</span></h1>
-      {$test_status=array("全部","公测","内测","研发","停运","封测","技术测试")}
-      {foreach $test_status as $item}
-      {$item_title=$item}
-      {if $item=="全部"}{$item=""}{/if}
-      <li><a {if $smarty.get['test_status'] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,['{$test_status}'=>"{$item}"])}">{$item_title}</a></li>
-      {/foreach}
-      </ul>
-      <ul>
-	  <h1><span style="line-height: 30px;" class="p12 strong backa">题材分类：</span></h1>
-      {$game_themes=array("全部","三国","仙侠","体育","修真","军事","历史","奇幻","宠物","格斗","武侠","玄幻","神话","科幻","竞速","都市","魔幻")}
-      {foreach $game_themes as $item}
-      {$item_title=$item}
-      {if $item=="全部"}{$item=""}{/if}
-      <li><a {if $smarty.get['game_theme'] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,['{$game_theme}'=>"{$item}"])}">{$item_title}</a></li>
-      {/foreach}
-      </ul>
-      <ul>
-	  <h1><span style="line-height: 30px;" class="p12 strong backa">状态：</span></h1>
-      {$game_status=array("全部","免费","时间收费","道具收费")}
-      {foreach $game_status as $item}
-      {$item_title=$item}
-      {if $item=="全部"}{$item=""}{/if}
-      <li><a {if $smarty.get['game_status'] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,['{$game_status}'=>"{$item}"])}">{$item_title}</a></li>
-      {/foreach}
-      </ul>
-      <ul>
-	  <h1><span style="line-height: 30px;" class="p12 strong backa">画面：</span></h1>
-      {$game_effects=array("全部","3D","2.5/2.8D","2D")}
-      {foreach $game_effects as $item}
-      {$item_title=$item}
-      {if $item=="全部"}{$item=""}{/if}
-      <li><a {if $smarty.get['game_effect'] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,['{$game_effect}'=>"{$item}"])}">{$item_title}</a></li>
-      {/foreach}
-      </ul>  
+    {/foreach}
   </div>
   <div style="float:right; overflow:hidden; width:868px; margin-bottom:10px;">
     <script type="text/javascript">
@@ -88,17 +59,32 @@
 			</div>
     </div>
     <div class="box_line picbox" style="overflow:hidden; padding:10px 5px 13px 0px;margin-top:5px; width:860px;">
-      <!--
+      <ul class="abc">
+        <li style="text-indent:10px;">
+            <a class="p12 strong backa" href="javascript:void(0);">拼音选择：</a>
+        </li>
+        {$game_pinyin = array("全部", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")}
+          {foreach $game_pinyin as $item}
+          {$item_title=$item}
+          {if $item=="全部"}{$item=""}{/if}
+          <li><a class="p12{if $smarty.get['game_pinyin'] == $item} strong org{/if}" href="{getGameFilterLink($smarty.get,['{$game_pinyin}'=>"{$item}"])}">{$item_title}</a></li>
+          {/foreach}
+      </ul>
       <div class="choosed">
 	  <h3 style="text-indent:10px;margin-right:0;" class="p12">您已选择：</h3>
+      {foreach $filters as $filter}
+      {$item_tag=$filter@key}
+      {if isset($smarty.get[$item_tag]) and !empty($smarty.get[$item_tag])}
+      <a href="{getGameFilterLink($smarty.get,["{ldelim}$$item_tag{rdelim}"=>''])}">{$smarty.get[$item_tag]}<b></b></a>
+      {/if}
+      {/foreach}
       </div>
-      -->
       <div class="bq_div">
 	  <div class="bottom_line" id="hotGameNav">
-	      <a class="{if $gamesort == 1}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>1])}">最新入库</a>
-	      <a class="{if $gamesort == 2}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>2])}">开服量最多</a>
-	      <a class="{if $gamesort == 3}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>3])}">最多人赞</a>
-	      <a class="{if $gamesort == 4}flh1_up{else}flh1_on{/if}" href="{getTypeLink('game','',['{$gamesort}'=>4])}">评分最高</a>
+	      <a class="{if $gamesort == 1}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>1])}">最新入库</a>
+	      <a class="{if $gamesort == 2}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>2])}">开服量最多</a>
+	      <a class="{if $gamesort == 3}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>3])}">最多人赞</a>
+	      <a class="{if $gamesort == 4}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>4])}">评分最高</a>
 	  </div>
       </div>
       <div style="width:100%; padding-right:5px;  float:left;">
