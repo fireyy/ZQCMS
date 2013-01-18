@@ -7,11 +7,11 @@ class index {
 	$this->db = zq_core::load_model('game_model');
     }
 
-    private function getKaifuInfo($timesql, $orderway='ASC') {
+    private function getKaifuInfo($game, $timesql, $orderway='ASC') {
 	$now = mktime(0, 0, 0);
 	$last_now = mktime(23, 59, 59);
 
-	$data = $kaifu_db->select(
+	$data = $this->kaifu_db->select(
 	    "game_id = {$game['game_id']} AND $timesql",
 	    '*',
 	    '0, 10',
@@ -25,7 +25,7 @@ class index {
 	    }
 
 	    if (empty($this->kaifus[$company_id])) {
-		$company = $company_db->get_one(array('company_id'=>$company_id));
+		$company = $this->company_db->get_one(array('company_id'=>$company_id));
 		if (!empty($company)) {
 		    $company['url'] = getURL($company);
 
@@ -55,7 +55,7 @@ class index {
 		    if ($currentTestDate < $now) {
 			$this->kaifus[$company_id]['kaifu']['y'][] = $data[$i];
 		    } else {
-			$r = $kaifu_db->get_one(
+			$r = $this->kaifu_db->get_one(
 			    "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date < {$currentTestDate}", '*', 'test_date DESC'
 			);
 			if (!empty($r)) {
@@ -69,7 +69,7 @@ class index {
 		    if ($currentTestDate > $last_now) {
 			$this->kaifus[$company_id]['kaifu']['t'][] = $data[$i];
 		    } else {
-			$r = $kaifu_db->get_one(
+			$r = $this->kaifu_db->get_one(
 			    "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date > {$data[$i]['test_date']}", '*', 'test_date ASC'
 			);
 			if (!empty($r)) {
@@ -108,14 +108,14 @@ class index {
 
 	    $now = mktime(0, 0, 0);
 	    $last_now = mktime(23, 59, 59);
-	    $this->getKaifuInfo("test_date >= {$now} AND test_date <= {$last_now}");
+	    $this->getKaifuInfo($game, "test_date >= {$now} AND test_date <= {$last_now}");
 
 	    if (count(array_keys($this->kaifus)) < $this->MAX_KAIFUS) {
-		$this->getKaifuInfo("test_date < {$now}", "DESC");
+		$this->getKaifuInfo($game, "test_date < {$now} AND oper_id not in (".join(",", array_keys($this->kaifus)).")", "DESC");
 	    }
 
 	    if (count(array_keys($this->kaifus)) < $this->MAX_KAIFUS) {
-		$this->getKaifuInfo("test_date > {$last_now}", "ASC");
+		$this->getKaifuInfo($game, "test_date > {$last_now} AND oper_id not in (".join(",", array_keys($this->kaifus)).")", "ASC");
 	    }
 
 	    register_template_data('kaifus', $this->kaifus);
