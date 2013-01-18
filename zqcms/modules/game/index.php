@@ -53,13 +53,13 @@ class index {
 		//最近的一条
 		if (empty($this->kaifus[$company_id]['kaifu']['y'])) {
 		    if ($currentTestDate < $now) {
-			$this->kaifus[$company_id]['kaifu']['y'][] = $data[$i];
+			$this->kaifus[$company_id]['kaifu']['y'] = $data[$i];
 		    } else {
 			$r = $this->kaifu_db->get_one(
 			    "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date < {$currentTestDate}", '*', 'test_date DESC'
 			);
 			if (!empty($r)) {
-			    $this->kaifus[$company_id]['kaifu']['y'][] = $r;
+			    $this->kaifus[$company_id]['kaifu']['y'] = $r;
 			}
 		    }
 		}
@@ -67,13 +67,13 @@ class index {
 		//后一条
 		if (empty($this->kaifus[$company_id]['kaifu']['t'])) {
 		    if ($currentTestDate > $last_now) {
-			$this->kaifus[$company_id]['kaifu']['t'][] = $data[$i];
+			$this->kaifus[$company_id]['kaifu']['t'] = $data[$i];
 		    } else {
 			$r = $this->kaifu_db->get_one(
 			    "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date > {$data[$i]['test_date']}", '*', 'test_date ASC'
 			);
 			if (!empty($r)) {
-			    $this->kaifus[$company_id]['kaifu']['t'][] = $r;
+			    $this->kaifus[$company_id]['kaifu']['t'] = $r;
 			}
 		    }
 		}
@@ -111,11 +111,21 @@ class index {
 	    $this->getKaifuInfo($game, "test_date >= {$now} AND test_date <= {$last_now}");
 
 	    if (count(array_keys($this->kaifus)) < $this->MAX_KAIFUS) {
-		$this->getKaifuInfo($game, "test_date < {$now} AND oper_id not in (".join(",", array_keys($this->kaifus)).")", "DESC");
+		$where = array();
+		$where[] = "test_date < {$now}";
+		if (count(array_keys($this->kaifus)) > 0){
+		    $where[] = "oper_id not in (".join(",", array_keys($this->kaifus)).")";
+		}
+	        $this->getKaifuInfo($game, join(" AND ", $where) , "DESC");
 	    }
 
 	    if (count(array_keys($this->kaifus)) < $this->MAX_KAIFUS) {
-		$this->getKaifuInfo($game, "test_date > {$last_now} AND oper_id not in (".join(",", array_keys($this->kaifus)).")", "ASC");
+		$where = array();
+		$where[] = "test_date > {$now}";
+		if (count(array_keys($this->kaifus)) > 0){
+		    $where[] = "oper_id not in (".join(",", array_keys($this->kaifus)).")";
+		}
+	        $this->getKaifuInfo($game, join(" AND ", $where) , "DESC");
 	    }
 
 	    register_template_data('kaifus', $this->kaifus);
