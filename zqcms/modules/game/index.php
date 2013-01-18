@@ -130,7 +130,7 @@ class index {
     public function lists() {
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
 	$tag_name = isset($_GET['tag']) ? $_GET['tag'] : '';
-	$filters = array("game_tag", "game_theme", "game_status", "game_effect");
+	$filters = array("game_tag", "game_theme", "game_status", "game_effect", "test_status");
 	$gamesort = isset($_GET['gamesort']) ? $_GET['gamesort'] : 1;
 	$title = "";
 	$orderby = "";

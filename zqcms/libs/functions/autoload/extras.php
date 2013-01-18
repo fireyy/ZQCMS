@@ -157,7 +157,7 @@ function getTypeLink($type, $tagname='', $array=array()) {
  * @return string url
  */
 function getGameFilterLink($args, $array=array()) {
-    $tags = array("game_tag","game_theme","game_status","game_effect");
+    $tags = array("game_tag","test_status","game_theme","game_status","game_effect");
     $config = array();
     foreach ($tags as $value) {
       if(isset($args[$value])){

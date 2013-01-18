@@ -25,6 +25,15 @@
       {/foreach}
       </ul>
       <ul>
+      <h1><span style="line-height: 30px;" class="p12 strong backa">运营状态：</span></h1>
+      {$test_status=array("全部","公测","内测","研发","停运","封测","技术测试")}
+      {foreach $test_status as $item}
+      {$item_title=$item}
+      {if $item=="全部"}{$item=""}{/if}
+      <li><a {if $smarty.get['test_status'] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,['{$test_status}'=>"{$item}"])}">{$item_title}</a></li>
+      {/foreach}
+      </ul>
+      <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">题材分类：</span></h1>
       {$game_themes=array("全部","三国","仙侠","体育","修真","军事","历史","奇幻","宠物","格斗","武侠","玄幻","神话","科幻","竞速","都市","魔幻")}
       {foreach $game_themes as $item}
