@@ -18,46 +18,34 @@
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">游戏分类：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-    <li><a {if $smarty.get['game_tag'] == '角色扮演'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'角色扮演'])}">角色扮演</a></li>
-	  <li><a {if $smarty.get['game_tag'] == '战争策略'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'战争策略'])}">战争策略</a></li>
-	  <li><a {if $smarty.get['game_tag'] == '模拟经营'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'模拟经营'])}">模拟经营</a></li>
-	  <li><a {if $smarty.get['game_tag'] == '社区养成'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'社区养成'])}">社区养成</a></li>
-	  <li><a {if $smarty.get['game_tag'] == '休闲竞技'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'休闲竞技'])}">休闲竞技</a></li>
-	  <li><a {if $smarty.get['game_tag'] == '儿童游戏'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>'儿童游戏'])}">儿童游戏</a></li>
+      {$game_tags=array("角色扮演","战争策略","模拟经营","社区养成","休闲竞技","儿童游戏")}
+      {foreach $game_tags as $item}
+      <li><a {if $smarty.get['game_tag'] == $item}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_tag}'=>"{$item}"])}">{$item}</a></li>
+      {/foreach}
       </ul>
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">题材分类：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '三国'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'三国'])}">三国</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '仙侠'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'仙侠'])}">仙侠</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '体育'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'体育'])}">体育</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '修真'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'修真'])}">修真</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '军事'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'军事'])}">军事</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '历史'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'历史'])}">历史</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '奇幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'奇幻'])}">奇幻</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '宠物'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'宠物'])}">宠物</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '格斗'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'格斗'])}">格斗</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '武侠'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'武侠'])}">武侠</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '玄幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'玄幻'])}">玄幻</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '神话'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'神话'])}">神话</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '科幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'科幻'])}">科幻</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '竞速'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'竞速'])}">竞速</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '都市'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'都市'])}">都市</a></li>
-	  <li><a {if $smarty.get['game_theme'] == '魔幻'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>'魔幻'])}">魔幻</a></li>
+      {$game_themes=array("三国","仙侠","体育","修真","军事","历史","奇幻","宠物","格斗","武侠","玄幻","神话","科幻","竞速","都市","魔幻")}
+      {foreach $game_themes as $item}
+      <li><a {if $smarty.get['game_theme'] == $item}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_theme}'=>"{$item}"])}">{$item}</a></li>
+      {/foreach}
       </ul>
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">状态：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-	  <li><a {if $smarty.get['game_status'] == '免费'}    class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>'免费'])}">免费</a></li>
-	  <li><a {if $smarty.get['game_status'] == '时间收费'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>'时间收费'])}">时间收费</a></li>
-	  <li><a {if $smarty.get['game_status'] == '道具收费'}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>'道具收费'])}">道具收费</a></li>
+      {$game_status=array("免费","战争策略","时间收费","道具收费")}
+      {foreach $game_status as $item}
+      <li><a {if $smarty.get['game_status'] == $item}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_status}'=>"{$item}"])}">{$item}</a></li>
+      {/foreach}
       </ul>
       <ul>
 	  <h1><span style="line-height: 30px;" class="p12 strong backa">画面：</span></h1>
 	  <li><a href="{getTypeLink('game')}" class="p12">全部</a></li>
-	  <li><a {if $smarty.get['game_effect'] == '3D'}       class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>'3D'])}">3D</a></li>
-	  <li><a {if $smarty.get['game_effect'] == '2.5/2.8D'} class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>'2.5/2.8D'])}">2.5/2.8D</a></li>
-	  <li><a {if $smarty.get['game_effect'] == '2D'}       class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>'2D'])}">2D</a></li>
+      {$game_effects=array("3D","2.5/2.8D","2D")}
+      {foreach $game_effects as $item}
+      <li><a {if $smarty.get['game_effect'] == $item}class="p12 strong org"{/if} href="{getTypeLink('game','',['{$game_effect}'=>"{$item}"])}">{$item}</a></li>
+      {/foreach}
       </ul>  
   </div>
   <div style="float:right; overflow:hidden; width:868px; margin-bottom:10px;">

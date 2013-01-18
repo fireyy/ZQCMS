@@ -28,18 +28,20 @@ class index {
 
 	    $data = $kaifu_db->select(
 		"game_id = {$game['game_id']} AND test_date >= {$now} AND test_date <= {$last_now}",
-		'*',
-		'0, 10',
-		'test_date ASC'
+		'oper_id',
+		"0, {$maxd}",
+		'test_date DESC',
+        'oper_id'
 	    );
       $countd = count($data);
       if($countd < $maxd){
         $tmp = $maxd - $countd;
   	    $data2 = $kaifu_db->select(
   		"game_id = {$game['game_id']} AND test_date > {$last_now}",
-  		'*',
+  		'oper_id',
   		"0, {$tmp}",
-  		'test_date ASC'
+  		'test_date DESC',
+        'oper_id'
   	    );
         $data = array_merge($data, $data2);
         $countd = count($data);
@@ -47,9 +49,10 @@ class index {
           $tmp = $maxd - $countd;
     	    $data2 = $kaifu_db->select(
     		"game_id = {$game['game_id']} AND test_date < {$now}",
-    		'*',
+    		'oper_id',
     		"0, {$tmp}",
-    		'test_date ASC'
+    		'test_date DESC',
+            'oper_id'
     	    );
           $data = array_merge($data, $data2);
         }
@@ -58,54 +61,39 @@ class index {
 	    
 	    $kaifus = array();
 	    for ($i = 0; $i < count($data); $i++) {
-		$company_id = $data[$i]['oper_id'];
-		if ($company_id) {
-		    if (empty($kaifus[$company_id])) {
-			$company = $company_db->get_one(array('company_id'=>$company_id));
-
-			if (!empty($company)) {
-			    $company['url'] = getURL($company);
-
-			    $kaifus[$company_id] = array(
-				'company' => $company,
-				'oper_short_name' => $data[$i]['oper_short_name'],
-				'url' => $data[$i]['register_url'],
-				'kaifu' => array(
-				    'y' => array(),
-				    'n' => array(),
-				    't' => array()
-				)   
-			    );
-			}
-		    }
-
-		    if (!empty($kaifus[$company_id])) {
-			//开始插入数据
-			$kaifus[$company_id]['kaifu']['n'][] = $data[$i];
-
-			//最近的一条
-			if (empty($kaifus[$company_id]['kaifu']['y'])) {
-			    $r = $kaifu_db->get_one(
-				"oper_id={$company_id} AND game_id={$game['game_id']} AND test_date < {$data[$i]['test_date']}", '*', 'test_date DESC'
-			    );
-			    if (!empty($r)) {
-				$kaifus[$company_id]['kaifu']['y'][] = $r;
-			    }
-			}
-
-			//后一条
-			if (empty($kaifus[$company_id]['kaifu']['t'])) {
-			    $r = $kaifu_db->get_one(
-				"oper_id={$company_id} AND game_id={$game['game_id']} AND test_date > {$data[$i]['test_date']}", '*', 'test_date ASC'
-			    );
-			    if (!empty($r)) {
-				$kaifus[$company_id]['kaifu']['t'][] = $r;
-			    }
-			}
-		    }
+            $company_id = $data[$i]['oper_id'];
+            $company = $company_db->get_one(array('company_id'=>$company_id));
+            $kaifus[$company_id] = array(
+                'company' => $company,
+                'kaifu' => array(
+                    'y' => array(),
+                    'n' => array(),
+                    't' => array()
+                )
+            );
+			//如果有的话插入今日数据
+            $r = $kaifu_db->select(
+                "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date >= {$now} AND test_date <= {$last_now}", '*', 'test_date DESC'
+            );
+            if (!empty($r)) {
+                $kaifus[$company_id]['kaifu']['n'] = $r;
+            }
+            //如果有的话插入今日之后的数据
+            $r = $kaifu_db->get_one(
+                "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date > {$last_now}", '*', 'test_date DESC'
+            );
+            if (!empty($r)) {
+                $kaifus[$company_id]['kaifu']['t'] = $r;
+            }
+            //如果有的话插入今日之前的数据
+            $r = $kaifu_db->get_one(
+                "oper_id={$company_id} AND game_id={$game['game_id']} AND test_date < $now", '*', 'test_date DESC'
+            );
+            if (!empty($r)) {
+                $kaifus[$company_id]['kaifu']['y'] = $r;
+            }
 		}
-	    }
-
+        //print_r($kaifus);
 	    register_template_data('kaifus', $kaifus);
 
 	    register_template_data('game', $game);
