@@ -127,7 +127,7 @@ class index {
 		}
 	        $this->getKaifuInfo($game, join(" AND ", $where) , "DESC");
 	    }
-print_r($this->kaifus);
+
 	    register_template_data('kaifus', $this->kaifus);
 	    register_template_data('game', $game);
 	    return template('game', 'content');
