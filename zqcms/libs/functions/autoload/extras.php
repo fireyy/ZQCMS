@@ -150,6 +150,28 @@ function getTypeLink($type, $tagname='', $array=array()) {
 }
 
 /**
+ * 获得游戏列表页面过滤条件的url
+ * 
+ * @param array $args
+ *
+ * @return string url
+ */
+function getGameFilterLink($args, $array=array()) {
+    $tags = array("game_tag","game_theme","game_status","game_effect");
+    $config = array();
+    foreach ($tags as $value) {
+      if(isset($args[$value])){
+        $config['{$'.$value.'}'] = $args[$value];
+      }
+      if(isset($array['{$'.$value.'}'])){
+        $config['{$'.$value.'}'] = $array['{$'.$value.'}'];
+      }
+    }
+    //print_r($config);
+    return getTypeLink("game", "", $config);
+}
+
+/**
  *  短消息函数,可以在某个动作处理后友好的提示信息
  *
  * @param     string  $msg      消息提示信息
