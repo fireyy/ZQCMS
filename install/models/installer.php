@@ -244,7 +244,9 @@ class Installer {
     	'validKey' => $data['site']['valid_key'],
     	'pushTimes' => 3,
     	'webName' => $data['site']['site_name'],
-    	'versionNum' => ZQCMS_VERSION
+    	'versionNum' => ZQCMS_VERSION,
+        'insertTime' => time(),
+        'status' => 0
     );
 
     if (function_exists("curl_init")) {
