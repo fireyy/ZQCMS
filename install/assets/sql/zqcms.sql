@@ -460,8 +460,8 @@ INSERT INTO `zq_types` (`id`, `name`, `title`, `description`, `table_name`, `key
 (3, 'kaice', '开测表', '', 'kaices', '', 0, 2),
 (4, 'gift', '礼包', '', 'gifts', '', 0, 0),
 (5, 'article', '资讯', '', 'articles', '', 0, 3),
-(6, 'company', '厂商列表', '', 'companies', '', 0, 0),
-(7, 'gallery', '截图', '', 'galleries', '', 0, 0);
+(6, 'company', '厂商大全', '', 'companies', '', 0, 0),
+(7, 'gallery', '图库', '', 'galleries', '', 0, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
