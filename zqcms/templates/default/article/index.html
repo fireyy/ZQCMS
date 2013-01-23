@@ -1,43 +1,49 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
-<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
-<meta name="keywords" content="{dede:field name='keywords'/}" />
-<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
-{dede:include filename="styles.htm"/}
-<link href="{dede:global.cfg_templets_skin/}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
-{dede:include filename="scripts.htm"/}
+<meta http-equiv="Content-Type" content="text/html; charset={$site_config.charset}" />
+<title>{$title}_{$site_config.site_name}</title>
+<meta name="keywords" content="{$site_config.site_keywords}" />
+<meta name="description" content="{$site_config.site_description}" />
+{include "../styles.html" caching}
+<link href="{$style_dir}/style/inner_5.css?v=20120831" rel="stylesheet" type="text/css" />
+{include "../scripts.html" caching}
 </head>
-<body class="channel">
-{dede:include filename="head.htm"/}
+<body>
+{include "../head.html"}
 <div id="main_nav">
   <div class="secondary_menu boder_base">
-    <script src='/plus/bd_js.php?aid=2&nocache=1' language='javascript'></script>
+    <script type="text/javascript">
+      _loadAnalysis("navGameRecom");
+    </script>
   </div>
 </div>
 <div id="content">
-<div id="pathway"><strong>当前位置:</strong> {dede:field name='position'/}</div>
-<div>
-  {dede:channelartlist}
- <div class="newsnav_2 boder_base {dede:global name='itemindex' runphp='yes'}(@me%2==0)? @me='fr':@me='fl';{/dede:global} news_list mb">
+  <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
+  {$tag_list=["游戏资讯","海外资讯","产业新闻","游戏评测","游戏攻略","人物采访","热点追踪","厂商活动"]}
+  {foreach $tag_list as $tag}
+ <div class="newsnav_2 boder_base {if $tag@iteration is even by 1}fr{else}fl{/if} news_list mb">
     <h2 class="nomal_h2back">
-            <a href="{dede:field name='typeurl'/}" target="_blank" class=" changebt_on  p14 org strong">{dede:field name='typename'/}</a>
+            <a href="javascript:void(0);" class="changebt_on  p14 org strong">{$tag}</a>
             <div class="other_article"></div>
     </h2>
-  <div class="more fr"><a class="blue" href="{dede:field name='typeurl'/}" target="_blank">更多&gt;&gt;</a></div>
+  <div class="more fr"><a class="blue" href='{getTypeLink("article","$tag")}' target="_blank">更多&gt;&gt;</a></div>
     <ul class="newslist_yb lh24 fl">
-    {dede:arclist titlelen='60' row='15'}
-      <li class=""><a target="_blank" href="[field:arcurl /]" title="[field:title /]">[field:title /]</a><span>[field:pubdate function="MyDate('m-d',@me)"/]</span></li>
-      [field:global name=autoindex runphp="yes"](@me%5==0)? @me="<li class='fl b_line mb'></li>":@me="";[/field:global]
-    {/dede:arclist}
+    {get_articles_byTagName assign="items" tagname="$tag" limit="0,15"}
+    {foreach $items as $item}
+      <li>
+        <a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{str_cut($item.title,60,"")}</a><span>{date('m-d',$item.pubdate)}</span>
+      </li>
+      {if $item@iteration is div by 5}<li class='fl b_line mb'></li>{/if}
+    {/foreach}
     </ul>
   </div>
-  {dede:global name='itemindex' runphp='yes'}(@me%2==0)? @me='<div style="clear:both;"></div>':@me='';{/dede:global}
-  {/dede:channelartlist}
-</div>
+  {if $tag@iteration is div by 2}<div style="clear:both;"></div>{/if}
+  {/foreach}
+
 <div style="clear:both;"></div>
 </div>
-{dede:include filename="footer.htm"/}
+
+{include "../footer.html"}
 </body>
 </html>

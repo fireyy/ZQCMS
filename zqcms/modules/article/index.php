@@ -6,6 +6,14 @@ class index {
 	$this->db = zq_core::load_model('article_model');
     }
 
+    //资讯首页页
+    public function index() {
+    	$title = getTypeName($this->db->typeid);
+		register_template_data('items', $this);
+		register_template_data('title', $title);
+		return template('article', 'index');
+    }
+
     //内容页
     public function show() {
 	$id = intval($_GET['id']);

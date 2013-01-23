@@ -262,7 +262,7 @@ class update extends admin {
     echo "<p>文件下载完成，开始下载SQL</p>";
     downSQL();
     
-    self::_ApplyUpdate();
+    self::_ApplyUpdate($files);
   }
   
   /**
@@ -374,13 +374,13 @@ class update extends admin {
     $sql = @fread($fp, filesize($truefile));
     fclose($fp);
     if(!empty($sql)){
-        $sqls = explode(";\r\n", $sql);
+        $sqls = explode(";\n", $sql);
         zq_core::load_sys_class('crow','',0);
-        Crow::get_instance(zq_core::load_config('database'));
-        $dsql = Crow::get_database("default");
+        $db_config = zq_core::load_config("database");
+        $update_db = Crow::get_instance($db_config)->get_database("default");
         foreach($sqls as $sql){
           if(trim($sql)!='') {
-      	    $dsql->query(trim($sql));
+      	    $update_db->query(trim($sql));
           }
         }
     }
