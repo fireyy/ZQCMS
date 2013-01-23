@@ -25,9 +25,6 @@ class Installer {
     if(!extension_loaded('iconv') && !extension_loaded('mbstring')) {
 			$compat[] = '<strong>ZQCMS 建议开启 ICONV 或 MB_STRING 扩展</strong><br><em>可以提高字符集转换效率</em>';
     }
-    if(!extension_loaded('zlib')) {
-			$compat[] = '<strong>ZQCMS 建议开启 ZLIB 扩展</strong><br><em>支持Gzip功能</em></p>';
-    }
     if(!ini_get('allow_url_fopen')){
       $compat[] = '<strong>ZQCMS 建议打开 allow_url_fopen 函数<br><em>采集获取数据必需</em></strong>';
     }
