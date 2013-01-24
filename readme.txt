@@ -16,7 +16,6 @@ Apache + PHP5.2以上 + MySQL5 (PHP必须在非安全模式下运行)
 allow_url_fopen
 MySQL扩展库
 建议开启 ICONV 或 MB_STRING 扩展
-建议开启 ZLIB 扩展
 系统函数 —— file_put_contents 等
 
 4.基本目录结构

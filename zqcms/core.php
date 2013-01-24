@@ -2,6 +2,8 @@
 /**
  * 主框架入口
  */
+ini_set("display_errors", "off");
+
 define("IN_ZQCMS", true);
 
 date_default_timezone_set("Asia/Shanghai");
