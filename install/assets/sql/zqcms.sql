@@ -455,7 +455,7 @@ CREATE TABLE IF NOT EXISTS `zq_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
-INSERT INTO `zq_types` (`id`, `name`, `title`, `description`, `table_name`, `keywords`, `ishidden`, `order`) VALUES
+INSERT INTO `zq_types` (`id`, `name`, `title`, `description`, `table_name`, `keywords`, `ishidden`, `order`, `index_type`) VALUES
 (1, 'game', '找游戏', '', 'games', '', 0, 2, 'lists'),
 (2, 'kaifu', '开服表', '', 'kaifus', '', 0, 3, 'lists'),
 (3, 'kaice', '开测表', '', 'kaices', '', 0, 4, 'lists'),
