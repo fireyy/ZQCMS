@@ -12,18 +12,26 @@ class Installer {
     if(file_exists(ZQCMS_PATH."install/lock.txt")){
 			$compat[] = '<strong>您已经安装过 ZQCMS 了，如果需要重新安装，请移除 install/lock.txt 文件</strong>';
     }
-    
-		// php
+    if(!empty($_SERVER['HTTP_HOST'])){
+      $local = $_SERVER['HTTP_HOST'];
+    }else{
+      $local = $_SERVER['SERVER_NAME'];
+    }
+    $bad_hosts = array("localhost", "127.0.0.1");
+    //判断是否是本地安装 
+    if(in_array($local, $bad_hosts)){
+        $compat[] = '<strong>ZQCMS 不支持本地安装，请上传到外网空间再重试</strong>';
+    }
+	// php
     if(version_compare(PHP_VERSION, '5.3.0', '<')) set_magic_quotes_runtime(0);
 		if(version_compare(PHP_VERSION,  '5.2.0', '<')) {
-			$compat[] = '<strong>ZQCMS 需要 PHP 版本 >= 5.2</strong><br>
-				<em>您的服务器 PHP 版本是 ' . PHP_VERSION . '</em>';
-		}
+			$compat[] = '<strong>ZQCMS 需要 PHP 版本 >= 5.2</strong><br><em>您的服务器 PHP 版本是 ' . PHP_VERSION . '</em>';
+	}
     if(!extension_loaded('mysql')) {
-			$compat[] = '<strong>ZQCMS 需要开启 MYSQL 扩展</strong><br><em>这是必须的</em>';
+		$compat[] = '<strong>ZQCMS 需要开启 MYSQL 扩展</strong><br><em>这是必须的</em>';
     }
     if(!extension_loaded('iconv') && !extension_loaded('mbstring')) {
-			$compat[] = '<strong>ZQCMS 建议开启 ICONV 或 MB_STRING 扩展</strong><br><em>可以提高字符集转换效率</em>';
+		$compat[] = '<strong>ZQCMS 建议开启 ICONV 或 MB_STRING 扩展</strong><br><em>可以提高字符集转换效率</em>';
     }
     if(!ini_get('allow_url_fopen')){
       $compat[] = '<strong>ZQCMS 建议打开 allow_url_fopen 函数<br><em>采集获取数据必需</em></strong>';
