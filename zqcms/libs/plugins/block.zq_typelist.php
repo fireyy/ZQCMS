@@ -44,7 +44,7 @@ function smarty_block_zq_typelist($params, $content, $smarty, &$repeat, $templat
 	        $currentClass = $params["currentClass"];
 	    }
 
-	    if($modelInfo["name"] == "article") {
+	    if($modelInfo["index_type"] == "index") {
             $typelink = getTypeLink($modelInfo['id'], "", array("action"=>"index"));
         }else{
             $typelink = getTypeLink($modelInfo['id']);

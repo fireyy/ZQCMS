@@ -451,17 +451,18 @@ CREATE TABLE IF NOT EXISTS `zq_types` (
   `keywords` varchar(255) NOT NULL,
   `ishidden` tinyint(1) NOT NULL DEFAULT '0',
   `order` int(11) NOT NULL DEFAULT '0',
+  `index_type` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 INSERT INTO `zq_types` (`id`, `name`, `title`, `description`, `table_name`, `keywords`, `ishidden`, `order`) VALUES
-(1, 'game', '找游戏', '', 'games', '', 0, 2),
-(2, 'kaifu', '开服表', '', 'kaifus', '', 0, 3),
-(3, 'kaice', '开测表', '', 'kaices', '', 0, 4),
-(4, 'gift', '礼包', '', 'gifts', '', 0, 5),
-(5, 'article', '资讯', '', 'articles', '', 0, 1),
-(6, 'company', '厂商大全', '', 'companies', '', 0, 6),
-(7, 'gallery', '图库', '', 'galleries', '', 0, 7);
+(1, 'game', '找游戏', '', 'games', '', 0, 2, 'lists'),
+(2, 'kaifu', '开服表', '', 'kaifus', '', 0, 3, 'lists'),
+(3, 'kaice', '开测表', '', 'kaices', '', 0, 4, 'lists'),
+(4, 'gift', '礼包', '', 'gifts', '', 0, 5, 'lists'),
+(5, 'article', '资讯', '', 'articles', '', 0, 1, 'index'),
+(6, 'company', '厂商大全', '', 'companies', '', 0, 6, 'lists'),
+(7, 'gallery', '图库', '', 'galleries', '', 0, 7, 'lists');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
