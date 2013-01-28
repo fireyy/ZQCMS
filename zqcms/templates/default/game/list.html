@@ -27,7 +27,7 @@
       {$item_title=$item}
       {$item_tag=$filter@key}
       {if $item=="全部"}{$item=""}{/if}
-      <li><a {if $smarty.get[$filter@key] == $item}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,["{ldelim}$$item_tag{rdelim}"=>"{$item}"])}">{$item_title}</a></li>
+      <li><a {if (empty($smarty.get[$filter@key]) and $item_title == "全部") or ($smarty.get[$filter@key] == $item)}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,["{ldelim}$$item_tag{rdelim}"=>"{$item}"])}">{$item_title}</a></li>
       {/foreach}
       </ul>
     {/foreach}
@@ -67,7 +67,7 @@
           {foreach $game_pinyin as $item}
           {$item_title=$item}
           {if $item=="全部"}{$item=""}{/if}
-          <li><a class="p12{if $smarty.get['game_pinyin'] == $item} strong org{/if}" href="{getGameFilterLink($smarty.get,['{$game_pinyin}'=>"{$item}"])}">{$item_title}</a></li>
+          <li><a class="p12{if (empty($smarty.get['game_pinyin']) and $item_title == '全部') or ($smarty.get['game_pinyin'] == $item)} strong org{/if}" href="{getGameFilterLink($smarty.get,['{$game_pinyin}'=>"{$item}"])}">{$item_title}</a></li>
           {/foreach}
       </ul>
       <div class="choosed">

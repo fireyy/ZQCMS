@@ -138,18 +138,18 @@ class index {
 
     //列表页面
     public function lists() {
-	$page = isset($_GET['page']) ? $_GET['page'] : 1;
-	$tag_name = isset($_GET['tag']) ? $_GET['tag'] : '';
+	$page = isEmpty($_GET['page']) ? $_GET['page'] : 1;
+	$tag_name = isEmpty($_GET['tag']) ? $_GET['tag'] : '';
 	$filters = array("game_tag", "game_theme", "game_status", "game_effect", "test_status");
-	$gamesort = isset($_GET['gamesort']) ? $_GET['gamesort'] : 1;
-  $game_pinyin = isset($_GET['game_pinyin']) ? $_GET['game_pinyin'] : '';
+	$gamesort = isEmpty($_GET['gamesort']) ? $_GET['gamesort'] : 1;
+  $game_pinyin = isEmpty($_GET['game_pinyin']) ? $_GET['game_pinyin'] : '';
 	$title = "";
 	$orderby = "";
 	$where = array();
 	$title = getTypeName($this->db->typeid);
 	foreach ($filters as $key => $value) {
 	    $tag = $_GET[$value];
-	    if(isset($tag) && !empty($tag)){
+	    if(isEmpty($tag)){
 		$where[] = "$value = '".$tag."'";
 		$title = $tag."_".$title;
 	    }
@@ -182,7 +182,8 @@ class index {
 	}
 
 	$where = join(" and ", $where);
-	$lists = $this->db->listinfo($where, $orderby, $page, 56);
+	list($urlrule, $array) = getURLrule($this->db->typeid, $_GET);
+	$lists = $this->db->listinfo($where, $orderby, $page, 56, '', 5, $urlrule, $array);
 
 
 	register_template_data('lists', $lists);

@@ -28,7 +28,7 @@ class article_model extends model {
 	    'source' => $data->copyFrom,
 	    'click' => rand(0, 500),
 	    'rank' => time(),
-	    'pubdate' => time(),
+	    'pubdate' => $data->insertTime,
 	    'senddate' => time(),
 	    'lastpost' => time(),
 	    'keywords' => $data->keywords,

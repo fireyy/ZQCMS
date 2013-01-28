@@ -107,9 +107,9 @@
 		<div style="float:left">
 		    <form method="post" action="{get_url()}">
 		    <label style="float:left">&nbsp;|&nbsp;指定游戏：</label>
-		    <input name="game_name" type="text" class="inputbox" style="width:70px;" id="game_name" value="{$smarty.get.game_name}" />
+		    <input name="game_name" type="text" class="inputbox" style="width:70px;" id="game_name" value="{$smarty.request.game_name}" />
 		    <label style="float:left">&nbsp;&nbsp;指定平台：</label>
-		    <input name="oper_name" type="text" class="inputbox" style="width:70px;" id="oper_name" value="{$smarty.get.oper_name}" />
+		    <input name="oper_name" type="text" class="inputbox" style="width:70px;" id="oper_name" value="{$smarty.request.oper_name}" />
 		    <input type="submit" value="搜索" class="dybutton_sty6" style=" *padding:0;margin-left:5px;*margin-left:5px;*margin-top:-1px;_margin-top:5px; height:26px; line-height:26px;"/>
 		    </form>
 		</div>
@@ -161,7 +161,7 @@
 	    <li class="li_4">{$item['server_name']}</li>
 	    <li class="li_2">{$item['oper_short_name']}</li>
 	    <li class="li_7">{$item['dev_short_name']}</li>
-	    <li class="li_3">  <a href="{$item['register_url']}" rel="nofollow" target="_blank">开始游戏</a></li>
+	    <li class="li_3">{if !empty($item['game_id'])}<a href="{getGameURL($item.game_id)}" rel="nofollow" target="_blank">{else}<a href="{$item['register_url']}" rel="nofollow" target="_blank">{/if}开始游戏</a></li>
 	    <li class="li_3 org"><script language="JavaScript">getstatus("{date('Y-m-d', $item['test_date'])}", "{date('H', $item['test_date'])}");</script></li>
       </ul>
 	    </div>
@@ -174,7 +174,7 @@
       <li class="li_4">{$item['server_name']}</li>
       <li class="li_2">{$item['oper_short_name']}</li>
       <li class="li_7">{$item['dev_short_name']}</li>
-      <li class="li_3">  <a href="{$item['register_url']}" rel="nofollow" target="_blank">开始游戏</a></li>
+      <li class="li_3">{if !empty($item['game_id'])}<a href="{getGameURL($item.game_id)}" rel="nofollow" target="_blank">{else}<a href="{$item['register_url']}" rel="nofollow" target="_blank">{/if}开始游戏</a></li>
       <li class="li_3 org"><script language="JavaScript">getstatus("{date('Y-m-d', $item['test_date'])}", "{date('H', $item['test_date'])}");</script></li>
     </ul>
   {/foreach}

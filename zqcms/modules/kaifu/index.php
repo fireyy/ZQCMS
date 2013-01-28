@@ -88,10 +88,10 @@ class index {
 	$where = array();
 	$title = getTypeName($this->db->typeid);
 	if(!empty($game_name)){
-	    $where[] = "game_name = '$game_name'";
+	    $where[] = "game_name LIKE '%".$game_name."%'";
 	}
 	if(!empty($oper_name)){
-	    $where[] = "oper_short_name = '$oper_name'";
+	    $where[] = "oper_short_name LIKE '%".$oper_name."%'";
 	}
     $where_nodate = $where;
     if(isset($begin_date) && !empty($end_date)){
@@ -171,7 +171,8 @@ class index {
           $title = $oper_name.$title;
     	}
     	$where = join(" and ", $where);
-    	$lists = $this->db->listinfo($where, $orderby, $page, 45);
+        list($urlrule, $array) = getURLrule($this->db->typeid, $_GET, "serverlist");
+    	$lists = $this->db->listinfo($where, "test_date DESC", $page, 45, '', 5, $urlrule, $array);
 
     	register_template_data('lists', $lists);
     	register_template_data('items', $this);

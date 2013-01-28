@@ -471,7 +471,9 @@ function register_template_plugin($type, $name, $callback, $get_values=false) {
     return $registered_template_plugins;
 }
 
-
+/*
+* 头条[h]推荐[c]幻灯[f]特荐[a]滚动[s]加粗[b]
+*/
 function getFlag($flag) {
     $s = "";
     switch ($flag) {
@@ -479,22 +481,22 @@ function getFlag($flag) {
 	    $s = "";
 	    break;
 	case 1:
-	    $s = "h";
+	    $s = "h";//头条
 	    break;
 	case 2:
-	    $s = "c";
+	    $s = "c";//推荐
 	    break;
 	case 3:
-	    $s = "f";
+	    $s = "f";//幻灯
 	    break;
 	case 4:
-	    $s = 'a';
+	    $s = 'a';//特荐
 	    break;
 	case 5:
-	    $s = "s";
+	    $s = "s";//滚动
 	    break;
 	case 6:
-	    $s = "b";
+	    $s = "b";//加粗
 	    break;
 	default:
 	    $s = "";
@@ -605,10 +607,10 @@ function pageurl($urlrule, $currentPage, $array=array()) {
     $replaceme = array($currentPage);
 
     if (is_array($array)) {
-	foreach ($array as $k => $v) {
-	    $findme[] = $k;
-	    $replaceme[] = $v;
-	}
+    	foreach ($array as $k => $v) {
+    	    $findme[] = $k;
+    	    $replaceme[] = $v;
+    	}
     }
     $url = str_replace($findme, $replaceme, $urlrule);
 
@@ -617,24 +619,56 @@ function pageurl($urlrule, $currentPage, $array=array()) {
 
 function page_url_par($par, $url = '') {
     if ($url == '') {
-	$url = get_url();
+	   $url = get_url();
     }
     $pos = strpos($url, '?');
 
     if ($pos === false) {
-	$url .= '?'.$par;
+	   $url .= '?'.$par;
     } else {
-	$querystring = substr(strstr($url, '?'), 1);
-	parse_str($querystring, $pars);
-	$query_array = array();
-	foreach ($pars as $k => $v) {
-	    if ($k != 'page') {
-		$query_array[$k] = $v;
-	    }
-	}
-	$querystring = http_build_query($query_array).'&'.$par;
-	$url = substr($url, 0, $pos) . '?' . $querystring;
+    	$querystring = substr(strstr($url, '?'), 1);
+    	parse_str($querystring, $pars);
+    	$query_array = array();
+    	foreach ($pars as $k => $v) {
+    	    if ($k != 'page') {
+    		  $query_array[$k] = $v;
+    	    }
+    	}
+    	$querystring = http_build_query($query_array).'&'.$par;
+    	$url = substr($url, 0, $pos) . '?' . $querystring;
     }
     return $url;
+}
+
+/**
+ * 返回链接规则
+ * @param $typeid 类型ID
+ * @param $args 需要传递的数据
+ *
+ * @return $urlrule 和 $array
+ */
+function getURLrule($typeid, $args, $rule_type="list") {
+    $urlrule = "";
+    $array = array();
+    $site_rewrite = zq_core::load_config('system', 'site_rewrite');
+    if($site_rewrite) {
+        $typedb = zq_core::load_model('type_model');
+        $typeinfo = $typedb->get_one(array('id'=>$typeid));
+        $type_name = $typeinfo['name'];
+        $urlrules = zq_core::load_config('router');
+        if(isset($urlrules[$type_name])) {
+            $urlrule = $urlrules[$type_name];
+            if(isset($urlrule["args"])){
+                $array = $urlrule["args"];
+                foreach ($array as $key => $value) {
+                    if (preg_match('/^{\$(.+)}$/', $key, $m)) {
+                        $array[$key] = $args[$m[1]];
+                    }
+                }
+            }
+            $urlrule = $urlrule[$rule_type];
+        }
+    }
+    return array($urlrule, $array);
 }
 ?>

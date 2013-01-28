@@ -18,6 +18,7 @@ return array(
     'site_basehost' => '~site_basehost~',
     'site_indexurl' => '~site_indexurl~',
     'site_logo'  => '/uploads/logo.gif',
+    'site_rewrite'  => 0,
     'site_beian' => '',
     'html_root' => '/html', //静态页面路径
 );

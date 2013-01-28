@@ -16,7 +16,7 @@ class setting extends admin {
     
     if(isset($_POST['dosubmit'])) {
       $update = array();
-      $poster = array("site_name", "site_description", "site_keywords", "site_basehost", "site_indexurl", "site_logo", "site_beian");
+      $poster = array("site_name", "site_description", "site_keywords", "site_basehost", "site_indexurl", "site_rewrite", "site_logo", "site_beian");
       $msg = array(
         "site_name"=>"站点名称", 
         "site_basehost"=>"站点链接", 
@@ -29,6 +29,7 @@ class setting extends admin {
         }else{
           if($_POST[$key] != $option[$key]){
             $update[$key] = $_POST[$key];
+            if($key == "site_rewrite") $update[$key] = intval($update[$key]);
           }
         }
       }

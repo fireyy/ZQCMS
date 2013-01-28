@@ -247,9 +247,6 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
 }
 
 function getArticleThumb($item,$w=0,$h=0) {
-  if(isset($item["thumb"]) && is_string($item["thumb"]) && !empty($item["thumb"])){
-    return $item["thumb"];
-  }
   $imageUrl = "";
   // 参数列表查看: http://docs.qiniutek.com/v3/api/foimg/
   // 图片质量 = 1-100
@@ -265,6 +262,9 @@ function getArticleThumb($item,$w=0,$h=0) {
   if(is_string($item)){
     $imageUrl = $item;
   }else{
+    if(isset($item["thumb"]) && is_string($item["thumb"]) && !empty($item["thumb"])){
+      return $item["thumb"];
+    }
     $item = GetThumbsArray($item["body"]);
     if(!empty($item) && count($item) > 0){
       $imageUrl = $item[0];
@@ -416,9 +416,13 @@ function get_recomm_kaifu_list($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "test_date";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
@@ -454,9 +458,13 @@ function get_kaifu_list($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "test_date";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
@@ -500,9 +508,13 @@ function get_kaice_list($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "test_date";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
@@ -547,9 +559,13 @@ function get_gift_list($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "send_date";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
@@ -603,9 +619,13 @@ function get_article_list($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "pubdate";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
@@ -652,9 +672,13 @@ function get_articles_byTagName($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "pubdate";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];
@@ -736,7 +760,7 @@ function GetThumbsList($body) {
 	$imgs = array();
 	for ($c = 0; $c < count($img_array); $c++) {
 	    $pic = preg_replace("/[\"|'| ]{1,}/", '', $img_array[$c]);
-	    $imgs[] = "<dl><dt></dt><dd>".$pic."</dd><dd>$pic</dd><dd>$pic</dd><dd><dd><dd></dd><dd></dd><dd><dd>".($c+1)."</dd>";   
+	    $imgs[] = "<dl><dt></dt><dd>".$pic."</dd><dd>".getArticleThumb($pic,210,158)."</dd><dd>".getArticleThumb($pic,90,73)."</dd><dd><dd><dd></dd><dd></dd><dd><dd>".($c+1)."</dd>";   
 	}
 	    
 	return join("", $imgs);
@@ -796,5 +820,9 @@ function getRelativeTime($date) {
     }
 }
 register_template_plugin("modifier", "getRelativeTime", "getRelativeTime");
+
+function isEmpty($str){
+  return isset($str) && !empty($str);
+}
 
 ?>

@@ -11,7 +11,7 @@
 		<fieldset>
 			<p>
 				<label for="sitename">站点名称:</label>
-				<input id="sitename" name="site_name" value="<?php echo $option["site_name"]; ?>">
+				<input type="text" id="sitename" name="site_name" value="<?php echo $option["site_name"]; ?>">
 				
 				<em>您的站点名称</em>
 			</p>
@@ -25,35 +25,44 @@
       
 			<p>
 				<label for="keywords">站点关键字:</label>
-				<input id="site_keywords" name="site_keywords" value="<?php echo $option["site_keywords"]; ?>">
+				<input type="text" id="site_keywords" name="site_keywords" value="<?php echo $option["site_keywords"]; ?>">
 				
 				<em>站点关键字，多个用英文逗号分割。用于 <code>meta name="keywords"</code></em>
 			</p>
 
 			<p>
 				<label for="site_basehost">站点链接:</label>
-				<input id="site_basehost" name="site_basehost" value="<?php echo $option["site_basehost"]; ?>">
+				<input type="text" id="site_basehost" name="site_basehost" value="<?php echo $option["site_basehost"]; ?>">
 				
 				<em>您站点的链接</em>
 			</p>
       
 			<p>
 				<label for="site_indexurl">安装目录:</label>
-				<input id="site_indexurl" name="site_indexurl" value="<?php echo $option["site_indexurl"]; ?>">
+				<input type="text" id="site_indexurl" name="site_indexurl" value="<?php echo $option["site_indexurl"]; ?>">
 				
 				<em>站点安装目录，如果在根目录，保持 <code>/</code> 既可</em>
+			</p>
+
+			<p>
+				<label for="site_rewrite">URL伪静态:</label>
+				<select name="site_rewrite" id="site_rewrite">
+					<option value="0"<?php if ($option["site_rewrite"]==0) echo " selected='true'"; ?>>关闭</option>
+					<option value="1"<?php if ($option["site_rewrite"]==1) echo " selected='true'"; ?>>开启</option>
+				</select>
+				<em>开启伪静态功能，对搜索引擎索更友好。具体开启步骤请看 <a href="http://bbs.zqcms.com/forum.php?mod=viewthread&tid=794" target="_blank">ZQCMS 2.0 URL伪静态设置</a></em>
 			</p>
       
 			<p>
 				<label for="site_logo">站点logo:</label>
-				<input id="site_logo" name="site_logo" value="<?php echo $option["site_logo"]; ?>">
+				<input type="text" id="site_logo" name="site_logo" value="<?php echo $option["site_logo"]; ?>">
 				
 				<em>您站点的logo图片地址</em>
 			</p>
       
 			<p>
 				<label for="site_beian">备案信息:</label>
-				<input id="site_beian" name="site_beian" value="<?php echo $option["site_beian"]; ?>">
+				<input type="text" id="site_beian" name="site_beian" value="<?php echo $option["site_beian"]; ?>">
 				
 				<em>您站点的备案信息</em>
 			</p>

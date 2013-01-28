@@ -60,7 +60,8 @@ class index {
       break;
   }
   $where = join(" and ", $where);
-  $lists = $this->db->listinfo($where, $orderby, $page, 45);
+  list($urlrule, $array) = getURLrule($this->db->typeid, $_GET);
+  $lists = $this->db->listinfo($where, $orderby, $page, 45, '', 5, $urlrule, $array);
   register_template_data('lists', $lists);
   register_template_data('pages', $this->db->pages);
   register_template_data('items', $this);

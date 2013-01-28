@@ -15,33 +15,33 @@
     	<div class="secondary_menu boder_base">
     		<div class="s_menu">
     			<span class="games_h2 white">玄幻仙侠</span>
-          {get_game_list assign='items' flag='f' theme='玄幻,仙侠' limit='0,10'}
+          {get_game_list assign='items' flag='c' theme='玄幻,仙侠' limit='0,10' orderby="kaifu_count" orderway="DESC"}
           {foreach $items as $item}
-  				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
+  				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
           {/foreach}
     		</div>
     		
     		<div class="s_menu">
 				<span class="games_h2 white">三国战争</span>
-        {get_game_list assign='items' flag='f' theme='三国,战争' limit='0,10'}
+        {get_game_list assign='items' flag='c' theme='三国,战争' limit='0,10' orderby="kaifu_count" orderway="DESC"}
         {foreach $items as $item}
-				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
+				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
         {/foreach}
 			</div>
 
 			<div class="s_menu">
        			<span class="games_h2 white">热血武侠</span>
-            {get_game_list assign='items' flag='f' theme='热血,武侠' limit='0,10'}
+            {get_game_list assign='items' flag='c' theme='热血,武侠' limit='0,10' orderby="kaifu_count" orderway="DESC"}
             {foreach $items as $item}
-    				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
+    				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
             {/foreach}
        		</div>
 
        		<div class="s_menu">
 				<span class="games_h2 white">奇幻历史</span>
-        {get_game_list assign='items' flag='f' theme='奇幻,历史' limit='0,10'}
+        {get_game_list assign='items' flag='c' theme='奇幻,历史' limit='0,10' orderby="kaifu_count" orderway="DESC"}
         {foreach $items as $item}
-				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}({$item.kaifu_count})</a>
+				<a href='{$item|zqurl}' title='{$item.game_name}' target='_blank' class="sline r_line black"{if $item.color} style="color: {$item.color};"{/if}>{$item.game_name}</a>
         {/foreach}
 			</div>
 
@@ -204,9 +204,6 @@
 				<li><span class="fl p14 newslist_clss"></span><a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{$item.title}</a></li>
 				{/foreach}
 			</ul>
-			<div class="more_index" >
-				<a href='{getTypeLink("article")}' target="_blank" class="fr p12 blue lh24">更多&gt;&gt;</a>
-			</div>
 	    </div>
 	    <div class="mt relative tonglan"></div>
 	    <div class="newsnav_2 boder_base mt fl">
@@ -378,13 +375,13 @@
   		<div class="newgames mt boder_base  fl">
     		<h2 class=" lh28 p14 strong h2_yb2 nomal_h2back">最新测试游戏</h2>
     		<div class="more">
-    		<a href="{getTypeLink('game','战争策略')}" target="_blank">战争策略</a> | 
-				<a href="{getTypeLink('game','模拟经营')}" target="_blank">模拟经营</a> |
-				<a href="{getTypeLink('game','社区养成')}" target="_blank">社区养成</a> |
-				<a href="{getTypeLink('game','休闲竞技')}" target="_blank">休闲竞技</a> |
-				<a href="{getTypeLink('game','儿童游戏')}" target="_blank">儿童游戏</a> |
-				<a href="{getTypeLink('game','角色扮演')}" target="_blank">角色扮演</a> |
-				<a href="{getTypeLink('game','社区游戏')}" target="_blank">社区游戏</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    		<a href="{getTypeLink('game','',['{$game_tag}'=>'战争策略'])}" target="_blank">战争策略</a> | 
+				<a href="{getTypeLink('game','',['{$game_tag}'=>'模拟经营'])}" target="_blank">模拟经营</a> |
+				<a href="{getTypeLink('game','',['{$game_tag}'=>'社区养成'])}" target="_blank">社区养成</a> |
+				<a href="{getTypeLink('game','',['{$game_tag}'=>'休闲竞技'])}" target="_blank">休闲竞技</a> |
+				<a href="{getTypeLink('game','',['{$game_tag}'=>'儿童游戏'])}" target="_blank">儿童游戏</a> |
+				<a href="{getTypeLink('game','',['{$game_tag}'=>'角色扮演'])}" target="_blank">角色扮演</a> |
+				<a href="{getTypeLink('game','',['{$game_tag}'=>'社区游戏'])}" target="_blank">社区游戏</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="{getTypeLink('game')}" target="_blank" class="blue">更多&gt;&gt;</a>
     		</div>
     		<ul>
