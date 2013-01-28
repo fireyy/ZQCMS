@@ -44,6 +44,7 @@ class index {
 	$title = "";
 	$where = array();
 	if(isset($tag) && !empty($tag)){
+		//解决标签乱码，之前encode过
 		$tag = urldecode($tag);
 	    $ids = getIdsByTagname($tag, '*', $this->db->typeid);
 

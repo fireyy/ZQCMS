@@ -151,6 +151,7 @@ class url {
 				    if (!in_array($extra_key, $keys)) {
 						if(!$this->site_rewrite) $extra_url[$m[1]] = $extra_key;
 						$keys[] = $extra_key;
+						//encode处理，防止中文乱码
 						$values[] = urlencode($extra_values[$i]);
 					}
 				}
