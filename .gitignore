@@ -60,3 +60,4 @@ Desktop.ini
 /caches/update/source/
 /install/lock.txt
 /patch.sh
+/resetpasswd.php

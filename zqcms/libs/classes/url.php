@@ -151,7 +151,7 @@ class url {
 				    if (!in_array($extra_key, $keys)) {
 						if(!$this->site_rewrite) $extra_url[$m[1]] = $extra_key;
 						$keys[] = $extra_key;
-						$values[] = $extra_values[$i];
+						$values[] = urlencode($extra_values[$i]);
 					}
 				}
 		    }

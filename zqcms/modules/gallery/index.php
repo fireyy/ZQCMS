@@ -51,7 +51,7 @@ class index {
         $title = getTypeName($this->db->typeid);
       }
       $where = join(" and ", $where);
-      $data = $this->db->listinfo($where,'', $page, 20);
+      $data = $this->db->listinfo($where, 'pubdate DESC', $page, 20);
       foreach ($data as $key => $value) {
         $url = getURL($value);
         $count = count(GetThumbsArray($value["body"]));
