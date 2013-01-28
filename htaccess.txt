@@ -1,11 +1,11 @@
 <IfModule mod_Rewrite.c>
 RewriteEngine on
 
-# 默认情况程序放在根目录中，如果程序安装在cms目录下，请将 / 修改为 /cms
+#默认情况程序放在根目录中，如果程序安装在cms目录下，请将 / 修改为 /cms
 RewriteBase /
 
-# Rewrite 系统规则请勿修改
-RewriteRule ^index.html index.php [L]
+#Rewrite 系统规则请勿修改
+#RewriteRule ^index.html index.php [L]
 
 #article
 RewriteRule ^article-([0-9]+).html index.php?m=article&c=index&a=show&id=$1 [L]

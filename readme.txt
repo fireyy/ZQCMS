@@ -38,7 +38,7 @@ MySQL扩展库
 二、程序安装使用
 1.下载程序解压到本地目录;
 2.上传uploads目录下的所有文件到网站根目录
-3.运行http://www.yourname.com/install/index.php(yourname表示你的域名),按照安装提速说明进行程序安装
+3.运行http://www.yourname.com/install/index.php(yourname表示你的域名),按照安装提示说明进行程序安装
  
 三、相关资源
 ZQCMS官方主站        zqcms.com
