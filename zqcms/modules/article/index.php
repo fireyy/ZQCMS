@@ -44,6 +44,7 @@ class index {
 	$title = "";
 	$where = array();
 	if(isset($tag) && !empty($tag)){
+		$tag = urldecode($tag);
 	    $ids = getIdsByTagname($tag, '*', $this->db->typeid);
 
 	    $ids = join(",", $ids);
