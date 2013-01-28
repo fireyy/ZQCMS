@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors", "Off");
 
 // Define base path
 define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR);

@@ -2,7 +2,7 @@
 /**
  * 主框架入口
  */
-ini_set("display_errors", "off");
+ini_set("display_errors", "Off");
 
 define("IN_ZQCMS", true);
 
