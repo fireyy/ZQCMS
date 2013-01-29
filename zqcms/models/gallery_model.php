@@ -59,7 +59,7 @@ class gallery_model extends model {
     }
 
     public function deleteGallery($guid) {
-	$info = $this->get_one(array('guid' => $data->guid));
+	$info = $this->get_one(array('guid' => $guid));
 	if ($info) {
 	    $aid = $info['id'];
 	    $this->delete(array(

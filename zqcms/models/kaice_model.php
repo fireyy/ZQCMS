@@ -60,7 +60,10 @@ class kaice_model extends model {
     }
 
     public function deleteKaice($guid) {
-
+    	$info = $this->get_one(array('guid' => $guid));
+		if ($info) {
+		    $this->delete(array('id' => $info['id']));
+		}
     }
 
     public function updateKaice($data) {

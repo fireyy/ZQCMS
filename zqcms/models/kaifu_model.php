@@ -140,7 +140,11 @@ class kaifu_model extends model {
     }
 
     public function deleteKaifu($guid) {
-
+    	$info = $this->get_one(array('guid' => $guid));
+		if ($info) {
+		    $this->delete(array('id' => $info['id']));
+		}
+		#TODO 更新厂商游戏的开服数量
     }
 
     public function updateKaifu($data) {

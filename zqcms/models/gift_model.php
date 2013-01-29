@@ -55,7 +55,10 @@ class gift_model extends model {
     }
 
     public function deleteGift($guid) {
-
+    	$info = $this->get_one(array('guid' => $guid));
+		if ($info) {
+		    $this->delete(array('id' => $info['id']));
+		}
     }
 
     public function updateGift($data) {

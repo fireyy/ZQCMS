@@ -67,7 +67,7 @@ class company_model extends model {
     }
 
     public function deleteCompany($guid) {
-	$info = $this->get_one(array('guid' => $data->guid));
+	$info = $this->get_one(array('guid' => $guid));
 	if ($info) {
 	    $this->delete(array('id' => $info['id']));
 	}

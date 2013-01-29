@@ -131,30 +131,29 @@ class game_model extends model {
      * 删除一个游戏
      */
     public function deleteGame($guid) {
-	//$info = $this->get_one(array('guid' => $guid));
-	//
-	//$rdb = zq_core::load_model("game_company_model");
+		$info = $this->get_one(array('guid' => $guid));
 
-	//if (is_array($info) && !empty($info)) {
-	//    $id = $info["id"];
-	//    $this->delete(array('id'=>$id));
+		if (is_array($info) && !empty($info)) {
+		   $rdb = zq_core::load_model("game_company_model");
+		   $id = $info["id"];
+		   $this->delete(array('id'=>$id));
 
-	//    $companyids = $rdb->select(array('game_id' => $info['game_id']));
-	//    $companydb = zq_core::load_model('company_model');
-	//    //更新厂商游戏数量
-	//    for ($i = 0; $i < count($companyids); ++$i) {
-	//	$companyid = $companyids[$i]['company_id'];
-	//	$companydb->update(array('game_count' => '-=1'), array('company_id'=>$companyid));
-	//    }
+		   $companyids = $rdb->select(array('game_id' => $info['game_id']));
+		   $companydb = zq_core::load_model('company_model');
+		   //更新厂商游戏数量
+		   for ($i = 0; $i < count($companyids); ++$i) {
+			$companyid = $companyids[$i]['company_id'];
+			$companydb->update(array('game_count' => '-=1'), array('company_id'=>$companyid));
+		   }
 
-	//    //删除 游戏与厂商的绑定
-	//    $rdb->delete(array('game_id' => $info['game_id']));
+		   //删除 游戏与厂商的绑定
+		   $rdb->delete(array('game_id' => $info['game_id']));
 
-	//    //删除与之相关的游戏开服数据
+		   //TODO 删除与之相关的游戏开服数据
 
-	//    //delete tag
-	//    zq_tag(false, $aid, $this->typeid, 'tag', 'delete');
-	//}
+		   //delete tag
+		   zq_tag(false, $id, $this->typeid, 'tag', 'delete');
+		}
     }
 
     /**
