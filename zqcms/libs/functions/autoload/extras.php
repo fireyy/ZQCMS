@@ -30,13 +30,13 @@ function getGameURL($game_id) {
     return '';
 }
 
-function getNextURL($article_id) {
+function getNextURL($article_id, $model_type="article") {
     $article_id = intval($article_id);
     if ($article_id) {
-	$db = zq_core::load_model('article_model');
+	$db = zq_core::load_model($model_type.'_model');
 	if ($r = $db->get_one("id > $article_id")) {
 	    $str = '<span class="gray">下一篇</span>&nbsp;&nbsp;';
-	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
+	    $str .= '<a title="'.$r['title'].'" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
 	    return $str;
 	}
     }
@@ -44,13 +44,13 @@ function getNextURL($article_id) {
     return;
 }
 
-function getPrevURL($article_id) {
+function getPrevURL($article_id, $model_type="article") {
     $article_id = intval($article_id);
     if ($article_id) {
-	$db = zq_core::load_model('article_model');
-	if ($r = $db->get_one("id < $article_id")) {
+	$db = zq_core::load_model($model_type.'_model');
+	if ($r = $db->get_one("id < $article_id",'*','id DESC')) {
 	    $str = '<span class="gray">上一篇</span>&nbsp;&nbsp;';
-	    $str .= '<a title="'.$r['title'].'" target="_blank" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
+	    $str .= '<a title="'.$r['title'].'" href="'.getURL($r).'" class="blue">'.str_cut($r['title'], 36).'</a>';
 	    return $str;
 	}
     }
