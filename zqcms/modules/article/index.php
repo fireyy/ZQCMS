@@ -59,7 +59,7 @@ class index {
 	}
 	$where = join(" and ", $where);
 	list($urlrule, $array) = getURLrule($this->db->typeid, $_GET);
-	$lists = $this->db->listinfo($where,'id DESC', $page, 20, '', 5, $urlrule, $array);
+	$lists = $this->db->listinfo($where,'pubdate DESC', $page, 20, '', 5, $urlrule, $array);
 	$game_db = zq_core::load_model('game_model');
 	foreach ($lists as $key => $value) {
 	    if(!empty($value["game_id"])){

@@ -229,8 +229,9 @@ function deleteTagRelationship($aid, $typeid, $taxonomyId=false) {
  * @param string tagname
  * @param string taxonomy  但设置*时 获得tag,category的数据
  * @param integer typeid 内容模型id
+ * TODO $limit $orderby 限制取出条数
  */
-function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
+function getIdsByTagname($tagname, $taxonomy='*', $typeid, $limit='', $orderby='') {
     $tagid = getTagIdByName($tagname);
     $ids = array();
     if ($tagid) {
@@ -251,7 +252,7 @@ function getIdsByTagname($tagname, $taxonomy='*', $typeid) {
 
 	    $where = join(' or ', $where);
 	    $where = $where . ' AND ' . 'typeid='.$typeid;
-	    $data = $db->select($where, 'aid');
+	    $data = $db->select($where, 'aid', $limit, $orderby);
 	    foreach ($data as $item) {
 		    $ids[] = $item["aid"];
 	    }
