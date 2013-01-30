@@ -19,9 +19,8 @@
 			<li style="position: absolute; top: 0; left: 5px;">
 				<h3 style="font-size:14px">类型</h3>
 				<div class="nav">
-					<a href="{getTypeLink('gallery')}"{if $current_tag == ""} style="background:#ccc;"{/if}>所有</a>
 					{foreach $tags as $tag}
-					<a href='{getTypeLink("gallery","{$tag['name']}")}'{if $current_tag == $tag['name']} style="background:#ccc;"{/if}>{$tag["name"]}</a>
+					<a href='{getTypeLink("gallery","{$tag@key}")}'{if $current_tag == $tag@key} style="background:#ccc;"{/if}>{$tag}</a>
 					{/foreach}
 				</div>
 			</li>

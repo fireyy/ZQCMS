@@ -27,8 +27,9 @@ class index {
   if(isset($tag) && !empty($tag)){
     $title = $tag."_".$title;
   }
-  #TODO 调用图库的tag列表
-  $tags = getTagByType($this->db->typeid);
+  #调用图库的tag列表
+  //$tags = getTagByType($this->db->typeid);
+  $tags = zq_core::load_config("gallery_tag");
   register_template_data('items', $this);
   register_template_data('title', $title);
   register_template_data('current_tag', $tag);
@@ -43,6 +44,8 @@ class index {
       $tag = empty($_GET['tag']) ? '' : $_GET['tag'];
       if(isset($tag) && !empty($tag)){
         #按tag显示图库列表
+        $tags = zq_core::load_config("gallery_tag");
+        $tag = $tags[$tag];
         $ids = getIdsByTagname($tag, '*', $this->db->typeid);
         $ids = join(",", $ids);
         $where[] = "id in ($ids)";

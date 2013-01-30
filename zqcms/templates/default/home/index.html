@@ -207,16 +207,16 @@
 	    </div>
 	    <div class="mt relative tonglan"></div>
 	    <div class="newsnav_2 boder_base mt fl">
-        {$tag_list1=["游戏资讯","海外资讯","产业新闻"]}
+        {$tag_list1=[1,2,3]}
 	    	<h2 class="nomal_h2back">
           {foreach $tag_list1 as $tag}
-	    		 <a id="whsy_{$tag@iteration}" href="javascript:void(0);" onclick="shift_choose({$tag@iteration},'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class="{if $tag@iteration == 1}changebt_on org{else}changebt_up black{/if} p14 strong">{$tag}</a>
+	    		 <a id="whsy_{$tag@iteration}" href="javascript:void(0);" onclick="shift_choose({$tag@iteration},'whsy_',3,['changebt_up','black'],['changebt_on','org']);" class="{if $tag@iteration == 1}changebt_on org{else}changebt_up black{/if} p14 strong">{$article_tags[$tag]}</a>
           {/foreach}
         	</h2>
           {foreach $tag_list1 as $tag}
         	<div id="whsy_{$tag@iteration}_content" class="hidden"{if $tag@iteration gt 1} style="display:none;"{/if}>
         		<ul class="newslist_yb lh24 fl">
-          {get_articles_byTagName assign="items" noflag='f,h,c' tagname="$tag" limit="0,14"}
+          {get_articles_byTagName assign="items" noflag='f,h,c' tagname="{$article_tags[$tag]}" limit="0,14"}
 					{foreach $items as $item}
 					<li>
 						<a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{str_cut($item.title,80,"")}</a><span>{date('m-d',$item.pubdate)}</span>
@@ -285,16 +285,16 @@
    		</div>
 
    		<div class="newsnav_2 boder_base mt fl">
-        {$tag_list2=["游戏攻略","人物采访","热点追踪"]}
+        {$tag_list2=[4,5,6]}
    			<h2 class="nomal_h2back">
           {foreach $tag_list2 as $tag}
-            	<a id="gl_{$tag@iteration}" href="javascript:void(0);" onclick="shift_choose({$tag@iteration},'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" {if $tag@iteration == 1}changebt_on org{else}changebt_up black{/if} p14 strong">{$tag}</a>
+            	<a id="gl_{$tag@iteration}" href="javascript:void(0);" onclick="shift_choose({$tag@iteration},'gl_', 3,['changebt_up','black'],['changebt_on','org'])" class=" {if $tag@iteration == 1}changebt_on org{else}changebt_up black{/if} p14 strong">{$article_tags[$tag]}</a>
           {/foreach}
     		</h2>
         {foreach $tag_list2 as $tag}
     		<div id="gl_{$tag@iteration}_content" class="hidden"{if $tag@iteration gt 1} style="display:none;"{/if}>        
       		<ul class="newslist_yb lh24 fl">
-        {get_articles_byTagName assign="items" noflag='f,h,c' tagname="$tag" limit="0,14"}
+        {get_articles_byTagName assign="items" noflag='f,h,c' tagname="{$article_tags[$tag]}" limit="0,14"}
 				{foreach $items as $item}
 				<li>
 					<a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{str_cut($item.title,80,"")}</a><span>{date('m-d',$item.pubdate)}</span>
@@ -348,7 +348,7 @@
 
 		<div class="fl ml mt boder_base r_box  padding_10">
     		<h2 class="p14 black strong lh28 nomal_h2back">&nbsp;游戏评测</h2>
-    		<div class="more"><a href='{getTypeLink("article","游戏评测")}' target="_blank" class="blue">更多&gt;&gt;</a>
+    		<div class="more"><a href='{getTypeLink("article","8")}' target="_blank" class="blue">更多&gt;&gt;</a>
     		</div>
     		<ul class="fl gray">
         {get_articles_byTagName assign="items" noflag='f,h,c' tagname="游戏评测" limit="0,2"}

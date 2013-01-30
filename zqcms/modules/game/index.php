@@ -140,7 +140,8 @@ class index {
     public function lists() {
 	$page = isEmpty($_GET['page']) ? $_GET['page'] : 1;
 	$tag_name = isEmpty($_GET['tag']) ? $_GET['tag'] : '';
-	$filters = array("game_tag", "game_theme", "game_status", "game_effect", "test_status");
+	//$filters = array("game_tag", "game_theme", "game_status", "game_effect", "test_status");
+	$filters = zq_core::load_config("game_tag");
 	$gamesort = isEmpty($_GET['gamesort']) ? $_GET['gamesort'] : 1;
   $game_pinyin = isEmpty($_GET['game_pinyin']) ? $_GET['game_pinyin'] : '';
 	$title = "";
@@ -148,9 +149,9 @@ class index {
 	$where = array();
 	$title = getTypeName($this->db->typeid);
 	foreach ($filters as $key => $value) {
-	    $tag = $_GET[$value];
+	    $tag = $value[$_GET[$key]];
 	    if(isEmpty($tag)){
-		$where[] = "$value = '".$tag."'";
+		$where[] = "$key = '".$tag."'";
 		$title = $tag."_".$title;
 	    }
 	}
@@ -190,6 +191,7 @@ class index {
 	register_template_data('pages', $this->db->pages);
 	register_template_data('items', $this);
 	register_template_data('title', $title);
+	register_template_data('filters', $filters);
 	register_template_data('gamesort', $gamesort);
 	return template('game', 'list');
     }

@@ -79,16 +79,16 @@ function position($item) {
 	$u[] = "<a href='".getTypeLink($typeid)."' target='_blank'>$title</a>";
 
 	//get tag
-	$tag_names = getTagNamesByAid($item['id'], $typeid);
-	if ($tag_names) {
-	    $tag_links = array();
-	    for ($i = 0; $i < count($tag_names); $i++) {
-		$tag_name = $tag_names[$i];
-		$tag_links[] = "<a href='".getTypeLink($typeid, $tag_name)."' target='_blank'>$tag_name</a>";
-	    }
+	// $tag_names = getTagNamesByAid($item['id'], $typeid);
+	// if ($tag_names) {
+	//     $tag_links = array();
+	//     for ($i = 0; $i < count($tag_names); $i++) {
+	// 	$tag_name = $tag_names[$i];
+	// 	$tag_links[] = "<a href='".getTypeLink($typeid, $tag_name)."' target='_blank'>$tag_name</a>";
+	//     }
 	    
-	    $u[] = join(", ", $tag_links);
-	}
+	//     $u[] = join(", ", $tag_links);
+	// }
 
 	if (!empty($item['title'])) {
 	    $u[] = $item['title'];
@@ -104,7 +104,11 @@ function position($item) {
 	    $u[] = "<a href='".getTypeLink($item->db->typeid)."' target='_blank'>$title</a>";
 
 	    if ($_GET['tag']) {
-		$tag = $_GET['tag'];
+    $tag = $_GET['tag'];
+    if (is_numeric($tag) && intval($tag) ){ 
+      $tags = zq_core::load_config("article_tag");
+      $tag = $tags[$tag];
+    }
 		$u[] = "<a href='".getTypeLink($item->db->typeid, $tag)."' target='_blank'>$tag</a>";
 	    }
 	}

@@ -44,8 +44,8 @@ class index {
 	$title = "";
 	$where = array();
 	if(isset($tag) && !empty($tag)){
-		//解决标签乱码，之前encode过
-		$tag = urldecode($tag);
+		$article_tags = zq_core::load_config("article_tag");
+		$tag = $article_tags[$tag];
 	    $ids = getIdsByTagname($tag, '*', $this->db->typeid);
 
 	    $ids = join(",", $ids);

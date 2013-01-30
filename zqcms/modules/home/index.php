@@ -19,8 +19,10 @@ class index {
 	    '0, 11',
 	    'kaifu_count DESC'
 	);
+    $article_tags = zq_core::load_config("article_tag");
 
 	register_template_data('game_kaifu', $game_kaifu);
+    register_template_data('article_tags', $article_tags);
 
 	return template('home', 'index');
     }
