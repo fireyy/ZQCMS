@@ -24,12 +24,12 @@ class index {
     public function lists() {
   $tag = empty($_GET['tag']) ? '' : $_GET['tag'];
   $title = getTypeName($this->db->typeid);
-  if(isset($tag) && !empty($tag)){
-    $title = $tag."_".$title;
-  }
   #调用图库的tag列表
   //$tags = getTagByType($this->db->typeid);
   $tags = zq_core::load_config("gallery_tag");
+  if(isset($tag) && !empty($tag)){
+    $title = $tags[$tag]."_".$title;
+  }
   register_template_data('items', $this);
   register_template_data('title', $title);
   register_template_data('current_tag', $tag);

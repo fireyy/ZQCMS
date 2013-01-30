@@ -150,7 +150,6 @@ class index {
 	$title = getTypeName($this->db->typeid);
 	foreach ($filters as $key => $value) {
 	    $tag = $value[$_GET[$key]];
-	    echo $tag;
 	    if(isEmpty($tag) && $tag!="全部"){
 		$where[] = "$key = '".$tag."'";
 		$title = $tag."_".$title;
