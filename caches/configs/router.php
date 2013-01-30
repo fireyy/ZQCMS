@@ -51,7 +51,7 @@ return array(
        'content' => 'gallery-{$id}.html',
        'list' => 'gallerylist-{$tag}-{$page}.html',
        'args' => array(
-            '{$tag}' => ''
+            '{$tag}' => 0
        )
     ),
     'kaifu' => array(
