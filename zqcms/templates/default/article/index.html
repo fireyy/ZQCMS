@@ -20,16 +20,15 @@
 </div>
 <div id="content">
   <div id="pathway"><strong>当前位置:</strong> {position($items)}</div>
-  {$tag_list=["游戏资讯","海外资讯","产业新闻","游戏评测","游戏攻略","人物采访","热点追踪","厂商活动"]}
   {foreach $tag_list as $tag}
  <div class="newsnav_2 boder_base {if $tag@iteration is even by 1}fr{else}fl{/if} news_list mb">
     <h2 class="nomal_h2back">
-            <a href="javascript:void(0);" class="changebt_on  p14 org strong">{$tag}</a>
+            <a href="javascript:void(0);" class="changebt_on  p14 org strong">{$article_tags[$tag]}</a>
             <div class="other_article"></div>
     </h2>
-  <div class="more fr"><a class="blue" href='{getTypeLink("article","$tag")}' target="_blank">更多&gt;&gt;</a></div>
+  <div class="more fr"><a class="blue" href='{getTypeLink("article","{$tag}")}' target="_blank">更多&gt;&gt;</a></div>
     <ul class="newslist_yb lh24 fl">
-    {get_articles_byTagName assign="items" tagname="$tag" limit="0,15"}
+    {get_articles_byTagName assign="items" tagname="{$article_tags[$tag]}" limit="0,15"}
     {foreach $items as $item}
       <li>
         <a class="" target="_blank" href="{$item|zqurl}" title="{$item.title}">{str_cut($item.title,60,"")}</a><span>{date('m-d',$item.pubdate)}</span>

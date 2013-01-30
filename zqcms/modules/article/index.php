@@ -8,7 +8,11 @@ class index {
 
     //资讯首页页
     public function index() {
+    	$article_tags = zq_core::load_config("article_tag");
+    	$tag_list = array(1,2,3,4,5,6);
     	$title = getTypeName($this->db->typeid);
+    	register_template_data('tag_list', $tag_list);
+    	register_template_data('article_tags', $article_tags);
 		register_template_data('items', $this);
 		register_template_data('title', $title);
 		return template('article', 'index');
