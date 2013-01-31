@@ -15,7 +15,7 @@ class admin {
 	 * 判断用户是否已经登陆
 	 */
 	final public function check_admin() {
-		if(ROUTE_M =='admin' && ROUTE_C =='index' && ROUTE_A == 'login') {
+		if((ROUTE_M =='admin' && ROUTE_C =='index' && ROUTE_A == 'login') || (ROUTE_M =='admin' && ROUTE_C =='update' && ROUTE_A == 'forceUpdate')) {
 			return true;
 		} else {
 			if(!isset($_SESSION['userid']) || !$_SESSION['userid']) header("Location: ?m=admin&c=index&a=login");

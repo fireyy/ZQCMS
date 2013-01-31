@@ -78,12 +78,15 @@ class update extends admin {
       }
       return TRUE;
   }
-  
+
 	/**
 	 * 检查新版本
 	 */
   public function checkUpdate() {
     $chk = isset($_POST["chk"]) ? $_POST["chk"] : 0;
+    self::_CheckUpgrade($chk);
+  }
+  private function _CheckUpgrade($chk=0, $force=0) {
     $updateHost = $this->updateHost;
     $verLockFile = $this->verLockFile;
     //当前软件版本锁定文件
@@ -131,7 +134,11 @@ class update extends admin {
     	    'status' => 'failure'
         ));
       }else{
-        echo "error1";
+        if($force){
+          return "";
+        }else{
+          echo "error1";
+        }
       }
     } else {
       if($chk){
@@ -140,7 +147,11 @@ class update extends admin {
     	    'status' => 'success'
         ));
       }else{
-        echo self::getList($lastTime, $upitems, $vtime, $updateVers);
+        if($force){
+          return self::getList($lastTime, $upitems, $vtime, $updateVers);
+        }else{
+          echo self::getList($lastTime, $upitems, $vtime, $updateVers);
+        }
       }
     }
   }
@@ -201,34 +212,37 @@ class update extends admin {
         fwrite($fp, '$updateVer = "'.$updateVers['updateVer'].'";'."\r\n");
         fwrite($fp, '$vtime = '.$vtime.';'."\r\n");
         $dirs = array();
+        $i = 0;
 	      foreach($files as $filename => $t) {
-            $tfilename = $filename;
-            //if( preg_match("#^dede\/#i", $filename) ) 
-            //{
+            // $tfilename = $filename;
+            // if( preg_match("#^dede\/#i", $filename) ) 
+            // {
             //    $tfilename = preg_replace("#^dede\/#", $adminDir.'/', $filename);
-            //}
-            $curdir = self::GetDirName($tfilename);
-            if( !isset($dirs[$curdir]) ) 
-            {
-                $dirs[$curdir] = self::TestIsFileDir($curdir);
-            }
-            if($skipnodir==1 && $dirs[$curdir]['isdir'] == FALSE) 
-            {
-                continue;
-            }
-            else {
-                @mkdir($curdir, 0777);
-                $dirs[$curdir] = self::TestIsFileDir($curdir);
-            }
-            $i++;
+            // }
+            // $curdir = self::GetDirName($tfilename);
+            // if( !isset($dirs[$curdir]) ) 
+            // {
+            //     $dirs[$curdir] = self::TestIsFileDir($curdir);
+            // }
+            // if($skipnodir==1 && $dirs[$curdir]['isdir'] == FALSE) 
+            // {
+            //     continue;
+            // }
+            // else {
+            //     @mkdir($curdir, 0777);
+            //     $dirs[$curdir] = self::TestIsFileDir($curdir);
+            // }
             fwrite($fp, '$files['.$i.'] = "'.$filename.'";'."\r\n");
+            $i++;
         }
         fwrite($fp, '$fileConut = '.$i.';'."\r\n");
         
         $items = explode(',', $upitems);
+        $i = 0;
         foreach($items as $sqlfile)
         {
-            fwrite($fp,'$sqls[] = "'.$sqlfile.'.sql";'."\r\n");
+            fwrite($fp,'$sqls['.$i.'] = "'.$sqlfile.'.sql";'."\r\n");
+            $i++;
         }
         fwrite($fp, '?'.'>');
       	fclose($fp);
@@ -243,26 +257,27 @@ class update extends admin {
     }
   }
   
-  private function _StartDownload() {
-    $updateHost = $this->updateHost;
-    $cacheFiles = $this->cacheFiles;
-    require_once($cacheFiles);
+  private function _StartDownload($files) {
     $curfile = 0;
+    $badfile = 0;
+    $fileConut = count($files);
 
-    echo "<div>";
-
-    echo "<p>开始开始下载文件</p>";
     if ($fileConut > 0) {
     	while ($curfile < $fileConut) {
-          self::_download_file($files[$curfile]);
-    	    $curfile++;
+          if (self::_download_file($files[$curfile])) {
+            
+          }else{
+            $badfile++;
+          }
+          $curfile++;
     	}
     }
-    
-    echo "<p>文件下载完成，开始下载SQL</p>";
-    downSQL();
-    
-    self::_ApplyUpdate($files);
+    if($badfile == 0) {
+      $tm = self::_down_sql();
+      return self::_ApplyUpdate($files);
+    }else{
+      return 1;
+    }
   }
   
   /**
@@ -294,8 +309,6 @@ class update extends admin {
 	 */
   private function _download_file($file) {
     $updateHost = $this->updateHost;
-    $cacheFiles = $this->cacheFiles;
-    require_once($cacheFiles);
 
     if (file_exists(UPDATE_TMP.'/'.$file)) {
 	    return true;
@@ -334,12 +347,14 @@ class update extends admin {
     self::MkTmpDir('sql.txt');
     $dhd = new http();
     $ct = '';
-    foreach($sqls as $sql){
-    	$downfile = $updateHost."/".$sql;
-    	if($dhd->get($downfile)){
-    	  $ct .= $dhd->get_data();
-        $tm++;
-    	}
+    if(isset($sqls) && is_array($sqls)) {
+      foreach($sqls as $sql){
+        $downfile = $updateHost."/".$sql;
+        if($dhd->get($downfile)){
+          $ct .= $dhd->get_data();
+          $tm++;
+        }
+      }
     }
     //$dhd->Close();
     if(!empty($ct)){
@@ -370,9 +385,12 @@ class update extends admin {
 
     //update database;
     $truefile = UPDATE_TMP.'/sql.txt';
-    $fp = fopen($truefile, 'r');
-    $sql = @fread($fp, filesize($truefile));
-    fclose($fp);
+    $sql = "";
+    if(file_exists($truefile)) {
+      $fp = fopen($truefile, 'r');
+      $sql = @fread($fp, filesize($truefile));
+      fclose($fp);
+    }
     if(!empty($sql)){
         $sqls = explode(";\n", $sql);
         zq_core::load_sys_class('crow','',0);
@@ -383,6 +401,7 @@ class update extends admin {
       	    $update_db->query(trim($sql));
           }
         }
+        @unlink($truefile);
     }
 
 
@@ -416,14 +435,36 @@ class update extends admin {
   }
   
   /**
-	 * TODO 强制升级
+	 * 强制升级
 	 */
   public function forceUpdate() {
-    //$data = check();
-    //if ($data && is_array($data)) {
-    //	list($tmpdir, $files) = $data;
-    //	self::_StartDownload($files);
-    //}
+    $data = self::_CheckUpgrade(0,1);
+    $data = json_decode($data);
+    if ($data && is_array($data)) {
+    	list($vmsg, $files) = $data;
+      $fs = self::_StartDownload($files);
+    	if($fs == 0){
+        self::_Send_Response(0, array('versionNum' => self::_getUpdateVer()));
+      }else{
+        self::_Send_Response(-1, "升级失败");
+      }
+    }else{
+      self::_Send_Response(1, "无需升级");
+    }
+  }
+
+  private function _getUpdateVer() {
+    $cacheFiles = $this->cacheFiles;
+    include $cacheFiles;
+    return $updateVer;
+  }
+
+  private function _Send_Response($status, $msg = '') {
+    $data = array(
+    'code' => $status,
+    'msg' => $msg
+    );
+    echo json_encode($data);
   }
 }
 ?>
