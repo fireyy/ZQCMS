@@ -87,10 +87,10 @@
 			<div class="servernum">
 				<span class="gray" >今日开服</span><br />
 				<!--kaifu link-->
-				<a class="white" target="_blank" href="#">{get_today_kaifu_count()}</a>
+				<a class="white" target="_blank" href="{getTypeLink('kaifu')}">{get_today_kaifu_count()}</a>
 			</div>
 			<p class=" gray">收录游戏</p>
-        <p class=" gray">共 <a href="#" target="_blank" class="org">{get_game_count()}</a> 款</p>
+        <p class=" gray">共 <a href="{getTypeLink('game')}" target="_blank" class="org">{get_game_count()}</a> 款</p>
 	  	</div>
 	  	<div class="weekhotgame fl">
 			<h3 class="red fl">本周最热门</h3>

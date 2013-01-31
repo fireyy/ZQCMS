@@ -161,7 +161,7 @@
 	    <li class="li_4">{$item['server_name']}</li>
 	    <li class="li_2">{$item['oper_short_name']}</li>
 	    <li class="li_7">{$item['dev_short_name']}</li>
-	    <li class="li_3">{if !empty($item['game_id'])}<a href="{getGameURL($item.game_id)}" rel="nofollow" target="_blank">{else}<a href="{$item['register_url']}" rel="nofollow" target="_blank">{/if}开始游戏</a></li>
+	    <li class="li_3">{if !empty($item['game_id'])}<a href="{getGameURL($item.game_id)}#game_kaifu" rel="nofollow" target="_blank">{else}<a href="{$item['register_url']}" rel="nofollow" target="_blank">{/if}开始游戏</a></li>
 	    <li class="li_3 org"><script language="JavaScript">getstatus("{date('Y-m-d', $item['test_date'])}", "{date('H', $item['test_date'])}");</script></li>
       </ul>
 	    </div>
@@ -174,7 +174,7 @@
       <li class="li_4">{$item['server_name']}</li>
       <li class="li_2">{$item['oper_short_name']}</li>
       <li class="li_7">{$item['dev_short_name']}</li>
-      <li class="li_3">{if !empty($item['game_id'])}<a href="{getGameURL($item.game_id)}" rel="nofollow" target="_blank">{else}<a href="{$item['register_url']}" rel="nofollow" target="_blank">{/if}开始游戏</a></li>
+      <li class="li_3">{if !empty($item['game_id'])}<a href="{getGameURL($item.game_id)}#game_kaifu" rel="nofollow" target="_blank">{else}<a href="{$item['register_url']}" rel="nofollow" target="_blank">{/if}开始游戏</a></li>
       <li class="li_3 org"><script language="JavaScript">getstatus("{date('Y-m-d', $item['test_date'])}", "{date('H', $item['test_date'])}");</script></li>
     </ul>
   {/foreach}
