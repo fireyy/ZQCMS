@@ -27,7 +27,8 @@ if(!empty($gameids)){
     $kaifu_where = "game_id=$game_id and test_date > $begin_date";
     $r_gift = $gift_db->get_one($gift_where);
     if($r_gift){
-      $tmp["gift"] = "<a href='#'></a>";
+      $tmpurl = getTypeLink("gift");
+      $tmp["gift"] = "<a href='".$tmpurl."'></a>";
     }
     $r_kaifu = $kaifu_db->get_one($kaifu_where);
     if($r_kaifu){
