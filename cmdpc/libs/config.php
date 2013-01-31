@@ -2,8 +2,10 @@
 date_default_timezone_set("Asia/Shanghai");
 define('DAYS', date('Y-m-d', time()));
 define('TIMES', time());
-define("ROOT_PATH", realpath(".".DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
-define("ZQCMS_PATH", realpath("..".DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
+//define("ROOT_PATH", realpath(".".DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
+//define("ZQCMS_PATH", realpath("..".DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
+define('ROOT_PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR);
+define('ZQCMS_PATH', ROOT_PATH."..".DIRECTORY_SEPARATOR);
 
 require_once ZQCMS_PATH."zqcms/core.php";
 require_once ROOT_PATH . "libs".DIRECTORY_SEPARATOR."functions.php";
