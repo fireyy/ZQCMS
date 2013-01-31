@@ -671,4 +671,92 @@ function getURLrule($typeid, $args, $rule_type="list") {
     }
     return array($urlrule, $array);
 }
+
+/**
+ * 加载模板标签缓存
+ * @param string $name 缓存名
+ * @param integer $times 缓存时间
+ */
+function tpl_cache($name,$times = 0) {
+    $filepath = 'tpl_data';
+    $info = getcacheinfo($name, $filepath);
+    if (SYS_TIME - $info['filemtime'] >= $times) {
+        return false;
+    } else {
+        return getcache($name,$filepath);
+    }
+}
+
+/**
+ * 写入缓存，默认为文件缓存，不加载缓存配置。
+ * @param $name 缓存名称
+ * @param $data 缓存数据
+ * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $type 缓存类型[file,memcache,apc]
+ * @param $config 配置名称
+ * @param $timeout 过期时间
+ */
+function setcache($name, $data, $filepath='', $type='file', $config='', $timeout=0) {
+    zq_core::load_sys_class('cache_factory','',0);
+    if($config) {
+        $cacheconfig = zq_core::load_config('cache');
+        $cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+    } else {
+        $cache = cache_factory::get_instance()->get_cache($type);
+    }
+
+    return $cache->set($name, $data, $timeout, '', $filepath);
+}
+
+/**
+ * 读取缓存，默认为文件缓存，不加载缓存配置。
+ * @param string $name 缓存名称
+ * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param string $config 配置名称
+ */
+function getcache($name, $filepath='', $type='file', $config='') {
+    zq_core::load_sys_class('cache_factory','',0);
+    if($config) {
+        $cacheconfig = zq_core::load_config('cache');
+        $cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+    } else {
+        $cache = cache_factory::get_instance()->get_cache($type);
+    }
+    return $cache->get($name, '', '', $filepath);
+}
+
+/**
+ * 删除缓存，默认为文件缓存，不加载缓存配置。
+ * @param $name 缓存名称
+ * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $type 缓存类型[file,memcache,apc]
+ * @param $config 配置名称
+ */
+function delcache($name, $filepath='', $type='file', $config='') {
+    zq_core::load_sys_class('cache_factory','',0);
+    if($config) {
+        $cacheconfig = zq_core::load_config('cache');
+        $cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+    } else {
+        $cache = cache_factory::get_instance()->get_cache($type);
+    }
+    return $cache->delete($name, '', '', $filepath);
+}
+
+/**
+ * 读取缓存，默认为文件缓存，不加载缓存配置。
+ * @param string $name 缓存名称
+ * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param string $config 配置名称
+ */
+function getcacheinfo($name, $filepath='', $type='file', $config='') {
+    zq_core::load_sys_class('cache_factory');
+    if($config) {
+        $cacheconfig = zq_core::load_config('cache');
+        $cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+    } else {
+        $cache = cache_factory::get_instance()->get_cache($type);
+    }
+    return $cache->cacheinfo($name, '', '', $filepath);
+}
 ?>
