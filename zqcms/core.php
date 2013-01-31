@@ -26,6 +26,8 @@ define('UPDATE_TMP', CACHE_PATH.'update/source');
 
 ini_set("session.save_path", CACHE_PATH."sessions");
 
+define('SYS_TIME', time());
+
 $ver = CACHE_PATH.'update/ver.txt';
 $fp = fopen($ver, 'r');
 $ver = @fread($fp, filesize($ver));
