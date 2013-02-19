@@ -108,10 +108,10 @@ class cache_file {
 		$filepath = CACHE_PATH.'caches_'.$module.'/caches_'.$type.'/';
 		$filename = $name.$this->_setting['suf'];
 		if(file_exists($filepath.$filename)) {
-			if ($module == 'commons' && substr($name, 0, 16) != 'category_content') {
+			/*if ($module == 'commons' && substr($name, 0, 16) != 'category_content') {
 				$db = zq_core::load_model('cache_model');
 		    	$db->delete(array('filename'=>$filename, 'path'=>'caches_'.$module.'/caches_'.$type.'/'));
-			}
+			}*/
 			return @unlink($filepath.$filename) ? true : false;
 		} else {
 			return false;

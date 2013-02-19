@@ -64,7 +64,7 @@ final class cache_factory {
 		if(isset($this->cache_config[$cache_name]['type'])) {
 			switch($this->cache_config[$cache_name]['type']) {
 				case 'file' :
-					$object = pc_base::load_sys_class('cache_file');
+					$object = zq_core::load_sys_class('cache_file');
 					break;
 				case 'memcache' :
 					define('MEMCACHE_HOST', $this->cache_config[$cache_name]['hostname']);
@@ -72,16 +72,16 @@ final class cache_factory {
 					define('MEMCACHE_TIMEOUT', $this->cache_config[$cache_name]['timeout']);
 					define('MEMCACHE_DEBUG', $this->cache_config[$cache_name]['debug']);
 					
-					$object = pc_base::load_sys_class('cache_memcache');
+					$object = zq_core::load_sys_class('cache_memcache');
 					break;
 				case 'apc' :
-					$object = pc_base::load_sys_class('cache_apc');
+					$object = zq_core::load_sys_class('cache_apc');
 					break;
 				default :
-					$object = pc_base::load_sys_class('cache_file');
+					$object = zq_core::load_sys_class('cache_file');
 			}
 		} else {
-			$object = pc_base::load_sys_class('cache_file');
+			$object = zq_core::load_sys_class('cache_file');
 		}
 		return $object;
 	}
