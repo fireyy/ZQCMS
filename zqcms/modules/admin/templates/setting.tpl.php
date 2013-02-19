@@ -4,8 +4,8 @@
 
 <?php if(!empty($errors)) echo '<p class="notification error">' . implode('<br>', $errors) . '</p>'; ?>
 <?php if(!empty($succ)) echo '<p class="notification success">' . implode('<br>', $succ) . '</p>'; ?>
-
 <div class="content">
+	<?php include "setting_nav.php"; ?>
   <form method="post" action="?m=admin&c=setting">
 		
 		<fieldset>
