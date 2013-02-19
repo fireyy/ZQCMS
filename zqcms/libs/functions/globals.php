@@ -673,6 +673,28 @@ function getURLrule($typeid, $args, $rule_type="list") {
 }
 
 /**
+ * 查询字符是否存在于某字符串
+ *
+ * @param $haystack 字符串
+ * @param $needle 要查找的字符
+ * @return bool
+ */
+function str_exists($haystack, $needle)
+{
+    return !(strpos($haystack, $needle) === FALSE);
+}
+
+/**
+ * 取得文件扩展
+ *
+ * @param $filename 文件名
+ * @return 扩展名
+ */
+function fileext($filename) {
+    return strtolower(trim(substr(strrchr($filename, '.'), 1, 10)));
+}
+
+/**
  * 加载模板标签缓存
  * @param string $name 缓存名
  * @param integer $times 缓存时间

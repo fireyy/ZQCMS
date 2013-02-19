@@ -438,6 +438,21 @@
 	  	</div>
       {/foreach}
 	  	<div style=" clear:both"></div>
+      <div id="link">
+        <span class="p12 strong">友情链接:</span>
+        <div>
+          {get_flink_list assign='items' passed="1"}
+          {foreach $items as $item}
+          <a href="{$item['url']}" class="backa" target="_blank"{if $item["elite"] eq 1} style="color:red;"{/if}>
+            {if $item["linktype"] eq 1 and $item["logo"] neq ""}
+            <img src="{$item['logo']}" width="83" height="31">
+            {else}
+            {$item['name']}
+            {/if}
+          </a>
+          {/foreach}
+        </div>
+      </div>
     </div>
 
     <div class="fmt" style=" position:fixed;_position:absolute; bottom:223px;_bottom:0px; _margin-bottom: 0px;right:10px;width:35px;">

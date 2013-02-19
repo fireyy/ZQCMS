@@ -5,6 +5,7 @@
 		<title>ZQCMS</title>
 		<link rel="stylesheet" href="<?php echo ZQ_PATH_ADMIN.'assets/css/admin.css'; ?>">
     <script type="text/javascript"	src="<?php echo ZQ_PATH_ADMIN.'assets/js/jquery.js'; ?>"></script>
+    <script type="text/javascript"  src="<?php echo ZQ_PATH_ADMIN.'assets/js/helpers.js'; ?>"></script>
 	</head>
 	<body>
 
@@ -17,9 +18,9 @@
 			<div class="nav">
 				<ul>
           <li<?php if($_GET['c']=='index') echo ' class="active"'; ?>><a href="?m=admin&c=index">概况</a></li>
-          <li<?php if($_GET['c']=='setting') echo ' class="active"'; ?>><a href="?m=admin&c=setting">站点设置</a></li>
+          <li<?php if($_GET['c']=='setting' || $_GET['c']=='profile' || $_GET['c']=='database') echo ' class="active"'; ?>><a href="?m=admin&c=setting">系统管理</a></li>
           <li<?php if($_GET['c']=='update') echo ' class="active"'; ?>><a href="?m=admin&c=update">在线升级</a></li>
-          <li<?php if($_GET['c']=='profile') echo ' class="active"'; ?>><a href="?m=admin&c=profile">用户信息</a></li>
+          <li<?php if($_GET['c']=='link') echo ' class="active"'; ?>><a href="?m=admin&c=link">友情链接</a></li>
 				</ul>
 			</div>
 

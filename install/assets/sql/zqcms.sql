@@ -349,6 +349,30 @@ CREATE TABLE IF NOT EXISTS `zq_kaifus` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `zq_links`
+--
+
+DROP TABLE IF EXISTS `zq_links`;
+CREATE TABLE IF NOT EXISTS `zq_links` (
+  `linkid` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `linktype` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `url` varchar(255) NOT NULL DEFAULT '',
+  `logo` varchar(255) NOT NULL DEFAULT '',
+  `introduce` text NOT NULL,
+  `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `elite` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `passed` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`linkid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+INSERT INTO `zq_links` (`linkid`, `linktype`, `name`, `url`, `logo`, `introduce`, `listorder`, `elite`, `passed`, `addtime`) VALUES
+(1, 0, 'ZQCMS 官方网站', 'http://zqcms.com', '', 'ZQCMS 程序官方网站', 99, 1, 1, 1361172740);
+
+--
 -- 表的结构 `zq_members`
 --
 

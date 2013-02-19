@@ -193,7 +193,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
     if(empty($GLOBALS['cfg_plus_dir'])) $GLOBALS['cfg_plus_dir'] = '..';
 
     $htmlhead  = "<html>\r\n<head>\r\n<title>ZQCMS提示信息</title>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n";
-    $htmlhead .= "<base target='_self'/>\r\n<style>div{line-height:160%;}</style></head>\r\n<body leftmargin='0' topmargin='0' bgcolor='#efefef'>\r\n<center>\r\n<script>\r\n";
+    $htmlhead .= "<base target='_self'/>\r\n<style>div{line-height:160%;}</style></head>\r\n<body leftmargin='0' topmargin='0' bgcolor='#e7f0f9'>\r\n<center>\r\n<script>\r\n";
     $htmlfoot  = "</script>\r\n</center>\r\n</body>\r\n</html>\r\n";
 
     $litime = ($limittime==0 ? 1000 : $limittime);
@@ -224,7 +224,7 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
         if(pgo==0){ location='$gourl'; pgo=1; }
       }\r\n";
         $rmsg = $func;
-        $rmsg .= "document.write(\"<br /><div style='width:450px;padding:0px;border-radius: 4px;font-size:16px;background:#ffffff;height:130px;'><br />\");\r\n";
+        $rmsg .= "document.write(\"<br /><div style='width:450px;padding:0px;border-radius: 5px;font-size:16px;background:#ffffff;height:130px;box-shadow: inset 0 -1px 1px #F5F5F5,0 1px 1px rgba(0, 0, 0, .1);color:#284769;'><br />\");\r\n";
         $rmsg .= "document.write(\"".str_replace("\"","“",$msg)."\");\r\n";
         $rmsg .= "document.write(\"";
         
@@ -737,6 +737,30 @@ function get_gallery_list($params, $template){
   }
 }
 register_template_plugin("function", "get_gallery_list", "get_gallery_list");
+
+function get_flink_list($params, $template){
+  $db = zq_core::load_model("link_model");
+  $where = array();
+  $limit = "";
+  $orderby = "";
+  if (isset($params['orderby'])){
+    $orderby = $params['orderby'];
+  }else{
+    $orderby = "listorder DESC,linkid DESC";
+  }
+  if (isset($params['limit'])){
+    $limit = $params['limit'];
+  }
+  if(isset($params['passed'])){
+    $where[] = "passed = {$params['passed']}";
+  }
+  $where = join(" and ", $where);
+  $data = $db->select($where, '*', $limit, $orderby);
+  if (isset($params['assign'])) {
+    $template->assign($params['assign'], $data);
+  }
+}
+register_template_plugin("function", "get_flink_list", "get_flink_list");
 
 /*
  * 获取游戏图库文章的所有图片,返回数组

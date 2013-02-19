@@ -1,7 +1,12 @@
-
+  <?php if($_GET["c"] != "database"): ?>
 	<div id="sidebar">
 		<?php if($_GET["c"] == "index"): ?>
-      <h2>状态</h2>
+      <h2>快捷操作</h2>
+      <p></p>
+      <ul>
+        <li><a href="?m=admin&c=database&a=export">数据库备份</a></li>
+        <li><a href="?m=admin&c=database&a=import">数据库恢复</a></li>
+      </ul>
     <?php endif ?>
 		<?php if($_GET["c"] == "setting"): ?>
       <h2>说明</h2>
@@ -16,6 +21,7 @@
       <p>请尽量选择强密码，并保存好您的密码。有关强密码，请看 <a href="http://zh.wikipedia.org/wiki/%E5%AF%86%E7%A0%81%E5%BC%BA%E5%BA%A6">密码强度</a></p>
     <?php endif ?>
 	</div>
+  <?php endif ?>
 	<div id="bottom">
 		<small>Powered by ZQCMS</small>
     <em>ZQCMS</em>
