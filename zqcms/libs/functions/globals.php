@@ -713,7 +713,7 @@ function tpl_cache($name,$times = 0) {
  * 写入缓存，默认为文件缓存，不加载缓存配置。
  * @param $name 缓存名称
  * @param $data 缓存数据
- * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $filepath 数据路径（模块名称） caches/caches_$filepath/
  * @param $type 缓存类型[file,memcache,apc]
  * @param $config 配置名称
  * @param $timeout 过期时间
@@ -733,7 +733,7 @@ function setcache($name, $data, $filepath='', $type='file', $config='', $timeout
 /**
  * 读取缓存，默认为文件缓存，不加载缓存配置。
  * @param string $name 缓存名称
- * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $filepath 数据路径（模块名称） caches/caches_$filepath/
  * @param string $config 配置名称
  */
 function getcache($name, $filepath='', $type='file', $config='') {
@@ -750,7 +750,7 @@ function getcache($name, $filepath='', $type='file', $config='') {
 /**
  * 删除缓存，默认为文件缓存，不加载缓存配置。
  * @param $name 缓存名称
- * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $filepath 数据路径（模块名称） caches/caches_$filepath/
  * @param $type 缓存类型[file,memcache,apc]
  * @param $config 配置名称
  */
@@ -768,7 +768,7 @@ function delcache($name, $filepath='', $type='file', $config='') {
 /**
  * 读取缓存，默认为文件缓存，不加载缓存配置。
  * @param string $name 缓存名称
- * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $filepath 数据路径（模块名称） caches/caches_$filepath/
  * @param string $config 配置名称
  */
 function getcacheinfo($name, $filepath='', $type='file', $config='') {
