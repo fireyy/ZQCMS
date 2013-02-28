@@ -21,7 +21,11 @@ if( isset($nocache) || !file_exists($cache["filepath"]) || time() - $cache["file
     if($ntime > $row['enddate'] || $ntime < $row['startdate']) {
         $adbody = $row['default'];
     } else {
-        $adbody = $row['content'];
+        if($row['content'] != ""){
+            $adbody = $row['content'];
+        }else{
+            $adbody = $row['default'];
+        }
     }
     $adbody = stripslashes($adbody);
     $adbody = str_replace("\r", "\\r",$adbody);

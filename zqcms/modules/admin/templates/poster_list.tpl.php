@@ -8,6 +8,7 @@
     <?php include "plugin_nav.php"; ?>
 <form name="myform" action="?m=admin&c=poster&a=listorder" method="post">
 <div class="table-list">
+    <p class="buttons"><a href="?m=admin&c=poster&a=ref_cache">刷新广告缓存</a></p>
     <table width="100%" cellspacing="0" class="contentWrap">
         <thead>
             <tr>

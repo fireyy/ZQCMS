@@ -81,6 +81,17 @@ class poster extends admin {
 		$info = $this->pdb->get_one(array('id'=>$_GET['id']));
 		include $this->admin_tpl('poster_preview');
 	}
+
+	/**
+	 * 刷新广告缓存
+	 */
+	public function ref_cache() {
+		$infos = $this->pdb->select();
+		foreach ($infos as $info) {
+			delcache('poster_'.$info['sign'], 'commons');
+		}
+		showMsg('广告缓存刷新成功', HTTP_REFERER);
+	}
 	
 	/**
 	 * 生成广告js文件
