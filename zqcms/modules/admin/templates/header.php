@@ -4,8 +4,10 @@
 		<meta charset="utf-8">
 		<title>ZQCMS</title>
 		<link rel="stylesheet" href="<?php echo ZQ_PATH_ADMIN.'assets/css/admin.css'; ?>">
-    <script type="text/javascript"	src="<?php echo ZQ_PATH_ADMIN.'assets/js/jquery.js'; ?>"></script>
+        <link rel="stylesheet" href="<?php echo ZQ_PATH_ADMIN.'assets/css/zebra_datepicker.css'; ?>" />
+    <script type="text/javascript"	src="<?php echo ZQ_PATH_ADMIN.'assets/js/jquery-1.9.0.js'; ?>"></script>
     <script type="text/javascript"  src="<?php echo ZQ_PATH_ADMIN.'assets/js/helpers.js'; ?>"></script>
+    <script type="text/javascript" src="<?php echo ZQ_PATH_ADMIN.'assets/js/zebra_datepicker.js'; ?>"></script>
 	</head>
 	<body>
 

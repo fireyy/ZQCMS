@@ -158,6 +158,46 @@ class database extends admin {
 			ShowMsg("请选择要删除的备份文件");	
 		}				
 	}
+
+	/**
+	 * 一键清理数据
+	 */
+	public function clear_data() {
+		//清理数据涉及到的数据表
+		$models = array('article', 'kaifu', 'kaice', 'gift', 'gallery');
+		if ($_POST['dosubmit']) {
+			set_time_limit(0);
+			$tables = $_POST['model'];
+			if (is_array($tables)) {
+				foreach ($tables as $t) {
+					if (in_array($t, $models)) {
+						$time_date = $_POST[$t.'_date'];
+						if(isset($time_date)){
+							$db = zq_core::load_model($t.'_model');
+							$time = "pubdate";
+							$time_date = strtotime($time_date);
+							$ids = $db->select("{$time} < {$time_date}", "id");
+							if(count($ids) > 0) {
+								$db->delete("{$time} < {$time_date}");
+								if($t == "article" || $t == "gallery") {
+									foreach ($ids as $aid) {
+										deleteTagRelationship($aid["id"], $db->typeid, false);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			showMsg("数据清理完毕", HTTP_REFERER);
+		} else {
+			//读取网站的所有模型
+			$type_db = zq_core::load_model('type_model');
+			$infos = $type_db->select();
+			include $this->admin_tpl('database_clear_data');
+		}
+	}
+
 	/**
 	 * 获取数据表
 	 * @param unknown_type 数据表数组
