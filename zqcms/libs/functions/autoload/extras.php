@@ -720,9 +720,19 @@ function get_gallery_list($params, $template){
   }
   if (isset($params['orderby'])){
     $orderby = $params['orderby'];
+  }else{
+    $orderby = "pubdate";
   }
   if (isset($params['orderway'])){
     if($orderby!="") $orderby .= " ".$params['orderway'];
+  }else{
+    if($orderby!="") $orderby .= " DESC";
+  }
+  if (isset($params['tagname'])){
+    $ids = getIdsByTagname($params["tagname"],"*",$db->typeid);
+    #print_r($ids);
+    $ids = join(",", $ids);
+    $where[] = "id in ($ids)";
   }
   if (isset($params['limit'])){
     $limit = $params['limit'];

@@ -402,7 +402,7 @@
 		  	<h2 class="lh28 p14 strong h2_yb2 nomal_h2back">游戏截图</h2>     
 			<div class="more "><a href="{getTypeLink('gallery')}" target="_blank" title="查看更多精彩图片" class="blue">更多&gt;&gt;</a></div>
 		    <ul id="pic_rc_1_content">
-        {get_gallery_list assign='items' limit='0,6'}
+        {get_gallery_list assign='items' limit='0,6' tagname="游戏截图"}
 				{foreach $items as $item}
 				<li>
 			    <a class="lh24" href="{$item|zqurl}" title="{$item.title}" target="_blank">
