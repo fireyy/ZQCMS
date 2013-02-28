@@ -61,6 +61,6 @@ Desktop.ini
 /install/lock.txt
 /patch.sh
 /resetpasswd.php
-/caches/bakup/default/
+/caches/bakup/
 /caches/caches_commons/
 /.htaccess
