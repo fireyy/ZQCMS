@@ -413,6 +413,42 @@ CREATE TABLE IF NOT EXISTS `zq_options` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `zq_poster`
+--
+
+DROP TABLE IF EXISTS `zq_poster`;
+CREATE TABLE IF NOT EXISTS `zq_poster` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `sign` varchar(40) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `content` text NOT NULL,
+  `default` text NOT NULL,
+  `startdate` int(10) unsigned NOT NULL DEFAULT '0',
+  `enddate` int(10) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `hits` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `clicks` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `listorder` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `disabled` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+INSERT INTO `zq_poster` (`id`, `sign`, `name`, `content`, `default`, `startdate`, `enddate`, `addtime`, `hits`, `clicks`, `listorder`, `disabled`) VALUES
+(1, 'topBackground', '页面背景图广告', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/topBackground.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/topBackground.js\\'' language=\\''javascript\\''></script>', 1352347292, 1361344093, 1361344093, 0, 0, 0, 0),
+(2, 'navGameRecom', '顶部导航下游戏推荐', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/navGameRecom.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/navGameRecom.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344309, 0, 0, 0, 1),
+(3, 'gameBannerLeft', '找游戏分栏广告(左)', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameBannerLeft.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameBannerLeft.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344396, 0, 0, 0, 0),
+(4, 'gameBannerMiddle', '找游戏分栏广告(中)', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameBannerMiddle.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameBannerMiddle.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344443, 0, 0, 0, 0),
+(5, 'gameBannerRight', '找游戏分栏广告(右)', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameBannerRight.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameBannerRight.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344472, 0, 0, 0, 0),
+(6, 'indexTonLan1', '首页通栏广告1', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexTonLan1.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexTonLan1.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344494, 0, 0, 0, 0),
+(7, 'indexTonLan2', '首页通栏广告2', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexTonLan2.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexTonLan2.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344528, 0, 0, 0, 0),
+(8, 'indexFloatAD', '首页右侧漂浮富媒体广告', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexFloatAD.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexFloatAD.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344557, 0, 0, 0, 0),
+(9, 'gameTextLink', '找游戏页面文字链', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameTextLink.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameTextLink.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344580, 0, 0, 0, 0),
+(10, 'innerfooterAD1', '内容底部图片广告', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/innerfooterAD1.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/innerfooterAD1.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344600, 0, 0, 0, 0),
+(11, 'indexRightLitpic1', '首页右侧大块图', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexRightLitpic1.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/indexRightLitpic1.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344619, 0, 0, 0, 0),
+(12, 'contentRtPicAD', '内容右侧图片广告', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/contentRtPicAD.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/contentRtPicAD.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344643, 0, 0, 0, 0),
+(13, 'gameTopRec', '找游戏顶部游戏推荐', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameTopRec.js\\'' language=\\''javascript\\''></script>', '<script src=\\''http://cdn.img.dbplay.com/userfiles/poster/gameTopRec.js\\'' language=\\''javascript\\''></script>', 1352347292, 1353574318, 1361344671, 0, 0, 0, 0);
+
+--
 -- 表的结构 `zq_tags`
 --
 

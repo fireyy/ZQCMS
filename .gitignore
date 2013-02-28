@@ -62,3 +62,5 @@ Desktop.ini
 /patch.sh
 /resetpasswd.php
 /caches/bakup/default/
+/caches/caches_commons/
+/.htaccess

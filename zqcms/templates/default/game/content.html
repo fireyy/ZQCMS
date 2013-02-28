@@ -115,14 +115,7 @@ function closeServerList(el){
 	<a onclick="postDigg({$game.id})" class="bt_good"></a><strong class="yahei boder_num vote-count-{$game.id}">{$game.goodpost}票</strong>
     </p>
     <div class="mt" id="newsinfo_share">
-	<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-	    <span class="fl">分享到:</span>
-	    <a class="bds_qzone" title="分享到QQ空间" href="#"></a>
-	    <a class="bds_tsina" title="分享到新浪微博" href="#"></a>
-	    <a class="bds_tqq" title="分享到腾讯微博" href="#"></a>
-	    <a class="bds_renren" title="分享到人人网" href="#"></a>
-	    <span class="bds_more"></span>
-	</div>
+
     </div>
   </div>
   <div class="text_width bt_all">
@@ -378,10 +371,5 @@ $(function(){
 </div></div>
 <script language="JavaScript" src="/api.php?op=count&id={$game.id}&type=game"></script>
 {include "../footer.html"}
-<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6519356" ></script>
-<script type="text/javascript" id="bdshell_js"></script>
-<script type="text/javascript">
-    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
-</script>
 </body>
 </html>

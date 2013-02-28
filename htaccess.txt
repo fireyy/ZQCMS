@@ -1,24 +1,21 @@
-<IfModule mod_Rewrite.c>
+<IfModule mod_rewrite.c>
 RewriteEngine on
 
 #default to /
 RewriteBase /
 
-#Rewrite System rule
-#RewriteRule ^index.html index.php [L]
-
 #article
 RewriteRule ^article-([0-9]+).html index.php?m=article&c=index&a=show&id=$1 [L]
-RewriteRule ^articlelist-([0-9]+)-([0-9]+)-([0-9]+).html index.php?m=article&c=index&a=lists&page=$3&tag=$1&game_id=$2 [L,NU]
+RewriteRule ^articlelist-([0-9]+)-([0-9]+)-([0-9]+).html index.php?m=article&c=index&a=lists&page=$3&tag=$1&game_id=$2 [L]
 RewriteRule ^article.html index.php?m=article&c=index&a=index [L]
 
 #gallery
 RewriteRule ^gallery-([0-9]+).html index.php?m=gallery&c=index&a=show&id=$1 [L]
-RewriteRule ^gallerylist-([0-9]+)-([0-9]+).html index.php?m=gallery&c=index&a=lists&tag=$1&page=$2 [L,NU]
+RewriteRule ^gallerylist-([0-9]+)-([0-9]+).html index.php?m=gallery&c=index&a=lists&tag=$1&page=$2 [L]
 
 #game
 RewriteRule ^game-([0-9]+).html index.php?m=game&c=index&a=show&id=$1 [L]
-RewriteRule ^gamelist-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-(.*)-([0-9]+).html index.php?m=game&c=index&a=lists&game_tag=$1&game_theme=$2&game_status=$3&game_effect=$4&test_status=$5&gamesort=$6&game_pinyin=$7&page=$8 [L,NU]
+RewriteRule ^gamelist-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-(.*)-([0-9]+).html index.php?m=game&c=index&a=lists&game_tag=$1&game_theme=$2&game_status=$3&game_effect=$4&test_status=$5&gamesort=$6&game_pinyin=$7&page=$8 [L]
 
 #company
 RewriteRule ^platform-([0-9]+).html index.php?m=company&c=index&a=show&id=$1 [L]

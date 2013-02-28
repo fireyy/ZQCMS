@@ -5,12 +5,13 @@ zq_core::load_sys_class('admin','',0);
 class link extends admin {
 	function __construct() {
 		parent::__construct();
-		$this->M = new_html_special_chars(getcache('link', 'commons'));
+		//$this->M = new_html_special_chars(getcache('link', 'commons'));
 		$this->db = zq_core::load_model('link_model');
 	}
 
 	public function init() {
  		$page = isset($_GET['page']) && intval($_GET['page']) ? intval($_GET['page']) : 1;
+ 		$where = '';
 		$infos = $this->db->listinfo($where,$order = 'listorder DESC,linkid DESC',$page, $pages = '15');
 		$pages = $this->db->pages;
 		include $this->admin_tpl('link_list');

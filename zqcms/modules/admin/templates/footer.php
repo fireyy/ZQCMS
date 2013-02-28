@@ -1,6 +1,6 @@
   <?php if($_GET["c"] != "database"): ?>
 	<div id="sidebar">
-		<?php if($_GET["c"] == "index"): ?>
+		<?php if($_GET["c"] == "index" && $_GET["a"] != "login"): ?>
       <h2>快捷操作</h2>
       <p></p>
       <ul>

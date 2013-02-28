@@ -5,6 +5,7 @@
 <?php if(!empty($errors)) echo '<p class="notification error">' . implode('<br>', $errors) . '</p>'; ?>
 <?php if(!empty($succ)) echo '<p class="notification success">' . implode('<br>', $succ) . '</p>'; ?>
 <div class="content">
+	<?php include "plugin_nav.php"; ?>
 <form name="myform" id="myform" action="?m=admin&c=link&a=listorder" method="post" >
 <div class="table-list">
 <table width="100%" cellspacing="0">
