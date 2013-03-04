@@ -7,7 +7,7 @@ include "header.php"; ?>
 <?php if(!empty($errors)) echo '<p class="notification error">' . implode('<br>', $errors) . '</p>'; ?>
 <?php if(!empty($succ)) echo '<p class="notification success">' . implode('<br>', $succ) . '</p>'; ?>
 <div class="content content-ext">
-  <?php include "setting_nav.php"; ?>
+  <?php include "plugin_nav.php"; ?>
 <div class="table-list">
 <form method="post" name="myform" id="myform" action="?m=admin&c=database&a=export">
 <input type="hidden" name="tabletype" value="zqcmstables" id="zqcmstables">

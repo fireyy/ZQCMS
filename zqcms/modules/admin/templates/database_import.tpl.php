@@ -8,7 +8,7 @@ include "header.php"; ?>
     数据库文件的存放地址：<?php echo CACHE_PATH.'bakup/'.$pdoname.'/'; ?>
 </p>
 <div class="content content-ext">
-    <?php include "setting_nav.php"; ?>
+    <?php include "plugin_nav.php"; ?>
 <div class="table-list">
 <form method="post" id="myform" name="myform" >
     <table width="100%" cellspacing="0">

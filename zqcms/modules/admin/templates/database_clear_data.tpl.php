@@ -7,7 +7,7 @@ include "header.php"; ?>
     数据库清理是一个危险操作，请谨慎操作！
 </p>
 <div class="content content-ext">
-    <?php include "setting_nav.php"; ?>
+    <?php include "plugin_nav.php"; ?>
 <div class="table-list">
 <form method="post" id="myform" name="myform" >
 <fieldset>

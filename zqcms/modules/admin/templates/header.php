@@ -20,9 +20,9 @@
 			<div class="nav">
 				<ul>
           <li<?php if($_GET['c']=='index') echo ' class="active"'; ?>><a href="?m=admin&c=index">概况</a></li>
-          <li<?php if($_GET['c']=='setting' || $_GET['c']=='profile' || $_GET['c']=='database') echo ' class="active"'; ?>><a href="?m=admin&c=setting">系统管理</a></li>
+          <li<?php if($_GET['c']=='setting' || $_GET['c']=='profile' || $_GET['c']=='urlrule') echo ' class="active"'; ?>><a href="?m=admin&c=setting">系统管理</a></li>
           <li<?php if($_GET['c']=='update') echo ' class="active"'; ?>><a href="?m=admin&c=update">在线升级</a></li>
-          <li<?php if($_GET['c']=='link' || $_GET['c']=='poster') echo ' class="active"'; ?>><a href="?m=admin&c=link">插件</a></li>
+          <li<?php if($_GET['c']=='link' || $_GET['c']=='poster' || $_GET['c']=='database') echo ' class="active"'; ?>><a href="?m=admin&c=link">插件</a></li>
 				</ul>
 			</div>
 
