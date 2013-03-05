@@ -7,8 +7,8 @@ $time = time();
 
 return array(
     'game' => array(
-	   'content' => 'game-{$id}.html',
-	   'list' => 'gamelist-{$game_tag}-{$game_theme}-{$game_status}-{$game_effect}-{$test_status}-{$gamesort}-{$game_pinyin}-{$page}.html',
+	   'content' => '~urlrule_game_show~',
+	   'list' => '~urlrule_game_list~',
        'args' => array(
             '{$game_tag}' => 0,
             '{$game_theme}' => 0,
@@ -20,31 +20,31 @@ return array(
        )
     ),
     'company' => array(
-       'content' => 'platform-{$id}.html',
-       'list' => 'platformlist-{$sort}-{$page}.html',
+       'content' => '~urlrule_company_show~',
+       'list' => '~urlrule_company_list~',
        'args' => array(
             '{$sort}' => 1
        )
     ),
     'article' => array(
-	   'content' => 'article-{$id}.html',
-	   'list' => 'articlelist-{$tag}-{$game_id}-{$page}.html',
-       'index' => 'article.html',
+	   'content' => '~urlrule_article_show~',
+	   'list' => '~urlrule_article_list~',
+       'index' => '~urlrule_article_init~',
        'args' => array(
             '{$tag}' => 0,
             '{$game_id}' => 0
        )
     ),
     'gallery' => array(
-       'content' => 'gallery-{$id}.html',
-       'list' => 'gallerylist-{$tag}-{$page}.html',
+       'content' => '~urlrule_gallery_show~',
+       'list' => '~urlrule_gallery_list~',
        'args' => array(
             '{$tag}' => 0
        )
     ),
     'kaifu' => array(
-	   'list' => 'kaifulist-{$year}-{$month}-{$day}-{$t}-{$page}.html',
-       'serverlist' => 'serverlist-{$game_id}-{$page}.html',
+	   'list' => '~urlrule_kaifu_list~',
+       'serverlist' => '~urlrule_server_list~',
        'args' => array(
             '{$year}' => date("Y", $time), 
             '{$month}' => date("m", $time), 
@@ -54,10 +54,10 @@ return array(
        )
     ),
     'kaice' => array(
-       'list' => 'gametest-{$page}.html'
+       'list' => '~urlrule_kaice_list~'
     ),
     'gift' => array(
-       'list' => 'giftlist-{$page}.html'
+       'list' => '~urlrule_gift_list~'
     )
 );
 ?>

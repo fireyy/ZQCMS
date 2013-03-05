@@ -25,6 +25,7 @@
       <p>如有问题，可以到<a href="http://bbs.zqcms.com" target="_blank">ZQCMS交流论坛</a>发帖求助。</p>
       <ul>
         <li>配置或修改伪静态规则</li>
+        <li><a href="?m=admin&c=urlrule&a=public_cache_urlrule">生成伪静态缓存</a></li>
         <li>在 <a href="?m=admin&c=setting">站点设置</a> 页面修改 ”URL伪静态“ 为 <strong>开启</strong></li>
       </ul>
     <?php endif ?>

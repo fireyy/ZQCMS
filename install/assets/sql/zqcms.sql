@@ -370,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `zq_links` (
 -- --------------------------------------------------------
 
 INSERT INTO `zq_links` (`linkid`, `linktype`, `name`, `url`, `logo`, `introduce`, `listorder`, `elite`, `passed`, `addtime`) VALUES
-(1, 0, 'ZQCMS 官方网站', 'http://zqcms.com', '', 'ZQCMS 程序官方网站', 99, 1, 1, 1361172740);
+(1, 0, 'ZQCMS 官方网站', 'http://www.zqcms.com', '', 'ZQCMS 程序官方网站', 99, 1, 1, 1361172740);
 
 --
 -- 表的结构 `zq_members`

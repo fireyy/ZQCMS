@@ -7,6 +7,7 @@
 <div class="content">
 	<?php include "setting_nav.php"; ?>
 <div class="table-list">
+	<p class="tips">修改完规则，请 <a href="?m=admin&c=urlrule&a=public_cache_urlrule">生成伪静态缓存</a></p>
 <table width="100%" cellspacing="0">
 	<thead>
 		<tr>
@@ -21,7 +22,7 @@ if(is_array($infos)){
 	foreach($infos as $info){
 		?>
 	<tr>
-		<td><?php echo $info['description']?></td>
+		<td><?php echo getLangData($info['name'])?></td>
 		<td><?php echo $info['value']?></td>
 		<td>
 			<a href="?m=admin&c=urlrule&a=edit&urlruleid=<?php echo $info['id']?>"

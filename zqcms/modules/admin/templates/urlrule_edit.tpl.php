@@ -9,12 +9,17 @@
 	<?php include "setting_nav.php"; ?>
 <form action="?m=admin&c=urlrule&a=edit&urlruleid=<?php echo $id; ?>" method="post" name="myform" id="myform">
 <fieldset>
-	<legend><?php echo $description;?></legend>
+	<legend><?php echo getLangData($name)?></legend>
 	<em>配置规则</em>
 	<p>
 		<label for="urlrule_value">规则：</label>
-		<input type="text" name="info[value]" id="urlrule_value" value="<?php echo $value;?>">
-		<em>范例：</em>
+		<textarea name="info[value]" id="urlrule_value"><?php echo $value;?></textarea>
+		<?php
+		$description = explode("|", $description);
+		foreach ($description as $key => $value) {
+			echo "<em>范例".($key+1)."：$value</em>";
+		}
+		?>
 	</p>
 </fieldset>
 <p class="buttons">

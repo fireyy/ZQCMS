@@ -31,13 +31,23 @@ class urlrule extends admin {
 	 * 更新URL规则
 	 */
 	public function public_cache_urlrule() {
-		$datas = $this->db->select('','*','','','','urlruleid');
-		$basic_data = array();
-		foreach($datas as $roleid=>$r) {
-			$basic_data[$roleid] = $r['urlrule'];;
+		$datas = $this->urlrule_db->select(array("group"=>"1"));
+		$search = $replace = array();
+		foreach($datas as $key=>$r) {
+			$search[] = "~".$r["name"]."~";
+			$replace[] = $r["value"];
 		}
-		setcache('urlrules_detail',$datas,'commons');
-		setcache('urlrules',$basic_data,'commons');
+		$config_path = ZQCMS_PATH."caches/configs/";
+		$template = file_get_contents($config_path.'router.sample.php');
+		$router = str_replace($search, $replace, $template);
+		if(file_put_contents($config_path.'router.php', $router)) {
+			chmod($config_path.'router.php', 0640);
+		}
+
+		showMsg("更新成功", "?m=admin&c=urlrule");
+	}
+	private function write_web_server_rules() {
+		//
 	}
 }
 ?>

@@ -1,4 +1,7 @@
 <?php
+require 'alloy/router.php';
+require 'alloy/router/route.php';
+
 class Router {
     /**
      * m Module
@@ -12,6 +15,8 @@ class Router {
     public function __construct() {
 	//设定 m, c, a
 	//起动页面
+        $router = new Alloy\Router();
+        $params = $router->match('GET', $url);
 	$param = zq_core::load_sys_class('param');
 	define("ROUTE_M", $param->route_m());
 	define("ROUTE_C", $param->route_c());
