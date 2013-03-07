@@ -32,6 +32,11 @@ class index {
 		    "game_id" => $article['game_id']
 		));
 		$game["url"] = getURL($game);
+        $article_tags = zq_core::load_config("game_tag");
+        $show_tags = array("game_tag","game_theme","game_effect");
+        foreach ($show_tags as $key => $value) {
+            $game[$value."_index"] = array_search($game[$value], $article_tags[$value]);
+        }
 		register_template_data('game', $game);
 	    }
 	    return template('article', 'content');

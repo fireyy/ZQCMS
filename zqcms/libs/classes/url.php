@@ -7,11 +7,6 @@ class url {
     	$system_config = zq_core::load_config('system');
     	$this->site_rewrite = $system_config['site_rewrite'];
     	$this->urlBase = $system_config['site_basehost'].$system_config['site_indexurl'];
-		/*if($this->site_rewrite) {
-			$this->urlrules = zq_core::load_config('router');
-		}else{
-			$this->urlrules = array();
-		}*/
 		$this->request = zq_core::load_sys_class('Request');
 		$this->router = zq_core::load_sys_class('Alloy_Router');
 		$this->html_root = zq_core::load_config('system', 'html_root');

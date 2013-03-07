@@ -24,7 +24,7 @@ class Router {
             $request = zq_core::load_sys_class('Request');
             $requestMethod = $request->method();
             $params = $router->match($requestMethod, $requestUrl);
-            // $_GET and $_POST
+            // reset $_GET
             $_GET = $params;
             // Set matched params back on request object
             $request->setParams($params);

@@ -287,7 +287,7 @@ class Router_Route
         // Setter
         if(null !== $callback) {
             if(!is_callable($callback)) {
-                throw new \InvalidArgumentException("Condition provided is not a valid callback. Given (" . gettype($callback) . ")");
+                throw new Exception("Condition provided is not a valid callback. Given (" . gettype($callback) . ")");
             }
             $this->_condition = $callback;
             return $this;
@@ -309,7 +309,7 @@ class Router_Route
         // Setter
         if(null !== $callback) {
             if(!is_callable($callback)) {
-                throw new \InvalidArgumentException("The after match callback provided is not valid. Given (" . gettype($callback) . ")");
+                throw new Exception("The after match callback provided is not valid. Given (" . gettype($callback) . ")");
             }
             $this->_afterMatch = $callback;
             return $this;

@@ -23,7 +23,7 @@
   <div class="fl newsinfo_topline boder_base newsinfo_left">
      {if !empty($game)}
         <div class="fl ml picbd "><a href="{$game.url}" title="{$game.game_name}" target="_blank"><img width="120" height="120" src="{$game.game_avatar}"></a></div><div class="fl ml tl news_title"><h6 class=" lh40">{$article.title}</h6><div class="lh24 gray">本文&nbsp;{date('Y-m-d',$article.pubdate)}&nbsp;发布&nbsp;来源：{$article.source}&nbsp;&nbsp;&nbsp;<br />浏览人次（<span id="hits">{$article.click}</span>人）</div>
-        <div class="news_tags"><strong class="newsinfo_barbg gray">标签:</strong><a class="gray decoration" target="_blank" href='{getTypeLink("game",$game.game_tag)}'>{$game['game_tag']}</a>/<a class="gray decoration" target="_blank" href="{getTypeLink("game",$game.game_theme)}">{$game['game_theme']}</a>/<a class="gray decoration" target="_blank" href="{getTypeLink("game",$game.game_effect)}">{$game['game_effect']}</a></div></div>
+        <div class="news_tags"><strong class="newsinfo_barbg gray">标签:</strong><a class="gray decoration" target="_blank" href='{getTypeLink("game","",["game_tag"=>"{$game.game_tag_index}"])}'>{$game['game_tag']}</a>/<a class="gray decoration" target="_blank" href="{getTypeLink("game","",["game_theme"=>"{$game.game_theme_index}"])}">{$game['game_theme']}</a>/<a class="gray decoration" target="_blank" href="{getTypeLink("game","",["game_effect"=>"{$game.game_effect_index}"])}">{$game['game_effect']}</a></div></div>
     {else}
         <h6 class=" lh40">{$article.title}</h6><div class=" lh24 gray">本文&nbsp;{date('Y-m-d',$article.pubdate)}&nbsp;发布&nbsp;来源：{$article.source}&nbsp;&nbsp;&nbsp;浏览人次（<span id="hits">{$article.click}</span>人）</div>
     {/if}        

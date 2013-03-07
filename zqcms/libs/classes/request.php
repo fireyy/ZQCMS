@@ -25,13 +25,10 @@ class Request
     {
         // Die magic_quotes, just die...
         if(get_magic_quotes_gpc()) {
-            $stripslashes_gpc = function(&$value, $key) {
-                $value = stripslashes($value);
-            };
-            array_walk_recursive($_GET, $stripslashes_gpc);
-            array_walk_recursive($_POST, $stripslashes_gpc);
-            array_walk_recursive($_COOKIE, $stripslashes_gpc);
-            array_walk_recursive($_REQUEST, $stripslashes_gpc);
+            $_POST = new_stripslashes($_POST);
+            $_GET = new_stripslashes($_GET);
+            $_REQUEST = new_stripslashes($_REQUEST);
+            $_COOKIE = new_stripslashes($_COOKIE);
         }
 
         // Properly handle PUT and DELETE request params
