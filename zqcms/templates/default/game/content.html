@@ -161,7 +161,7 @@ $(function(){
 {if !empty($kaifus)}
 <div id="game_kaifu" class="kaifu_table kaifu_table2 mt_5" style="margin-top: 5px;">
 	<h5>{$game.game_name} 开服表 >> 
-		<span class="p12 text_span">官网全部{$game.company_count} | <a href="{getTypeLink("kaifu","",['action'=>'serverlist','{$game_id}'=>$game_id])}">开服表全部{$game.kaifu_count}</a></span>
+		<span class="p12 text_span">官网全部{$game.company_count} | <a href="{getTypeLink("kaifu","",['action'=>'serverlist','game_id'=>$game_id])}">开服表全部{$game.kaifu_count}</a></span>
 	</h5>
 
 	<div id="game_kaifu_list" class="div_top fl">
@@ -288,7 +288,7 @@ $(function(){
 <div class="news_push fl mt">
     <div class="news_push1 fl comment_bg  bt">
 	<h5 class="lh24 fl">相关内容推荐&gt;&gt;</h5>
-	<span class="fr lh24 strong gray"><a class="gray decoration" href="{getTypeLink("article","1",['{$game_id}'=>$game_id])}" target="_blank">新闻</a> | <a class="gray decoration" href="{getTypeLink("article","4",['{$game_id}'=>$game_id])}" target="_blank">攻略</a></span>
+	<span class="fr lh24 strong gray"><a class="gray decoration" href="{getTypeLink("article","1",['game_id'=>$game_id])}" target="_blank">新闻</a> | <a class="gray decoration" href="{getTypeLink("article","4",['game_id'=>$game_id])}" target="_blank">攻略</a></span>
     </div>
     <ul class="lh24 news_push1  black">
 	{foreach $items as $item}

@@ -173,25 +173,25 @@
 	    <div class="boder_base mt newsnav">
 	    	<div class="f_news">
 				<h2>
-          {get_article_list assign='items' flag='h' limit='0,2'}
+          {get_article_list assign='items' flag='h,c' limit='0,2'}
           {foreach $items as $item}
           <a class=" p14 red strong lh20" href="{$item|zqurl}" target="_blank">{str_cut($item.title, 30, '')}</a>
           {/foreach}
 				</h2>
 				<div class="left">
-          {get_article_list assign='items' flag='h' limit='4,3'}
+          {get_article_list assign='items' flag='h' noflag='c' limit='0,3'}
           {foreach $items as $item}
 	  				<a class=" p12 black lh20" href="{$item|zqurl}" target="_blank">[{str_cut($item.title, 21, '')}]</a>
           {/foreach}
      			</div>
      			<h2>
-            {get_article_list assign='items' flag='h' limit='2,2'}
+            {get_article_list assign='items' flag='h,c' limit='2,2'}
             {foreach $items as $item}
             <a class=" p14 red strong lh20" href="{$item|zqurl}" target="_blank">{str_cut($item.title, 30, '')}</a>
             {/foreach}
 	  			</h2>
 	  			<div class="left">
-            {get_article_list assign='items' flag='h' limit='7,3'}
+            {get_article_list assign='items' flag='h' noflag='c' limit='3,3'}
             {foreach $items as $item}
   	  				<a class=" p12 black lh20" href="{$item|zqurl}" target="_blank">[{str_cut($item.title, 21, '')}]</a>
             {/foreach}
@@ -375,13 +375,9 @@
   		<div class="newgames mt boder_base  fl">
     		<h2 class=" lh28 p14 strong h2_yb2 nomal_h2back">最新测试游戏</h2>
     		<div class="more">
-    		<a href="{getTypeLink('game','',['{$game_tag}'=>'战争策略'])}" target="_blank">战争策略</a> | 
-				<a href="{getTypeLink('game','',['{$game_tag}'=>'模拟经营'])}" target="_blank">模拟经营</a> |
-				<a href="{getTypeLink('game','',['{$game_tag}'=>'社区养成'])}" target="_blank">社区养成</a> |
-				<a href="{getTypeLink('game','',['{$game_tag}'=>'休闲竞技'])}" target="_blank">休闲竞技</a> |
-				<a href="{getTypeLink('game','',['{$game_tag}'=>'儿童游戏'])}" target="_blank">儿童游戏</a> |
-				<a href="{getTypeLink('game','',['{$game_tag}'=>'角色扮演'])}" target="_blank">角色扮演</a> |
-				<a href="{getTypeLink('game','',['{$game_tag}'=>'社区游戏'])}" target="_blank">社区游戏</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        {foreach $game_tags as $item}
+        <a href="{getTypeLink('game','',['game_tag'=>"{$item@key}"])}" target="_blank">{$item}</a> |
+        {/foreach}
 				<a href="{getTypeLink('game')}" target="_blank" class="blue">更多&gt;&gt;</a>
     		</div>
     		<ul>

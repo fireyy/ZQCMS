@@ -4,13 +4,61 @@ defined("IN_ZQCMS") or exit("Permission denied.");
 class url {
     private $urlrules, $html_root;
     public function __construct() {
-    	$this->site_rewrite = zq_core::load_config('system', 'site_rewrite');
-		if($this->site_rewrite) {
+    	$system_config = zq_core::load_config('system');
+    	$this->site_rewrite = $system_config['site_rewrite'];
+    	$this->urlBase = $system_config['site_basehost'].$system_config['site_indexurl'];
+		/*if($this->site_rewrite) {
 			$this->urlrules = zq_core::load_config('router');
 		}else{
 			$this->urlrules = array();
-		}
+		}*/
+		$this->request = zq_core::load_sys_class('Request');
+		$this->router = zq_core::load_sys_class('Alloy_Router');
 		$this->html_root = zq_core::load_config('system', 'html_root');
+    }
+
+    public function url($params = array(), $routeName = null, $queryParams = array(), $qsAppend = false) {
+    	$urlBase = $this->urlBase;
+
+    	// Detemine what URL is from param types
+        if(is_string($params)) {
+            $routeName = $params;
+            $params = array();
+        } elseif(!is_array($params)) {
+            throw new Exception("First parameter of URL must be array or string route name");
+        }
+
+    	// Is there query string data?
+        $queryString = "";
+        $request = $this->request;
+        if(true === $qsAppend && $request->query()) {
+            $queryParams = array_merge($request->query(), $queryParams);
+        }
+        if(count($queryParams) > 0) {
+            // Build query string from array $qsData
+            $queryString = http_build_query($queryParams, '', '&amp;');
+        } else {
+            $queryString = false;
+        }
+        
+        // Get URL from router object by reverse match
+        $url = str_replace('%2f', '/', strtolower($this->router->url($params, $routeName)));
+        
+        // Use query string if URL rewriting is not enabled
+        if($this->site_rewrite) {
+            $url = $urlBase . $url . (($queryString !== false) ? '?' . $queryString : '');
+        } else {
+            $url = $urlBase . '?u=' . $url . (($queryString !== false) ? '&amp;' . $queryString : '');
+        }
+        
+        // Return fully assembled URL
+        $url = str_replace('///', '/', $url);
+
+        $url_arr = array();
+		//静态
+		//动态
+		$url_arr[0] = $url_arr[1] = $url;
+        return $url_arr;
     }
 
     /**
@@ -27,79 +75,10 @@ class url {
 		$typedb = zq_core::load_model('type_model');
 		$typeinfo = $typedb->get_one(array('id'=>$typeid));
 		$type_name = $typeinfo['name'];
-		$urlrules = $this->urlrules[$type_name];
-		if (empty($urlrules)) {
-		    $urlrules = array();
-		}
-		if (empty($urlrules['content'])) {
-		    //DEFAULT content url
-		    $urlrules['content'] = 'index.php?m='.$type_name.'&c=index&a=show&id={$id}&page={$page}';
-		}
-		$urlrules_arr = explode("|", $urlrules['content']);
-		if ($page == 1) {
-		    $urlrule = $urlrules_arr[0];
-		} else {
-		    $urlrule = isset($urlrules_arr[1]) ? $urlrules_arr[1] : $urlrules_arr[0];
-		}
-		if (!$time) {
-		    $time = time();
-		}
-
-		$year = date("y", $time);
-		$month = date('m', $time);
-		$day = date("d", $time);
-
-		// url规则的额外一些数据 比如 {$gamesort} {}
-		$keys = array(
-		    '{$id}', '{$page}', '{$year}', '{$month}', '{$day}'
+		$params = array(
+			"id" => $id
 		);
-		$values = array(
-		    $id, $page, $year, $month, $day
-		);
-		
-		if (!empty($array) && is_array($array)) {
-		    $extra_keys = array_keys($array);
-		    $extra_values = array_values($array);
-
-		    $extra_url = array();
-		    for ($i = 0; $i < count($extra_keys); $i++) {
-				$extra_key = $extra_keys[$i];
-				if (preg_match('/^{\$(.+)}$/', $extra_key, $m)) {
-				    if (!in_array($extra_key, $keys)) {
-						if(!$this->site_rewrite) $extra_url[$m[1]] = $extra_key;
-						$keys[] = $extra_key;
-						$values[] = $extra_values[$i];
-				    }
-				}
-		    }
-		    if (!empty($extra_url)) {
-				$connect_sharp = '';
-				if (strpos($urlrule, "?")) {
-				    $connect_sharp = '&';
-				} else {
-				    $connect_sharp = '?';
-				}
-				$extra_url = http_build_query($extra_url);
-				//反转义
-				$urlrule .= $connect_sharp.urldecode($extra_url);
-		    }
-		}
-
-		$urls = str_replace($keys, $values, $urlrule);
-		$url_arr = array();
-		//静态
-		//动态
-		$url_arr[0] = $url_arr[1] = $urls;
-
-		if ($data) {
-		    $url_arr['data'] = $data;
-		}
-
-		if ($array) {
-		    $url_arr['array'] = $array;
-		}
-
-		return $url_arr;
+		return $this->url($params, $type_name."_show");
     }
 
     /**
@@ -109,87 +88,11 @@ class url {
 		$typedb = zq_core::load_model('type_model');
 		$typeinfo = $typedb->get_one(array('id'=>$typeid));
 		$type_name = $typeinfo['name'];
-		$urlrules = $this->urlrules[$type_name];
-
-		if (empty($urlrules)) {
-		    $urlrules = array();
+		$routeName = $type_name."_lists";
+		if(isset($array["action"]) && !empty($array["action"])){
+			$routeName = $type_name."_".$array["action"];
 		}
-		if(isset($array["action"])){
-			if(empty($urlrules[$array["action"]])){
-				$urlrules[$array["action"]] = 'index.php?m='.$type_name.'&c=index&a='.$array["action"].'&page={$page}';
-			}
-			$urlrules_arr = explode("|", $urlrules[$array["action"]]);
-		}else{
-			if (empty($urlrules['list'])) {
-			    //DEFAULT content url
-			    $urlrules['list'] = 'index.php?m='.$type_name.'&c=index&a=lists&page={$page}';
-			}
-			$urlrules_arr = explode("|", $urlrules['list']);
-		}
-
-		if ($page == 1) {
-		    $urlrule = $urlrules_arr[0];
-		} else {
-		    $urlrule = isset($urlrules_arr[1]) ? $urlrules_arr[1] : $urlrules_arr[0];
-		}
-
-		$keys = array(
-		    '{$page}'
-		);
-		$values = array(
-		    $page
-		);
-		
-		if (!empty($array) && is_array($array)) {
-		    $extra_keys = array_keys($array);
-		    $extra_values = array_values($array);
-
-		    $extra_url = array();
-		    for ($i = 0; $i < count($extra_keys); $i++) {
-				$extra_key = $extra_keys[$i];
-				if (preg_match('/^{\$(.+)}$/', $extra_key, $m)) {
-				    if (!in_array($extra_key, $keys)) {
-						if(!$this->site_rewrite) $extra_url[$m[1]] = $extra_key;
-						$keys[] = $extra_key;
-						//encode处理，防止中文乱码
-						$values[] = urlencode($extra_values[$i]);
-					}
-				}
-		    }
-		    if (!empty($extra_url)) {
-				$connect_sharp = '';
-				if (strpos($urlrule, "?")) {
-				    $connect_sharp = '&';
-				} else {
-				    $connect_sharp = '?';
-				}
-				$extra_url = http_build_query($extra_url);
-				//反转义
-				$urlrule .= $connect_sharp.urldecode($extra_url);
-		    }
-		}
-		$urls = str_replace($keys, $values, $urlrule);
-		//填充部分默认值
-		if(isset($this->urlrules[$type_name]["args"]) && !empty($this->urlrules[$type_name]["args"])) {
-			foreach ($this->urlrules[$type_name]["args"] as $key => $value) {
-				$urls = str_replace($key, $value, $urls);
-			}
-		}
-
-		$url_arr = array();
-		//静态
-		//动态
-		$url_arr[0] = $url_arr[1] = $urls;
-
-		if ($data) {
-		    $url_arr['data'] = $data;
-		}
-
-		if ($array) {
-		    $url_arr['array'] = $array;
-		}
-		
-		return $url_arr;
+		return $this->url($array, $routeName);
     }
 }
 

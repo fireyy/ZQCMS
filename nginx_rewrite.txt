@@ -1,13 +1,3 @@
-rewrite "^/article-([0-9]+).html" /index.php?m=article&c=index&a=show&id=$1 last;
-rewrite "^/articlelist-(.*)-([0-9]+)-([0-9]+).html" /index.php?m=article&c=index&a=lists&page=$3&tag=$1&game_id=$2 last;
-rewrite "^/article.html" /index.php?m=article&c=index&a=index last;
-rewrite "^/gallery-([0-9]+).html" /index.php?m=gallery&c=index&a=show&id=$1 last;
-rewrite "^/gallerylist-(.*)-([0-9]+).html" /index.php?m=gallery&c=index&a=lists&tag=$1&page=$2 last;
-rewrite "^/game-([0-9]+).html" /index.php?m=game&c=index&a=show&id=$1 last;
-rewrite "^/gamelist-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-(.*)-([0-9]+).html" /index.php?m=game&c=index&a=lists&game_tag=$1&game_theme=$2&game_status=$3&game_effect=$4&test_status=$5&gamesort=$6&game_pinyin=$7&page=$8 last;
-rewrite "^/platform-([0-9]+).html" /index.php?m=company&c=index&a=show&id=$1 last;
-rewrite "^/platformlist-([0-9]+)-([0-9]+).html" /index.php?m=company&c=index&a=lists&sort=$1&page=$2 last;
-rewrite "^/kaifulist-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+).html" /index.php?m=kaifu&c=index&a=lists&year=$1&month=$2&day=$3&t=$4&page=$5 last;
-rewrite "^/serverlist-([0-9]+)-([0-9]+).html" /index.php?m=kaifu&c=index&a=serverlist&game_id=$1&page=$2 last;
-rewrite "^/gametest-([0-9]+).html" /index.php?m=kaice&c=index&a=lists&page=$1 last;
-rewrite "^/giftlist-([0-9]+).html" /index.php?m=gift&c=index&a=lists&page=$1 last;
+if (!-e $request_filename) {
+    rewrite ^(.*)$ /index.php?u=$1 last;
+}

@@ -6,7 +6,6 @@ defined('IN_ZQCMS') or exit('Permission denied.');
 $db = '';
 if($_GET['type'] && $_GET['id']) {
 	$type = $_GET['type'];
-  
   $db = zq_core::load_model($type.'_model');
 	$hitsid = $_GET['id'];
   hits($hitsid);

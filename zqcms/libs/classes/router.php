@@ -1,7 +1,4 @@
 <?php
-require 'alloy/router.php';
-require 'alloy/router/route.php';
-
 class Router {
     /**
      * m Module
@@ -13,14 +10,40 @@ class Router {
      *     资讯    /article.html=1 /articles.html
      */
     public function __construct() {
-	//设定 m, c, a
+        $requestM = isset($_GET['m']) ? $_GET['m'] : '';
+
+        if($requestM != ""){
+            $param = zq_core::load_sys_class('param');
+            define("ROUTE_M", $param->route_m());
+            define("ROUTE_C", $param->route_c());
+            define("ROUTE_A", $param->route_a());
+        }else{
+            $router = zq_core::load_sys_class('Alloy_Router');
+            require CACHE_PATH .DIRECTORY_SEPARATOR. 'configs/router.php';
+            $requestUrl = isset($_GET['u']) ? $_GET['u'] : '/';
+            $request = zq_core::load_sys_class('Request');
+            $requestMethod = $request->method();
+            $params = $router->match($requestMethod, $requestUrl);
+            // $_GET and $_POST
+            $_GET = $params;
+            // Set matched params back on request object
+            $request->setParams($params);
+            $request->route = $router->matchedRoute()->name();
+
+            // Required params
+            if(isset($params['module']) && isset($params['controller']) && isset($params['action'])) {
+                $request->module = $params['module'];
+                $request->controller = $params['controller'];
+                $request->action = $params['action'];
+                //设定 m, c, a
+                define("ROUTE_M", $request->module);
+                define("ROUTE_C", $request->controller);
+                define("ROUTE_A", $request->action);
+            } else {
+                exit('Params does not exist.');
+            }
+        }
 	//起动页面
-        $router = new Alloy\Router();
-        $params = $router->match('GET', $url);
-	$param = zq_core::load_sys_class('param');
-	define("ROUTE_M", $param->route_m());
-	define("ROUTE_C", $param->route_c());
-	define("ROUTE_A", $param->route_a());
 	$this->run();
     }
 

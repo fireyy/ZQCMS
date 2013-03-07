@@ -97,11 +97,11 @@
 		    {assign var='tomorrow_month' value=date('m', $tomorrow)}
 		    {assign var='tomorrow_day' value=date('d', $tomorrow)}
 
-		    <a href="{getTypeLink('kaifu','',['{$year}'=>$yesterday_year, '{$month}'=>$yesterday_month, '{$day}'=>$yesterday_day])}" rel="nofollow" class="{if ($year == $yesterday_year and $month == $yesterday_month and $day == $yesterday_day)}enterpart_active{else}backa{/if}">昨天</a>
+		    <a href="{getTypeLink('kaifu','',['year'=>$yesterday_year, 'month'=>$yesterday_month, 'day'=>$yesterday_day])}" rel="nofollow" class="{if ($year == $yesterday_year and $month == $yesterday_month and $day == $yesterday_day)}enterpart_active{else}backa{/if}">昨天</a>
 
-		    <a href="{getTypeLink('kaifu','',['{$year}'=>$today_year, '{$month}'=>$today_month, '{$day}'=>$today_day])}" rel="nofollow" class="{if ($year == $today_year and $month == $today_month and $day == $today_day)} enterpart_active{else}backa{/if}">今天</a>
+		    <a href="{getTypeLink('kaifu','',['year'=>$today_year, 'month'=>$today_month, 'day'=>$today_day])}" rel="nofollow" class="{if ($year == $today_year and $month == $today_month and $day == $today_day)} enterpart_active{else}backa{/if}">今天</a>
 		    
-		    <a href="{getTypeLink('kaifu','',['{$year}'=>$tomorrow_year, '{$month}'=>$tomorrow_month, '{$day}'=>$tomorrow_day])}" rel="nofollow" class="{if ($year == $tomorrow_year and $month == $tomorrow_month and $day == $tomorrow_day)} enterpart_active{else}backa{/if}">明天</a>
+		    <a href="{getTypeLink('kaifu','',['year'=>$tomorrow_year, 'month'=>$tomorrow_month, 'day'=>$tomorrow_day])}" rel="nofollow" class="{if ($year == $tomorrow_year and $month == $tomorrow_month and $day == $tomorrow_day)} enterpart_active{else}backa{/if}">明天</a>
 		    <a href="#timelist2"time rel="nofollow" class="backa">更多></a>
 		</div>
 		<div style="float:left">
@@ -119,24 +119,24 @@
 	<div class="time">
 		<dl>
 	    	<dt style="border-left: 1px solid #ccc;  color: #000;" class="{if $smarty.get.t == 0}bg{/if}">
-	    		<a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>0])}" style="color: #333; font-weight: bold;">全部</a>
+	    		<a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>0])}" style="color: #333; font-weight: bold;">全部</a>
 	    	</dt>
 	    </dl>
 	    <dl>
-	    	<dt class="{if $smarty.get.t == 1}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>1])}">上午</a></dt>
-	    	<dd class="{if $smarty.get.t == 3}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>3])}">9:00~10:59</a></dd>
-	    	<dd class="{if $smarty.get.t == 4}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>4])}">11:00~12:59</a></dd>
+	    	<dt class="{if $smarty.get.t == 1}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>1])}">上午</a></dt>
+	    	<dd class="{if $smarty.get.t == 3}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>3])}">9:00~10:59</a></dd>
+	    	<dd class="{if $smarty.get.t == 4}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>4])}">11:00~12:59</a></dd>
 	    </dl>
 	    <dl>
-	    	<dt class="{if $smarty.get.t == 5}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>5])}">下午</a></dt>
-	   		<dd class="{if $smarty.get.t == 6}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>6])}">13:00~14:59</a></dd>
-	    	<dd class="{if $smarty.get.t == 7}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>7])}">15:00~16:59</a></dd>
-	    	<dd class="{if $smarty.get.t == 8}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>8])}">17:00~18:59</a></dd>
+	    	<dt class="{if $smarty.get.t == 5}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>5])}">下午</a></dt>
+	   		<dd class="{if $smarty.get.t == 6}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>6])}">13:00~14:59</a></dd>
+	    	<dd class="{if $smarty.get.t == 7}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>7])}">15:00~16:59</a></dd>
+	    	<dd class="{if $smarty.get.t == 8}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>8])}">17:00~18:59</a></dd>
 	    </dl>
 	    <dl>
-	    	<dt class="{if $smarty.get.t == 9}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>9])}">晚上</a></dt>
-	    	<dd class="{if $smarty.get.t == 10}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>10])}">19:00~20:59</a></dd>
-	    	<dd class="{if $smarty.get.t == 11}bg{/if}"><a href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$day, '{$t}'=>11])}">21:00~22:59</a></dd>
+	    	<dt class="{if $smarty.get.t == 9}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>9])}">晚上</a></dt>
+	    	<dd class="{if $smarty.get.t == 10}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>10])}">19:00~20:59</a></dd>
+	    	<dd class="{if $smarty.get.t == 11}bg{/if}"><a href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$day, 't'=>11])}">21:00~22:59</a></dd>
 	    </dl>
 	</div>
 
@@ -188,7 +188,7 @@
 		{assign var='prev_month_year' value=date('Y', $prev_month)}
 		{assign var='prev_month_month' value=date('m', $prev_month)}
 		{assign var='prev_month_day' value=date('d', $prev_month)}
-      	<a title="上一月最新开服表" href="{getTypeLink('kaifu','',['{$year}'=>$prev_month_year, '{$month}'=>$prev_month_month, '{$day}'=>$prev_month_day])}"><img width="10" height="11" alt="上一月最新开服表" src="{$style_dir}/images/gamelist__07.gif"></a>
+      	<a title="上一月最新开服表" href="{getTypeLink('kaifu','',['year'=>$prev_month_year, 'month'=>$prev_month_month, 'day'=>$prev_month_day])}"><img width="10" height="11" alt="上一月最新开服表" src="{$style_dir}/images/gamelist__07.gif"></a>
       </div>
       <div class="p30" style=" width:70px;">{$month}</div>
 
@@ -197,7 +197,7 @@
 		{assign var='next_month_month' value=date('m', $next_month)}
 		{assign var='next_month_day' value=date('d', $next_month)}
       <div>
-      	<a title="下一月最新开服表" href="{getTypeLink('kaifu','',['{$year}'=>$next_month_year, '{$month}'=>$next_month_month, '{$day}'=>$next_month_day])}"><img width="10" height="11" alt="下一月最新开服表" src="{$style_dir}/images/gamelist_07-03.gif"></a>
+      	<a title="下一月最新开服表" href="{getTypeLink('kaifu','',['year'=>$next_month_year, 'month'=>$next_month_month, 'day'=>$next_month_day])}"><img width="10" height="11" alt="下一月最新开服表" src="{$style_dir}/images/gamelist_07-03.gif"></a>
       </div>
 
       <div style=" width:100%; height:20px; line-height:20px;">开服总量{$month_kaifu_count}服</div></div>
@@ -208,7 +208,7 @@
       		{if empty($kaifu_data[$d])}
       			{$d}
       		{else}
-      			<a id="{$year}{$month}{$d} " class="{if $d==$day}totalday org{else}backa otherday{/if}" href="{getTypeLink('kaifu','',['{$year}'=>$year, '{$month}'=>$month, '{$day}'=>$d])}">{$d}<br/>
+      			<a id="{$year}{$month}{$d} " class="{if $d==$day}totalday org{else}backa otherday{/if}" href="{getTypeLink('kaifu','',['year'=>$year, 'month'=>$month, 'day'=>$d])}">{$d}<br/>
       			({$kaifu_data[$d]})
       			</a>
       		{/if}

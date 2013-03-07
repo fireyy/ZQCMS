@@ -103,13 +103,14 @@ function position($item) {
 	    $title = $typedb->getTypeName($item->db->typeid);
 	    $u[] = "<a href='".getTypeLink($item->db->typeid)."' target='_blank'>$title</a>";
 
-	    if ($_GET['tag']) {
+	    if (isset($_GET['tag']) && !empty($_GET['tag'])) {
     $tag = $_GET['tag'];
+    $tagName = $tag;
     if (is_numeric($tag) && intval($tag) ){ 
       $tags = zq_core::load_config("article_tag");
-      $tag = $tags[$tag];
+      $tagName = $tags[$tag];
     }
-		$u[] = "<a href='".getTypeLink($item->db->typeid, $tag)."' target='_blank'>$tag</a>";
+		$u[] = "<a href='".getTypeLink($item->db->typeid, $tag)."' target='_blank'>$tagName</a>";
 	    }
 	}
     }
@@ -143,7 +144,7 @@ function getTypeLink($type, $tagname='', $array=array()) {
 	if ($r) {
 	    $url = zq_core::load_sys_class('url');
 	    if ($tagname) {
-		$array['{$tag}'] = $tagname;
+		$array['tag'] = $tagname;
 	    }
 	    $url_arr = $url->typeurl($r['id'], 1, $array);
 	    return $url_arr[1];
@@ -165,13 +166,13 @@ function getGameFilterLink($args, $array=array()) {
     $config = array();
     foreach ($filters as $value) {
       if(isset($args[$value]) && !empty($args[$value])){
-        $config['{$'.$value.'}'] = $args[$value];
+        $config[$value] = $args[$value];
       }
-      if(isset($array['{$'.$value.'}'])){
-        if(empty($array['{$'.$value.'}'])){
-          unset($config['{$'.$value.'}']);
+      if(isset($array[$value])){
+        if(empty($array[$value])){
+          unset($config[$value]);
         }else{
-          $config['{$'.$value.'}'] = $array['{$'.$value.'}'];
+          $config[$value] = $array[$value];
         }
       }
     }

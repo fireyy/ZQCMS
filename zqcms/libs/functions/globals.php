@@ -603,18 +603,13 @@ function pages($totalCount, $currentPage, $pagesize=20, $urlrule='', $array=arra
  * @return 完成的url
  */
 function pageurl($urlrule, $currentPage, $array=array()) {
-    $findme = array('{$page}');
-    $replaceme = array($currentPage);
-
-    if (is_array($array)) {
-    	foreach ($array as $k => $v) {
-    	    $findme[] = $k;
-    	    $replaceme[] = $v;
-    	}
-    }
-    $url = str_replace($findme, $replaceme, $urlrule);
-
-    return $url;
+    $url = "";
+    $urlc = zq_core::load_sys_class('url');
+    $pages = array('page'=>$currentPage);
+    $array = array_merge($array, $pages);
+    $url = $urlc->url($array, $urlrule);
+    
+    return $url[1];
 }
 
 function page_url_par($par, $url = '') {
@@ -647,29 +642,12 @@ function page_url_par($par, $url = '') {
  *
  * @return $urlrule 和 $array
  */
-function getURLrule($typeid, $args, $rule_type="list") {
-    $urlrule = "";
-    $array = array();
-    $site_rewrite = zq_core::load_config('system', 'site_rewrite');
-    if($site_rewrite) {
-        $typedb = zq_core::load_model('type_model');
-        $typeinfo = $typedb->get_one(array('id'=>$typeid));
-        $type_name = $typeinfo['name'];
-        $urlrules = zq_core::load_config('router');
-        if(isset($urlrules[$type_name])) {
-            $urlrule = $urlrules[$type_name];
-            if(isset($urlrule["args"])){
-                $array = $urlrule["args"];
-                foreach ($array as $key => $value) {
-                    if (preg_match('/^{\$(.+)}$/', $key, $m)) {
-                        $array[$key] = $args[$m[1]];
-                    }
-                }
-            }
-            $urlrule = $urlrule[$rule_type];
-        }
-    }
-    return array($urlrule, $array);
+function getURLrule($typeid, $args = array(), $rule_type="list") {
+    $typedb = zq_core::load_model('type_model');
+    $typeinfo = $typedb->get_one(array('id'=>$typeid));
+    $type_name = $typeinfo['name'];
+    $urlrule = $type_name."_lists";
+    return array($urlrule, $args);
 }
 
 /**
@@ -780,5 +758,18 @@ function getcacheinfo($name, $filepath='', $type='file', $config='') {
         $cache = cache_factory::get_instance()->get_cache($type);
     }
     return $cache->cacheinfo($name, '', '', $filepath);
+}
+
+function getParams($key = null) {
+    $router = zq_core::load_sys_class('Alloy_Router');
+    $params = $router->match('GET', $url);
+    $requestUrl = isset($_GET['u']) ? $_GET['u'] : '/';
+    $request = zq_core::load_sys_class('Request');
+    $requestMethod = $request->method();
+    $params = $router->match($requestMethod, $requestUrl);
+    if($key){
+        return $params[$key];
+    }
+    return $params;
 }
 ?>

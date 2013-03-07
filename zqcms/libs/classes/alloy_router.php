@@ -1,6 +1,4 @@
 <?php
-namespace Alloy;
-
 /**
  * Router
  *
@@ -10,7 +8,7 @@ namespace Alloy;
  * @link http://alloyframework.com/
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
-class Router
+class Alloy_Router
 {
     // Store specified routes
     protected $_routes = array();
@@ -26,6 +24,7 @@ class Router
      */
     public function route($name, $route, array $defaults = array())
     {
+        zq_core::load_sys_class('Router_Route', '', 0);
         $route = new Router_Route($route);
         $this->_routes[$name] = $route->name($name);
         return $route;

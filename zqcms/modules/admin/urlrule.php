@@ -16,10 +16,27 @@ class urlrule extends admin {
 	
 	function edit() {
 		if(isset($_POST['dosubmit'])) {
+			$errors = array();
 			$urlruleid = intval($_GET['urlruleid']);
-			$this->urlrule_db->update($_POST['info'],array('id'=>$urlruleid));
-			//$this->public_cache_urlrule();
-			showMsg("更新成功", "?m=admin&c=urlrule");
+			$r = $this->urlrule_db->get_one(array('id'=>$urlruleid));
+			$urlrule = $_POST["info"]["value"];
+			if(empty($urlrule)) {
+				$errors[] = "规则不能为空";
+			}
+			if(!empty($r["description"])) {
+				$datas = explode("|", $r["description"]);
+				foreach($datas as $v) {
+					if(strpos($urlrule, $v) === false) {
+						$errors[] = "必须包含参数: ".$v;
+					}
+				}
+			}
+			if(empty($errors)) {
+				$this->urlrule_db->update($_POST['info'],array('id'=>$urlruleid));
+				showMsg("更新成功", "?m=admin&c=urlrule");
+			}else{
+				showMsg(implode('<br>', $errors), "-1");
+			}
 		} else {
 			$urlruleid = $_GET['urlruleid'];
 			$r = $this->urlrule_db->get_one(array('id'=>$urlruleid));

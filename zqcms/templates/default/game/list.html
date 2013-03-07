@@ -21,7 +21,7 @@
       {$item_title=$item}
       {$item_tag=$filter@key}
       {if $item=="全部"}{$item=""}{/if}
-      <li><a {if (empty($smarty.get[$filter@key]) and $item_title == "全部") or ($smarty.get[$filter@key] == $item@key)}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,["{ldelim}$$item_tag{rdelim}"=>"{$item@key}"])}">{$item_title}</a></li>
+      <li><a {if (empty($smarty.get[$filter@key]) and $item_title == "全部") or ($smarty.get[$filter@key] == $item@key)}class="p12 strong org"{/if} href="{getGameFilterLink($smarty.get,["{$item_tag}"=>"{$item@key}"])}">{$item_title}</a></li>
       {/foreach}
       </ul>
     {/foreach}
@@ -61,7 +61,7 @@
           {foreach $game_pinyin as $item}
           {$item_title=$item}
           {if $item=="全部"}{$item=""}{/if}
-          <li><a class="p12{if (empty($smarty.get['game_pinyin']) and $item_title == '全部') or ($smarty.get['game_pinyin'] == $item)} strong org{/if}" href="{getGameFilterLink($smarty.get,['{$game_pinyin}'=>"{$item}"])}">{$item_title}</a></li>
+          <li><a class="p12{if (empty($smarty.get['game_pinyin']) and $item_title == '全部') or ($smarty.get['game_pinyin'] == $item)} strong org{/if}" href="{getGameFilterLink($smarty.get,['game_pinyin'=>"{$item}"])}">{$item_title}</a></li>
           {/foreach}
       </ul>
       <div class="choosed">
@@ -69,16 +69,16 @@
       {foreach $filters as $filter}
       {$item_tag=$filter@key}
       {if isset($smarty.get[$item_tag]) and !empty($smarty.get[$item_tag])}
-      <a href="{getGameFilterLink($smarty.get,["{ldelim}$$item_tag{rdelim}"=>''])}">{$filter[$smarty.get[$item_tag]]}<b></b></a>
+      <a href="{getGameFilterLink($smarty.get,["{$item_tag}"=>''])}">{$filter[$smarty.get[$item_tag]]}<b></b></a>
       {/if}
       {/foreach}
       </div>
       <div class="bq_div">
 	  <div class="bottom_line" id="hotGameNav">
-	      <a class="{if $gamesort == 1}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>1])}">最新入库</a>
-	      <a class="{if $gamesort == 2}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>2])}">开服量最多</a>
-	      <a class="{if $gamesort == 3}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>3])}">最多人赞</a>
-	      <a class="{if $gamesort == 4}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['{$gamesort}'=>4])}">评分最高</a>
+	      <a class="{if $gamesort == 1}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['gamesort'=>1])}">最新入库</a>
+	      <a class="{if $gamesort == 2}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['gamesort'=>2])}">开服量最多</a>
+	      <a class="{if $gamesort == 3}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['gamesort'=>3])}">最多人赞</a>
+	      <a class="{if $gamesort == 4}flh1_up{else}flh1_on{/if}" href="{getGameFilterLink($smarty.get,['gamesort'=>4])}">评分最高</a>
 	  </div>
       </div>
       <div style="width:100%; padding-right:5px;  float:left;">

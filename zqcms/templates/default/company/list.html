@@ -15,8 +15,8 @@
 	<div class="boxmodel operator">
        	<h1 class="p20 h1yb">所有运营商列表</h1>
 		<div class="linediv">
-			<a href="{getTypeLink('company','',['{$sort}'=>1])}" class="{if $sort==1}enterpart_active{else}enterpart backa{/if}">按旗下运营的游戏数↓</a>&nbsp;
-			<a href="{getTypeLink('company','',['{$sort}'=>2])}" class="{if $sort==2}enterpart_active{else}enterpart backa{/if}">按入驻时间排序↓</a>
+			<a href="{getTypeLink('company','',['sort'=>1])}" class="{if $sort==1}enterpart_active{else}enterpart backa{/if}">按旗下运营的游戏数↓</a>&nbsp;
+			<a href="{getTypeLink('company','',['sort'=>2])}" class="{if $sort==2}enterpart_active{else}enterpart backa{/if}">按入驻时间排序↓</a>
 		<ul>
       
       {foreach $lists as $item}

@@ -23,7 +23,7 @@ function order_types_data($a, $b) {
  *
  * require function getTypeLink
  */
-function smarty_block_zq_typelist($params, $content, $smarty, &$repeat, $template) {
+function smarty_block_zq_typelist($params, $content, $smarty, &$repeat) {
     if (isset($content)) {
 	$db = zq_core::load_model('type_model');
 	$data = $db->select();

@@ -32,7 +32,7 @@ if(!empty($gameids)){
     }
     $r_kaifu = $kaifu_db->get_one($kaifu_where);
     if($r_kaifu){
-      $arrss = array("action"=>"serverlist",'{$game_id}'=>$game_id);
+      $arrss = array("action"=>"serverlist",'game_id'=>$game_id);
       $tmpurl = getTypeLink("kaifu","",$arrss);
       $tmp["newserver"] = "<a href='".$tmpurl."'></a>";
     }

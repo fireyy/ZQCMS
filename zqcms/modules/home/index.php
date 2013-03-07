@@ -11,7 +11,7 @@ class index {
      * 首页是一个综合型的页面, 将会把所有的数据集成起来, 所以在这里将会做一些事情
      *
      */
-    public function init() {
+    public function index() {
 	$gamedb = zq_core::load_model('game_model');
 	$game_kaifu = $gamedb->select(
 	    '',
@@ -20,9 +20,11 @@ class index {
 	    'kaifu_count DESC'
 	);
     $article_tags = zq_core::load_config("article_tag");
-
+    $game_tags = zq_core::load_config("game_tag");
+    $game_tags = $game_tags["game_tag"];
 	register_template_data('game_kaifu', $game_kaifu);
     register_template_data('article_tags', $article_tags);
+    register_template_data('game_tags', $game_tags);
 
 	return template('home', 'index');
     }

@@ -14,12 +14,16 @@
 	<p>
 		<label for="urlrule_value">规则：</label>
 		<textarea name="info[value]" id="urlrule_value"><?php echo $value;?></textarea>
+		<?php if(!empty($description)) { ?>
+		<em>必须包含参数：
 		<?php
 		$description = explode("|", $description);
 		foreach ($description as $key => $value) {
-			echo "<em>范例".($key+1)."：$value</em>";
+			echo "<i class='prefix' data-target='urlrule_value'>$value</i>, ";
 		}
 		?>
+		</em>
+		<?php } ?>
 	</p>
 </fieldset>
 <p class="buttons">

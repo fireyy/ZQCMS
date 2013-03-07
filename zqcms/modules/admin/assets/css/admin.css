@@ -593,6 +593,7 @@ ul#comments {
 .undone { color: red; }
 .retry { cursor: pointer; }
 p.tips { padding: 0 0 10px; overflow: hidden; }
+.prefix { text-decoration: underline;color: #244f7c;cursor:pointer; }
 
 table { text-align: left; }
 table td, table th { padding: 8px 5px;border-bottom: 1px solid #F5F7F8; }
