@@ -595,8 +595,8 @@ ul#comments {
 p.tips { padding: 0 0 10px; overflow: hidden; }
 .prefix { text-decoration: underline;color: #244f7c;cursor:pointer; }
 
-table { text-align: left; }
-table td, table th { padding: 8px 5px;border-bottom: 1px solid #F5F7F8; }
+table { text-align: left; table-layout: fixed; }
+table td, table th { padding: 8px 5px;border-bottom: 1px solid #F5F7F8; word-wrap:break-word;word-break:break-all; }
 table thead th { background: #F5F7F8; color: #284769; font-weight: bold; }
 .pre1 { background-color: #fff; }
 .pre2 { background-color: #eee; }
