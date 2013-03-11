@@ -26,6 +26,8 @@ if(!empty($gameids)){
     $gift_where = "game_id=$game_id and send_date > $begin_date";
     $kaifu_where = "game_id=$game_id and test_date > $begin_date";
     $r_gift = $gift_db->get_one($gift_where);
+    $router = zq_core::load_sys_class('Alloy_Router');
+    require CACHE_PATH .DIRECTORY_SEPARATOR. 'configs/router.php';
     if($r_gift){
       $tmpurl = getTypeLink("gift");
       $tmp["gift"] = "<a href='".$tmpurl."'></a>";
