@@ -1,3 +1,3 @@
 <?php
-header('location:index.php?m=admin');
+header('location:index.php?m=admin&c=index');
 ?>
